@@ -1,0 +1,11 @@
+de/tum/atse/ats/Entity/Group.class
+de/tum/atse/ats/Entity/Instructor.class
+de/tum/atse/ats/Entity/Meeting.class
+de/tum/atse/ats/OfyHelper.class
+de/tum/atse/ats/Entity/Greeting.class
+de/tum/atse/ats/Guestbook.class
+de/tum/atse/ats/SignGuestbookServlet.class
+de/tum/atse/ats/RestletApplication.class
+de/tum/atse/ats/Resources/UserResource.class
+de/tum/atse/ats/Entity/Student.class
+de/tum/atse/ats/Entity/User.class
