@@ -1,4 +1,4 @@
-#Getting started
+# Getting started
 
 Make sure you have installed Angular CLI and Ionic globally:
 `npm install -g @angular/cli` and 
