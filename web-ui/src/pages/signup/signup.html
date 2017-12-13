@@ -1,0 +1,31 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Sign up</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+    <form (ngSubmit)="signup()">
+        <ion-item>
+          <ion-input type="text" placeholder="First name" name="firstname" [(ngModel)]="firstname"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-input type="text" placeholder="Last name" name="lastname" [(ngModel)]="lastname"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="email"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-input type="text" placeholder="Enrollment number" name="enrollmentNumber" [(ngModel)]="enrollmentNumber"></ion-input>
+        </ion-item>
+        <button ion-button type="submit" block>Sign up</button>
+      </form>
+
+</ion-content>

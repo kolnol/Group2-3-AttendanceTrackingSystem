@@ -1,0 +1,25 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Login</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <form (ngSubmit)="login()">
+    <ion-item>
+      <ion-input type="text" placeholder="Username" name="username" [(ngModel)]="username"></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="password"></ion-input>
+    </ion-item>
+    <button ion-button type="submit" block>Login</button>
+  </form>
+
+</ion-content>
