@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Group Details</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-row class="group-detail">
+    <ion-col class="detail-column">
+      <ion-card class="detail-content">
+        <ion-card-header color="primary">
+          Details
+        </ion-card-header>
+        <ion-card-content>
+          <ion-row>
+            <ion-col>
+              Number: <br>
+              Date: <br>
+              Group slot:<br>
+              Room: <br>
+              Tutor:
+            </ion-col>
+            <ion-col>
+              <div *ngFor="let grp of getArray(group)">
+                {{grp.id}} <br>
+                {{groupWeekDay}}<br>
+                {{grp.session.begins | date: 'h:mm'}} - {{grp.session.ends | date: 'h:mm'}}<br>
+                {{grp.session.location}} <br>
+                {{grp.tutorIds[0]}}
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+    <ion-col class="attendance-column">
+      <ion-card class="attendance-content">
+        <ion-card-header color="primary">
+          <span class="leftElement">
+            Attendances
+          </span>
+          <!-- for calender implementation  -->
+          <p class="rightElement">
+            <button> <!-- (click)="switchToListView()" -->
+              <ion-icon name="list" color="primary"></ion-icon>
+            </button>
+            <!-- <button (click)="switchToCalendarView()"> -->
+            <ion-icon name="calendar" color="gray"></ion-icon>
+            <!--</button> -->
+          </p>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <div>
+              <button ion-item *ngFor="let attendance of attendances">
+                <span class="leftElement">
+                  <ion-icon name="checkmark-circle"></ion-icon>
+                  {{attendance.session.begins | date: 'MM/dd/yyy'}}
+                </span>
+                <span class="rightElement">{{attendance.session.begins | date : 'h:mm'}} - {{attendance.session.ends | date: 'h:mm'}}</span>
+              </button>
+            </div>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+  <div class="clear"></div>
+</ion-content>
+

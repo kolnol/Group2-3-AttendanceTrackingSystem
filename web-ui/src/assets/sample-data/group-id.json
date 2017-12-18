@@ -1,0 +1,19 @@
+{
+  "id": "3",
+  "name": "Group",
+  "studentIds": [
+    "string"
+  ],
+  "tutorIds": [
+    "07783945"
+  ],
+  "session":
+    {
+      "id": "string",
+      "type": "EXERCISE",
+      "location": "01.11.018",
+      "begins": "2017-12-17T19:30:02.973Z",
+      "ends": "2017-12-17T19:30:02.973Z"
+    }
+
+}

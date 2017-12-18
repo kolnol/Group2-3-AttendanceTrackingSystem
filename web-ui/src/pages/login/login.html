@@ -1,17 +1,13 @@
 <ion-header>
-
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Login</ion-title>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content padding>
-
+  <h3 align="center">
+    Attendance Tracking System
+  </h3>
   <form (ngSubmit)="login()">
     <ion-item>
       <ion-input type="text" placeholder="Username" name="username" [(ngModel)]="username"></ion-input>
@@ -22,4 +18,8 @@
     <button ion-button type="submit" block>Login</button>
   </form>
 
+  <form (ngSubmit)="signup()">
+    Not registered yet?
+    <button ion-button type="submit" color="light">Sign up</button>
+  </form>
 </ion-content>

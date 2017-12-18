@@ -4,7 +4,11 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { LoginPage } from '../pages/login/login';
-import { SignupPage } from '../pages/signup/signup';
+import { HomePage } from '../pages/home/home';
+import { ListPage } from '../pages/list/list';
+import { DetailsView } from '../pages/detail/detail';
+
+import { UserIdAPI } from "../providers/user-id-api";
 
 @Component({
   templateUrl: 'app.html'
@@ -12,18 +16,28 @@ import { SignupPage } from '../pages/signup/signup';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = SignupPage;
+  rootPage: any = LoginPage;
+  pages: Array<{title: string, icon: string, component: any, textColor: string}>;
+  user: Array<object> = []; //currently implemented as an array
 
-  pages: Array<{title: string, component: any}>;
+  constructor(public platform: Platform,
+              public statusBar: StatusBar,
+              public splashScreen: SplashScreen,
+              private userIdAPI: UserIdAPI) {
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Login', component: LoginPage },
-      { title: 'Sign up', component: SignupPage }
+      {title: 'Home', icon: "home", component: HomePage, textColor: "dark"},
+      {title: 'List', icon: "list", component: ListPage, textColor: "dark"},
+      {title: 'Group details', icon: "book", component: DetailsView, textColor: "dark"},
+      {title: 'Logout', icon: "log-out", component: LoginPage, textColor: "dark"}
     ];
+
+    this.userIdAPI.getData().subscribe((userDetails) => {
+      this.user.push(userDetails);
+    });
 
   }
 
@@ -37,8 +51,14 @@ export class MyApp {
   }
 
   openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+  }
+
+  /*
+* Angular sometimes does not recognize an array of objects of ngFor..
+* only currently implemented
+ */
+  getArray(raw) {
+    return Array.from(raw);
   }
 }

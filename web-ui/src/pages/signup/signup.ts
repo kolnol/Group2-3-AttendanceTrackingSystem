@@ -21,7 +21,8 @@ export class SignupPage {
   }
 
   signup() {
-    console.log("signup")
+    //TODO: REST requests
+    console.log("signup");
     console.log(this.firstname? this.firstname : "nothing");
     this.navCtrl.push(LoginPage);
   }
