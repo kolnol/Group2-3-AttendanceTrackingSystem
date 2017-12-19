@@ -7,19 +7,22 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Load;
 
-
 @Entity
 public class User {
+    public enum Type {
+        INSTRUCTOR,
+        STUDENT
+    }
     @Id Long id;
     private String email;
+    private String name;
     private String password; //TODO use only hash
-    @JsonIgnore
-    @Load private Ref<Group> group;
+    private Enum<Type> type;
 
     //Empty constructor is needed to use Objectify
     private User(){}
 
-    public User(String email, String password) {
+    public User(String email, String password, Enum<Type> type) {
         this.email = email;
         this.password = password;
     }
@@ -27,7 +30,14 @@ public class User {
     public User(String email, String password, Group group) {
         this.email = email;
         this.password = password;
-        this.group = Ref.create(group);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Long getId() {
@@ -50,11 +60,11 @@ public class User {
         this.password = password;
     }
 
-    public Group getGroup() {
-        return group.get();
+    public Enum<Type> getType() {
+        return type;
     }
 
-    public void setGroup(Group group) {
-        this.group = Ref.create(group);
+    public void setType(Enum<Type> type) {
+        this.type = type;
     }
 }

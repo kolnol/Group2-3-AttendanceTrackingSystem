@@ -6,7 +6,7 @@ import com.googlecode.objectify.annotation.Subclass;
 public class Instructor extends User {
 
     public Instructor(String email, String password) {
-        super(email, password);
+        super(email, password, Type.INSTRUCTOR);
     }
 
     public Instructor(String email, String password, Group group) {
