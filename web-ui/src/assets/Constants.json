@@ -1,0 +1,39 @@
+{
+  "LOGIN": {
+    "TITLE": "Login",
+    "USERNAME": "User name",
+    "PASSWORD": "Password"
+  },
+  "SIGNUP": {
+    "TITLE": "Sign up",
+    "EMAIL": "Email address",
+    "ENROLLMENT_NR": "Enrollment number"
+  },
+  "HOMEPAGE": {
+    "TITLE": "Home"
+  },
+  "LIST": {
+    "TITLE": "Group list",
+    "GROUPNAME": "Group name",
+    "DAY": "Day",
+    "SLOT": "Slot",
+    "PARTICIPANTS": "Participants",
+    "REGISTRATION_INTERVAL": "Registration interval",
+    "ACTION": "Action",
+    "JOIN": "Join"
+  },
+  "GROUP_DETAIL": {
+    "TITLE": "Group details",
+    "DETAILS": {
+      "TITLE": "Details",
+      "GROUP_NUMBER": "Group number",
+      "DAY": "Day",
+      "SLOT": "Slot",
+      "LOCATION": "ROOM",
+      "TUTOR": "Tutor"
+    },
+    "ATTENDANCES":{
+      "TITLE": "Attendances"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+page-detail {
+
+  .group-detail {
+    height: 80vh;
+  }
+
+  .detail-column {
+    max-width: 35%;
+  }
+
+  .detail-column .detail-content{
+    height: 100%;
+  }
+
+  .attendance-column {
+    max-width: 65%;
+  }
+
+  .attendance-column .attendance-content{
+    height: 100%;
+  }
+
+  .ion-card{
+    height: inherit;
+  }
+
+  .leftElement {
+    float: left;
+  }
+  .rightElement {
+    float: right;
+  }
+
+  .clear {
+    clear: both;
+  }
+
+}

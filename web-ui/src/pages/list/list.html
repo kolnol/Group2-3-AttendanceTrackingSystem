@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Group list</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      <ion-row>
+        <ion-col>
+          Group name
+        </ion-col>
+        <ion-col>
+          Day
+        </ion-col>
+        <ion-col >
+          Slot
+        </ion-col>
+        <ion-col>
+          Participants
+        </ion-col>
+        <ion-col>
+          Registration interval
+        </ion-col>
+        <ion-col>
+          Action
+        </ion-col>
+      </ion-row>
+    </ion-list-header>
+    <button ion-item *ngFor="let group of groups">
+      <ion-row>
+        <ion-col>
+          Group {{group.id}}
+        </ion-col>
+        <ion-col>
+          {{group.day}}
+        </ion-col>
+        <ion-col >
+          {{group.startTime}} - {{group.endTime}}
+        </ion-col>
+        <ion-col>
+          {{group.currentNrOfParticipants}} / {{group.maxNrOfParticipants}}
+        </ion-col>
+        <ion-col>
+          {{group.registrationFrom}} - {{group.registrationUntil}}
+        </ion-col>
+        <ion-col>
+            <button ion-button (click)="joinGroup(group)">
+              Join
+            </button>
+        </ion-col>
+      </ion-row>
+    </button>
+  </ion-list>
+</ion-content>
