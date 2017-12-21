@@ -19,6 +19,8 @@ export class MyApp {
   rootPage: any = LoginPage;
   pages: Array<{title: string, icon: string, component: any, textColor: string}>;
   user: Array<object> = []; //currently implemented as an array
+  registered: boolean = true;
+  textColor: string;
 
   constructor(public platform: Platform,
               public statusBar: StatusBar,
@@ -27,17 +29,24 @@ export class MyApp {
 
     this.initializeApp();
 
-    // used for an example of ngFor and navigation
-    this.pages = [
-      {title: 'Home', icon: "home", component: HomePage, textColor: "dark"},
-      {title: 'List', icon: "list", component: ListPage, textColor: "dark"},
-      {title: 'Group details', icon: "book", component: DetailsView, textColor: "dark"},
-      {title: 'Logout', icon: "log-out", component: LoginPage, textColor: "dark"}
-    ];
-
     this.userIdAPI.getData().subscribe((userDetails) => {
       this.user.push(userDetails);
     });
+
+
+    this.pages = [
+      {title: 'Home', icon: "home", component: HomePage, textColor: 'primary'},
+      {title: 'List', icon: "list", component: ListPage, textColor: 'dark'}];
+
+    if(this.registered) {
+      this.pages.push(
+        {title: 'Group details', icon: "book", component: DetailsView, textColor: 'dark'}
+      )
+    }
+
+    this.pages.push(
+      {title: 'Logout', icon: "log-out", component: LoginPage, textColor: 'dark'}
+    );
 
   }
 
@@ -50,14 +59,34 @@ export class MyApp {
     });
   }
 
+  /**
+   *
+   * @param {{title: string, icon: string, component: object, textColor: string}} page
+   */
   openPage(page) {
+    page.textColor = 'primary';
+    this.resetOtherTextColors(page);
     this.nav.setRoot(page.component);
   }
 
-  /*
-* Angular sometimes does not recognize an array of objects of ngFor..
-* only currently implemented
- */
+  /**
+   * reset colors for menu
+   * @param {{title: string, icon: string, component: object, textColor: string}} page
+   */
+  resetOtherTextColors(page) {
+    for(let i = 0; i < this.pages.length; i++) {
+      if(this.pages[i].title !== page.title) {
+        this.pages[i].textColor = 'dark';
+      }
+    }
+  }
+
+  /**
+   * Angular sometimes does not recognize an array of objects of ngFor..
+   * only currently implemented
+   * @param raw - response from server
+   * @returns {[]}
+   */
   getArray(raw) {
     return Array.from(raw);
   }

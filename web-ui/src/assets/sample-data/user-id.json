@@ -1,7 +1,9 @@
 {
   "id": "98765",
+  "email": "chris.mueller@tum.de",
+  "password": "password",
   "name": "Chris Müller",
-  "email": "chris.mueller@tum.de"
+  "type": "STUDENT"
 }
 
 

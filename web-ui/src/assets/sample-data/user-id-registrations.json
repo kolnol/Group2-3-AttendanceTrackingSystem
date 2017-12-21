@@ -1,8 +1,8 @@
 {
   "registrations": [
     {
-      "id": "3",
-      "name": "Group",
+      "id": 3,
+      "number": "3",
       "studentIds": [
         "string"
       ],

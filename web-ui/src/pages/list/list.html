@@ -34,22 +34,22 @@
     <button ion-item *ngFor="let group of groups">
       <ion-row>
         <ion-col>
-          Group {{group.id}}
+          Group {{group.number}}
         </ion-col>
         <ion-col>
           {{group.day}}
         </ion-col>
         <ion-col >
-          {{group.startTime}} - {{group.endTime}}
+          {{group.startTime | date: 'h:mm'}} - {{group.endTime | date: 'h:mm'}}
         </ion-col>
         <ion-col>
-          {{group.currentNrOfParticipants}} / {{group.maxNrOfParticipants}}
+          {{group.students.length}} / {{group.maxNrOfParticipants}}
         </ion-col>
         <ion-col>
           {{group.registrationFrom}} - {{group.registrationUntil}}
         </ion-col>
         <ion-col>
-            <button ion-button (click)="joinGroup(group)">
+            <button ion-button (click)="joinGroup(group)" [disabled]="group.id === registeredId">
               Join
             </button>
         </ion-col>

@@ -1,81 +1,367 @@
 {
   "groups": [
     {
-      "id": "1",
-      "startTime": "9:00 am",
-      "endTime": "11:00 am",
+      "id": 1,
+      "number": "1",
+      "startTime": "2017-12-17T19:30:02.973Z",
+      "endTime": "2017-12-17T19:30:02.973Z",
       "day": "Monday",
-      "currentNrOfParticipants": 3,
       "maxNrOfParticipants": 32,
       "registrationFrom": "07/11/2017",
       "registrationUntil": "01/28/2018",
-      "sessions": []
+      "instructor": {
+        "id": 0,
+        "email": "string",
+        "password": "string",
+        "name": "string",
+        "type": "INSTRUCTOR"
+      },
+      "students": [
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        },
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        },
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        },
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        }
+      ],
+      "sessions": [
+        {
+          "id": 123,
+          "time": "2017-12-17T19:30:02.973Z",
+          "place": "01.11.018"
+        }
+      ],
+      "attendances": [
+        {
+          "studentId": 0,
+          "sessionId": 0,
+          "timestamp": "string"
+        }
+      ]
     },
     {
       "id": 2,
-      "startTime": "01:45 pm",
-      "endTime": "03:15 pm",
+      "number": "2",
+      "startTime": "2017-12-17T19:30:02.973Z",
+      "endTime": "2017-12-17T19:30:02.973Z",
       "day": "Monday",
-      "currentNrOfParticipants": 7,
       "maxNrOfParticipants": 32,
       "registrationFrom": "07/11/2017",
       "registrationUntil": "01/28/2018",
-      "sessions": []
+      "instructor": {
+        "id": 0,
+        "email": "string",
+        "password": "string",
+        "name": "string",
+        "type": "INSTRUCTOR"
+      },
+      "students": [
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        }
+      ],
+      "sessions": [
+        {
+          "id": 1232,
+          "time": "2017-12-17T19:30:02.973Z",
+          "place": "01.11.018"
+        }
+      ],
+      "attendances": [
+        {
+          "studentId": 0,
+          "sessionId": 0,
+          "timestamp": "string"
+        }
+      ]
     },
     {
       "id": 3,
-      "startTime": "03:15 pm",
-      "endTime": "04:45 pm",
+      "number": "3",
+      "startTime": "2017-12-17T19:30:02.973Z",
+      "endTime": "2017-12-17T19:30:02.973Z",
       "day": "Monday",
-      "currentNrOfParticipants": 30,
       "maxNrOfParticipants": 32,
       "registrationFrom": "07/11/2017",
       "registrationUntil": "01/28/2018",
-      "sessions": []
+      "instructor": {
+        "id": 0,
+        "email": "string",
+        "password": "string",
+        "name": "string",
+        "type": "INSTRUCTOR"
+      },
+      "students": [
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        },
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        }
+      ],
+      "sessions": [
+        {
+          "id": 13323,
+          "time": "2017-12-17T19:30:02.973Z",
+          "place": "01.11.018"
+        }
+      ],
+      "attendances": [
+        {
+          "studentId": 0,
+          "sessionId": 0,
+          "timestamp": "string"
+        }
+      ]
     },
     {
       "id": 4,
-      "startTime": "03:00 pm",
-      "endTime": "05:00 pm",
+      "number": "4",
+      "startTime": "2017-12-17T19:30:02.973Z",
+      "endTime": "2017-12-17T19:30:02.973Z",
       "day": "Tuesday",
-      "currentNrOfParticipants": 13,
       "maxNrOfParticipants": 32,
       "registrationFrom": "07/11/2017",
       "registrationUntil": "01/28/2018",
-      "sessions": []
+      "instructor": {
+        "id": 0,
+        "email": "string",
+        "password": "string",
+        "name": "string",
+        "type": "INSTRUCTOR"
+      },
+      "students": [
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        }
+      ],
+      "sessions": [
+        {
+          "id": 123333,
+          "time": "2017-12-17T19:30:02.973Z",
+          "place": "01.11.018"
+        }
+      ],
+      "attendances": [
+        {
+          "studentId": 0,
+          "sessionId": 0,
+          "timestamp": "string"
+        }
+      ]
     },
     {
       "id": 5,
-      "startTime": "10:00 am",
-      "endTime": "12:00 pm",
+      "number": "5",
+      "startTime": "2017-12-17T19:30:02.973Z",
+      "endTime": "2017-12-17T19:30:02.973Z",
       "day": "Wednesday",
-      "currentNrOfParticipants": 25,
       "maxNrOfParticipants": 32,
       "registrationFrom": "07/11/2017",
       "registrationUntil": "01/28/2018",
-      "sessions": []
+      "instructor": {
+        "id": 0,
+        "email": "string",
+        "password": "string",
+        "name": "string",
+        "type": "INSTRUCTOR"
+      },
+      "students": [
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        },
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        },
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        },
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        },{
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        },
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        },
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        },
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        }
+      ],
+      "sessions": [
+        {
+          "id": 554,
+          "time": "2017-12-17T19:30:02.973Z",
+          "place": "01.11.018"
+        }
+      ],
+      "attendances": [
+        {
+          "studentId": 0,
+          "sessionId": 0,
+          "timestamp": "string"
+        }
+      ]
     },
     {
       "id": 6,
-      "startTime": "12:00 pm",
-      "endTime": "2:00 pm",
+      "number": "6",
+      "startTime": "2017-12-17T19:30:02.973Z",
+      "endTime": "2017-12-17T19:30:02.973Z",
       "day": "Wednesday",
-      "currentNrOfParticipants": 32,
       "maxNrOfParticipants": 32,
       "registrationFrom": "07/11/2017",
       "registrationUntil": "01/28/2018",
-      "sessions": []
+      "instructor": {
+        "id": 0,
+        "email": "string",
+        "password": "string",
+        "name": "string",
+        "type": "INSTRUCTOR"
+      },
+      "students": [
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        }
+      ],
+      "sessions": [
+        {
+          "id": 885,
+          "time": "2017-12-17T19:30:02.973Z",
+          "place": "01.11.018"
+        }
+      ],
+      "attendances": [
+        {
+          "studentId": 0,
+          "sessionId": 0,
+          "timestamp": "string"
+        }
+      ]
     },
     {
       "id": 7,
-      "startTime": "12:00 pm",
-      "endTime": "2:00 pm",
+      "number": "7",
+      "startTime": "2017-12-17T19:30:02.973Z",
+      "endTime": "2017-12-17T19:30:02.973Z",
       "day": "Thursday",
-      "currentNrOfParticipants": 0,
       "maxNrOfParticipants": 16,
       "registrationFrom": "07/11/2017",
       "registrationUntil": "01/28/2018",
-      "sessions": []
+      "instructor": {
+        "id": 0,
+        "email": "string",
+        "password": "string",
+        "name": "string",
+        "type": "INSTRUCTOR"
+      },
+      "students": [
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        },
+        {
+          "id": 0,
+          "email": "string",
+          "password": "string",
+          "name": "string",
+          "type": "INSTRUCTOR"
+        }
+      ],
+      "sessions": [
+        {
+          "id": 2465,
+          "time": "2017-12-17T19:30:02.973Z",
+          "place": "01.11.018"
+        }
+      ],
+      "attendances": [
+        {
+          "studentId": 0,
+          "sessionId": 0,
+          "timestamp": "string"
+        }
+      ]
     }
   ]
 }
