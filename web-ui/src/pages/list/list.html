@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Group list</ion-title>
+    <ion-title>{{CONSTANTS.LIST.TITLE}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -12,45 +12,45 @@
     <ion-list-header>
       <ion-row>
         <ion-col>
-          Group name
+          {{CONSTANTS.LIST.GROUPNAME}}
         </ion-col>
         <ion-col>
-          Day
+          {{CONSTANTS.LIST.DAY}}
         </ion-col>
         <ion-col >
-          Slot
+          {{CONSTANTS.LIST.SLOT}}
         </ion-col>
         <ion-col>
-          Participants
+          {{CONSTANTS.LIST.PARTICIPANTS}}
         </ion-col>
         <ion-col>
-          Registration interval
+          {{CONSTANTS.LIST.REGISTRATION_INTERVAL}}
         </ion-col>
         <ion-col>
-          Action
+          {{CONSTANTS.LIST.ACTION}}
         </ion-col>
       </ion-row>
     </ion-list-header>
     <button ion-item *ngFor="let group of groups">
       <ion-row>
         <ion-col>
-          Group {{group.number}}
+          {{CONSTANTS.LIST.GROUP}} {{group.number}}
         </ion-col>
         <ion-col>
-          {{group.day}}
+          {{getDay()}}
         </ion-col>
         <ion-col >
-          {{group.startTime | date: 'h:mm'}} - {{group.endTime | date: 'h:mm'}}
+          {{getStartTime()}} - {{getEndTime()}}
         </ion-col>
         <ion-col>
           {{group.students.length}} / {{group.maxNrOfParticipants}}
         </ion-col>
         <ion-col>
-          {{group.registrationFrom}} - {{group.registrationUntil}}
+          07/11/2017 - 01/28/2018
         </ion-col>
         <ion-col>
             <button ion-button (click)="joinGroup(group)" [disabled]="group.id === registeredId">
-              Join
+              {{CONSTANTS.LIST.JOIN}}
             </button>
         </ion-col>
       </ion-row>

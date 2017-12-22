@@ -1,15 +1,19 @@
 {
   "LOGIN": {
     "TITLE": "Login",
+    "APP_NAME": "Attendance Tracking System",
     "USERNAME": "User name",
-    "PASSWORD": "Password"
+    "PASSWORD": "Password",
+    "REGISTRATION": "Not registered yet?"
   },
   "SIGNUP": {
     "TITLE": "Sign up",
+    "FIRST_NAME": "First name",
+    "LAST_NAME": "Last name",
     "EMAIL": "Email address",
     "ENROLLMENT_NR": "Enrollment number"
   },
-  "HOMEPAGE": {
+  "HOME": {
     "TITLE": "Home"
   },
   "LIST": {
@@ -20,7 +24,8 @@
     "PARTICIPANTS": "Participants",
     "REGISTRATION_INTERVAL": "Registration interval",
     "ACTION": "Action",
-    "JOIN": "Join"
+    "JOIN": "Join",
+    "GROUP": "Group"
   },
   "GROUP_DETAIL": {
     "TITLE": "Group details",
@@ -28,12 +33,12 @@
       "TITLE": "Details",
       "GROUP_NUMBER": "Group number",
       "DAY": "Day",
-      "SLOT": "Slot",
-      "LOCATION": "ROOM",
+      "SLOT": "Group slot",
+      "LOCATION": "Room",
       "TUTOR": "Tutor"
     },
     "ATTENDANCES":{
-      "TITLE": "Attendances"
+      "TITLE": "Sessions"
     }
   }
 }

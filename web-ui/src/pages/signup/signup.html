@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar color="primary">
-    <ion-title>Sign up</ion-title>
+    <ion-title>{{CONSTANTS.SIGNUP.TITLE}}</ion-title>
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
@@ -14,16 +14,16 @@
 
     <form (ngSubmit)="signup()">
         <ion-item>
-          <ion-input type="text" placeholder="First name" name="firstname" [(ngModel)]="firstname"></ion-input>
+          <ion-input type="text" placeholder="{{CONSTANTS.SIGNUP.FIRST_NAME}}" name="firstname" [(ngModel)]="firstname"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-input type="text" placeholder="Last name" name="lastname" [(ngModel)]="lastname"></ion-input>
+            <ion-input type="text" placeholder="{{CONSTANTS.SIGNUP.LAST_NAME}}" name="lastname" [(ngModel)]="lastname"></ion-input>
         </ion-item>
         <ion-item>
-          <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="email"></ion-input>
+          <ion-input type="text" placeholder="{{CONSTANTS.SIGNUP.EMAIL}}" name="email" [(ngModel)]="email"></ion-input>
         </ion-item>
         <ion-item>
-            <ion-input type="text" placeholder="Enrollment number" name="enrollmentNumber" [(ngModel)]="enrollmentNumber"></ion-input>
+            <ion-input type="text" placeholder="{{CONSTANTS.SIGNUP.ENROLLMENT_NR}}" name="enrollmentNumber" [(ngModel)]="enrollmentNumber"></ion-input>
         </ion-item>
         <button ion-button type="submit" block>Sign up</button>
     </form>

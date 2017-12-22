@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { LoginPage } from '../login/login';
+import Constants from '../../assets/Constants.json';
 
 @Component({
   selector: 'page-signup',
@@ -11,6 +12,7 @@ export class SignupPage {
   lastname: string;
   email: string;
   enrollmentNumber: string;
+  CONSTANTS: any = Constants;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
 
@@ -23,7 +25,6 @@ export class SignupPage {
   signup() {
     //TODO: REST requests
     console.log("signup");
-    console.log(this.firstname? this.firstname : "nothing");
     this.navCtrl.push(LoginPage);
   }
 

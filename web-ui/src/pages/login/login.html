@@ -1,25 +1,25 @@
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>Login</ion-title>
+    <ion-title>{{CONSTANTS.LOGIN.TITLE}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <h3 align="center">
-    Attendance Tracking System
+    {{CONSTANTS.LOGIN.APP_NAME}}
   </h3>
   <form (ngSubmit)="login()">
     <ion-item>
-      <ion-input type="text" placeholder="Username" name="username" [(ngModel)]="username"></ion-input>
+      <ion-input type="text" placeholder="{{CONSTANTS.LOGIN.USERNAME}}" name="username" [(ngModel)]="username"></ion-input>
     </ion-item>
     <ion-item>
-        <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="password"></ion-input>
+        <ion-input type="password" placeholder="{{CONSTANTS.LOGIN.PASSWORD}}" name="password" [(ngModel)]="password"></ion-input>
     </ion-item>
     <button ion-button type="submit" block>Login</button>
   </form>
 
   <form (ngSubmit)="signup()">
-    Not registered yet?
+    {{CONSTANTS.LOGIN.REGISTRATION}}
     <button ion-button type="submit" color="light">Sign up</button>
   </form>
 </ion-content>

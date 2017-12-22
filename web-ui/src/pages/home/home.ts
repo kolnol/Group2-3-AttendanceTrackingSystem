@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 import {DetailsView} from '../detail/detail';
 import {RegistrationsApi} from "../../providers/registrations-api";
+import Constants from '../../assets/Constants.json';
 
 @Component({
   selector: 'page-home',
@@ -10,6 +11,7 @@ import {RegistrationsApi} from "../../providers/registrations-api";
 export class HomePage {
 
   registeredGroups: object;
+  CONSTANTS: any = Constants;
 
   constructor(public navCtrl: NavController, private registrationsAPI: RegistrationsApi) {
     //TODO: get lecture info

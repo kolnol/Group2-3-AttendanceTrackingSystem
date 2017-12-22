@@ -3,12 +3,7 @@
     {
       "id": 1,
       "number": "1",
-      "startTime": "2017-12-17T19:30:02.973Z",
-      "endTime": "2017-12-17T19:30:02.973Z",
-      "day": "Monday",
       "maxNrOfParticipants": 32,
-      "registrationFrom": "07/11/2017",
-      "registrationUntil": "01/28/2018",
       "instructor": {
         "id": 0,
         "email": "string",
@@ -22,34 +17,35 @@
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         },
         {
           "id": 0,
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         },
         {
           "id": 0,
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         },
         {
           "id": 0,
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         }
       ],
       "sessions": [
         {
           "id": 123,
-          "time": "2017-12-17T19:30:02.973Z",
+          "startTime": "2017-12-17T19:30:02.973Z",
+          "endTime": "2017-12-17T19:30:02.973Z",
           "place": "01.11.018"
         }
       ],
@@ -64,12 +60,7 @@
     {
       "id": 2,
       "number": "2",
-      "startTime": "2017-12-17T19:30:02.973Z",
-      "endTime": "2017-12-17T19:30:02.973Z",
-      "day": "Monday",
       "maxNrOfParticipants": 32,
-      "registrationFrom": "07/11/2017",
-      "registrationUntil": "01/28/2018",
       "instructor": {
         "id": 0,
         "email": "string",
@@ -83,13 +74,14 @@
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         }
       ],
       "sessions": [
         {
           "id": 1232,
-          "time": "2017-12-17T19:30:02.973Z",
+          "startTime": "2017-12-17T19:30:02.973Z",
+          "endTime": "2017-12-17T19:30:02.973Z",
           "place": "01.11.018"
         }
       ],
@@ -104,59 +96,112 @@
     {
       "id": 3,
       "number": "3",
-      "startTime": "2017-12-17T19:30:02.973Z",
-      "endTime": "2017-12-17T19:30:02.973Z",
-      "day": "Monday",
-      "maxNrOfParticipants": 32,
-      "registrationFrom": "07/11/2017",
-      "registrationUntil": "01/28/2018",
-      "instructor": {
+      "instructor":{
         "id": 0,
-        "email": "string",
-        "password": "string",
-        "name": "string",
+        "email": "anabel.meier@tum.de",
+        "password": "anabel.meier",
+        "name": "Anabel Meier",
         "type": "INSTRUCTOR"
       },
       "students": [
         {
-          "id": 0,
-          "email": "string",
-          "password": "string",
-          "name": "string",
-          "type": "INSTRUCTOR"
+          "id": 98765,
+          "email": "chris.mueller@tum.de",
+          "password": "chris.mueller",
+          "name": "Chris Mueller",
+          "type": "STUDENT"
         },
         {
-          "id": 0,
-          "email": "string",
-          "password": "string",
-          "name": "string",
-          "type": "INSTRUCTOR"
+          "id": 76523,
+          "email": "alexander.melzer@tum.de",
+          "password": "alexander.melzer",
+          "name": "Alexander Melzer",
+          "type": "STUDENT"
         }
       ],
       "sessions": [
         {
-          "id": 13323,
-          "time": "2017-12-17T19:30:02.973Z",
+          "id": 1,
+          "startTime": "2017-10-22T19:30:02.973Z",
+          "endTime": "2017-10-22T21:30:02.973Z",
+          "place": "01.11.018"
+        },
+        {
+          "id": 2,
+          "startTime": "2017-12-17T19:30:02.973Z",
+          "endTime": "2017-10-29T21:30:02.973Z",
+          "place": "01.11.018"
+        },
+        {
+          "id": 3,
+          "startTime": "2017-11-05T19:30:02.973Z",
+          "endTime": "2017-11-05T21:30:02.973Z",
+          "place": "01.11.018"
+        },
+        {
+          "id": 4,
+          "startTime": "2017-11-12T19:30:02.973Z",
+          "endTime": "2017-11-12T21:30:02.973Z",
+          "place": "01.11.018"
+        },
+        {
+          "id": 5,
+          "startTime": "2017-11-19T19:30:02.973Z",
+          "endTime": "2017-11-19T21:30:02.973Z",
+          "place": "01.11.018"
+        },
+        {
+          "id": 6,
+          "startTime": "2017-11-26T19:30:02.973Z",
+          "endTime": "2017-11-26T21:30:02.973Z",
+          "place": "01.11.018"
+        },
+        {
+          "id": 7,
+          "startTime": "2017-12-03T19:30:02.973Z",
+          "endTime": "2017-12-03T21:30:02.973Z",
+          "place": "01.11.018"
+        },
+        {
+          "id": 8,
+          "startTime": "2017-12-10T19:30:02.973Z",
+          "endTime": "2017-10-10T21:30:02.973Z",
           "place": "01.11.018"
         }
       ],
       "attendances": [
         {
-          "studentId": 0,
-          "sessionId": 0,
-          "timestamp": "string"
+          "studentId": 98765,
+          "sessionId": 1,
+          "timestamp": "2017-12-17T19:30:02.973Z"
+        },
+        {
+          "studentId": 98765,
+          "sessionId": 2,
+          "timestamp": "2017-12-17T19:30:02.973Z"
+        },
+        {
+          "studentId": 98765,
+          "sessionId": 5,
+          "timestamp": "2017-12-17T19:30:02.973Z"
+        },
+        {
+          "studentId": 98765,
+          "sessionId": 6,
+          "timestamp": "2017-12-17T19:30:02.973Z"
+        },
+        {
+          "studentId": 98765,
+          "sessionId": 8,
+          "timestamp": "2017-12-17T19:30:02.973Z"
         }
       ]
+
     },
     {
       "id": 4,
       "number": "4",
-      "startTime": "2017-12-17T19:30:02.973Z",
-      "endTime": "2017-12-17T19:30:02.973Z",
-      "day": "Tuesday",
       "maxNrOfParticipants": 32,
-      "registrationFrom": "07/11/2017",
-      "registrationUntil": "01/28/2018",
       "instructor": {
         "id": 0,
         "email": "string",
@@ -170,13 +215,14 @@
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         }
       ],
       "sessions": [
         {
           "id": 123333,
-          "time": "2017-12-17T19:30:02.973Z",
+          "startTime": "2017-12-17T19:30:02.973Z",
+          "endTime": "2017-12-17T19:30:02.973Z",
           "place": "01.11.018"
         }
       ],
@@ -191,12 +237,7 @@
     {
       "id": 5,
       "number": "5",
-      "startTime": "2017-12-17T19:30:02.973Z",
-      "endTime": "2017-12-17T19:30:02.973Z",
-      "day": "Wednesday",
       "maxNrOfParticipants": 32,
-      "registrationFrom": "07/11/2017",
-      "registrationUntil": "01/28/2018",
       "instructor": {
         "id": 0,
         "email": "string",
@@ -210,61 +251,62 @@
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         },
         {
           "id": 0,
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         },
         {
           "id": 0,
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         },
         {
           "id": 0,
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         },{
           "id": 0,
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         },
         {
           "id": 0,
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         },
         {
           "id": 0,
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         },
         {
           "id": 0,
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         }
       ],
       "sessions": [
         {
           "id": 554,
-          "time": "2017-12-17T19:30:02.973Z",
+          "startTime": "2017-12-17T19:30:02.973Z",
+          "endTime": "2017-12-17T19:30:02.973Z",
           "place": "01.11.018"
         }
       ],
@@ -279,12 +321,7 @@
     {
       "id": 6,
       "number": "6",
-      "startTime": "2017-12-17T19:30:02.973Z",
-      "endTime": "2017-12-17T19:30:02.973Z",
-      "day": "Wednesday",
       "maxNrOfParticipants": 32,
-      "registrationFrom": "07/11/2017",
-      "registrationUntil": "01/28/2018",
       "instructor": {
         "id": 0,
         "email": "string",
@@ -298,13 +335,14 @@
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         }
       ],
       "sessions": [
         {
           "id": 885,
-          "time": "2017-12-17T19:30:02.973Z",
+          "startTime": "2017-12-17T19:30:02.973Z",
+          "endTime": "2017-12-17T19:30:02.973Z",
           "place": "01.11.018"
         }
       ],
@@ -319,12 +357,7 @@
     {
       "id": 7,
       "number": "7",
-      "startTime": "2017-12-17T19:30:02.973Z",
-      "endTime": "2017-12-17T19:30:02.973Z",
-      "day": "Thursday",
       "maxNrOfParticipants": 16,
-      "registrationFrom": "07/11/2017",
-      "registrationUntil": "01/28/2018",
       "instructor": {
         "id": 0,
         "email": "string",
@@ -338,20 +371,21 @@
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         },
         {
           "id": 0,
           "email": "string",
           "password": "string",
           "name": "string",
-          "type": "INSTRUCTOR"
+          "type": "STUDENT"
         }
       ],
       "sessions": [
         {
           "id": 2465,
-          "time": "2017-12-17T19:30:02.973Z",
+          "startTime": "2017-12-17T19:30:02.973Z",
+          "endTime": "2017-12-17T19:30:02.973Z",
           "place": "01.11.018"
         }
       ],

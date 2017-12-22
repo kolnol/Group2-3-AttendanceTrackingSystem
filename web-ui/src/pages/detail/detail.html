@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Group Details</ion-title>
+    <ion-title>{{CONSTANTS.GROUP_DETAIL.TITLE}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -12,24 +12,24 @@
     <ion-col class="detail-column">
       <ion-card class="detail-content">
         <ion-card-header color="primary">
-          Details
+          {{CONSTANTS.GROUP_DETAIL.DETAILS.TITLE}}
         </ion-card-header>
         <ion-card-content>
           <ion-row>
             <ion-col>
-              Number: <br>
-              Date: <br>
-              Group slot:<br>
-              Room: <br>
-              Tutor:
+              {{CONSTANTS.GROUP_DETAIL.DETAILS.GROUP_NUMBER}} : <br>
+              {{CONSTANTS.GROUP_DETAIL.DETAILS.DAY}} : <br>
+              {{CONSTANTS.GROUP_DETAIL.DETAILS.SLOT}} :<br>
+              {{CONSTANTS.GROUP_DETAIL.DETAILS.LOCATION}}: <br>
+              {{CONSTANTS.GROUP_DETAIL.DETAILS.TUTOR}} :
             </ion-col>
             <ion-col>
               <div *ngFor="let grp of getArray(group)">
-                {{grp.id}} <br>
+                {{grp.number}} <br>
                 {{groupWeekDay}}<br>
-                {{grp.session.begins | date: 'h:mm'}} - {{grp.session.ends | date: 'h:mm'}}<br>
-                {{grp.session.location}} <br>
-                {{grp.tutorIds[0]}}
+                {{getStartTime(firstSession.startTime)}} - {{getEndTime(firstSession.endTime)}}<br>
+                {{firstSession.place}} <br>
+                {{grp.instructor.name}}
               </div>
             </ion-col>
           </ion-row>
@@ -41,7 +41,7 @@
       <ion-card class="attendance-content">
         <ion-card-header color="primary">
           <span class="leftElement">
-            Sessions
+            {{CONSTANTS.GROUP_DETAIL.ATTENDANCES.TITLE}}
           </span>
           <!-- for calender implementation  -->
           <p class="rightElement">
@@ -56,12 +56,13 @@
         <ion-card-content>
           <ion-list>
             <div>
-              <button ion-item *ngFor="let attendance of attendances">
+              <button ion-item *ngFor="let session of sessions">
                 <span class="leftElement">
-                  <ion-icon name="checkmark-circle"></ion-icon>
-                  {{attendance.session.begins | date: 'MM/dd/yyy'}}
+                  <ion-icon name="checkbox" *ngIf="attendanceIds.indexOf(session.id)>0"></ion-icon>
+                  <ion-icon name="square" *ngIf="attendanceIds.indexOf(session.id)<=0"></ion-icon>
+                  {{getSessionDate(session.startTime)}}
                 </span>
-                <span class="rightElement">{{attendance.session.begins | date : 'h:mm'}} - {{attendance.session.ends | date: 'h:mm'}}</span>
+                <span class="rightElement">{{getStartTime(session.startTime)}} - {{getEndTime(session.endTime)}}</span>
               </button>
             </div>
           </ion-list>
