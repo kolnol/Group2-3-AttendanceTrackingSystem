@@ -6,16 +6,15 @@ import com.googlecode.objectify.annotation.Id;
 import java.util.Date;
 
 @Entity
-public class Meeting {
+public class Session {
     @Id
     Long id;
     private Date time;
     private String place;
 
-    public Meeting() {
-    }
+    public Session() {}
 
-    public Meeting(Date time, String place) {
+    public Session(Date time, String place) {
         this.time = time;
         this.place = place;
     }

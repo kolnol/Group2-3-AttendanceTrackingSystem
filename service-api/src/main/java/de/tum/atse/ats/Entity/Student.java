@@ -5,7 +5,7 @@ import com.googlecode.objectify.annotation.Subclass;
 @Subclass(index=true)
 public class Student extends User {
     public Student(String email, String password) {
-        super(email, password);
+        super(email, password, Type.STUDENT);
     }
 
     public Student(String email, String password, Group group) {

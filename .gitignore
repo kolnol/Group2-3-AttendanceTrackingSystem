@@ -85,7 +85,6 @@ log.txt
 .vscode/
 npm-debug.log*
 
-.idea/
 .sourcemaps/
 .sass-cache/
 .tmp/

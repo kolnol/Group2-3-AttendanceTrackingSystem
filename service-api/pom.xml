@@ -81,8 +81,12 @@
             <artifactId>org.restlet.ext.servlet</artifactId>
             <version>3.0-M1</version>
         </dependency>
-
-<!-- [END Restlet_Dependencies] -->
+        <dependency>
+            <groupId>org.restlet.jse</groupId>
+            <artifactId>org.restlet.ext.oauth</artifactId>
+            <version>2.3.12</version>
+        </dependency>
+        <!-- [END Restlet_Dependencies] -->
 
         <!-- Test Dependencies -->
         <dependency>
