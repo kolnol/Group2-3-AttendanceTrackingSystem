@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title left>QR Code</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+  <div style="text-align: center">
+    <qr-code [value]="qrCodeValue" [size]="250"></qr-code>
+    <button ion-button (click)="dismiss()" block>Close</button>
+  </div>
+</ion-content>
+

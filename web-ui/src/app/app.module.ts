@@ -17,6 +17,10 @@ import { DetailAPI } from '../providers/detail-api';
 import { GroupDetailAPI } from '../providers/group-detail-api';
 import { UserIdAPI } from "../providers/user-id-api";
 import { RegistrationsApi } from "../providers/registrations-api";
+import { RestAPI } from "../providers/rest-api";
+import { QRCodeModal } from "../helpers/qr-code-modal/qr-code";
+import { QRCodeModule } from 'angular2-qrcode';
+
 
 @NgModule({
   declarations: [
@@ -25,12 +29,14 @@ import { RegistrationsApi } from "../providers/registrations-api";
     SignupPage,
     HomePage,
     ListPage,
-    DetailsView
+    DetailsView,
+    QRCodeModal
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpClientModule
+    HttpClientModule,
+    QRCodeModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -39,7 +45,8 @@ import { RegistrationsApi } from "../providers/registrations-api";
     SignupPage,
     HomePage,
     ListPage,
-    DetailsView
+    DetailsView,
+    QRCodeModal
   ],
   providers: [
     StatusBar,
@@ -50,6 +57,7 @@ import { RegistrationsApi } from "../providers/registrations-api";
     GroupDetailAPI,
     UserIdAPI,
     RegistrationsApi,
+    RestAPI,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
