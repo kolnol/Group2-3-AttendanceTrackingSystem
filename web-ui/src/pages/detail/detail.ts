@@ -86,7 +86,7 @@ export class DetailsView {
       return 't.b.a.';
     } else {
       let sessionDate = new Date(sessionStartTime);
-      return sessionDate.getMonth() + '/' +sessionDate.getDate()+ '/' + sessionDate.getFullYear();
+      return sessionDate.getMonth()+1 + '/' +sessionDate.getDate()+ '/' + sessionDate.getFullYear();
     }
   }
 
