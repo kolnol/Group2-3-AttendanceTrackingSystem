@@ -88,6 +88,18 @@
         </dependency>
         <!-- [END Restlet_Dependencies] -->
 
+        <dependency>
+            <groupId>org.mindrot</groupId>
+            <artifactId>jbcrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+
         <!-- Test Dependencies -->
         <dependency>
             <groupId>com.google.appengine</groupId>

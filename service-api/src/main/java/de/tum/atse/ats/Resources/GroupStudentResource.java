@@ -6,7 +6,6 @@ import de.tum.atse.ats.Entity.User;
 import de.tum.atse.ats.RequestUtills;
 import org.restlet.data.Status;
 import org.restlet.resource.Delete;
-import org.restlet.resource.Post;
 import org.restlet.resource.Put;
 import org.restlet.resource.ServerResource;
 

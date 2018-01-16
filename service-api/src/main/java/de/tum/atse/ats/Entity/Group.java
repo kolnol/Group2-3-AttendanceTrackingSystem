@@ -21,7 +21,7 @@ public class Group {
     private final List<Ref<Session>> sessions = new ArrayList<>();
     @Load
     private final List<Attendance> attendances = new ArrayList<>();
-
+    private int maxParticipnts;
 
     public Group() {}
 

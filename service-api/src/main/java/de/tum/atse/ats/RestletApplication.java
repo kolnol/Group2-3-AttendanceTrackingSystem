@@ -1,6 +1,9 @@
 package de.tum.atse.ats;
 
+import de.tum.atse.ats.Entity.User;
 import de.tum.atse.ats.Resources.*;
+import de.tum.atse.ats.Utils.ObjectifyEnroler;
+import de.tum.atse.ats.Utils.ObjectifyVerifier;
 import org.restlet.*;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.data.LocalReference;
@@ -9,57 +12,30 @@ import org.restlet.data.Status;
 import org.restlet.ext.oauth.*;
 import org.restlet.resource.Directory;
 import org.restlet.routing.Router;
-import org.restlet.security.ChallengeAuthenticator;
-import org.restlet.security.MapVerifier;
-import org.restlet.security.SecretVerifier;
+import org.restlet.security.*;
+import org.restlet.service.CorsService;
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 public class RestletApplication extends Application {
 
-    private ChallengeAuthenticator authenticatior;
-
-    private ChallengeAuthenticator createAuthenticator() {
-        Context context = getContext();
-        ChallengeScheme challengeScheme = ChallengeScheme.HTTP_OAUTH_BEARER;
-        String realm = "Example site";
-
-        // MapVerifier isn't very secure; see docs for alternatives
-        MapVerifier verifier = new MapVerifier();
-        verifier.getLocalSecrets().put("user", "password".toCharArray());
-
-        ChallengeAuthenticator auth = new ChallengeAuthenticator(context, false, challengeScheme, realm, verifier);
-
-        /*ChallengeAuthenticator authOnGet = new ChallengeAuthenticator(context, challengeScheme, realm) {
-            @Override
-            protected int beforeHandle(Request request, Response response) {
-                if (request.getMethod() == Method.GET)
-                    return super.beforeHandle(request, response);
-
-                response.setStatus(Status.SUCCESS_OK);
-                return CONTINUE;
-            }
-        };*/
-        //authOnGet.setVerifier(verifier);
-
-        return auth;
-    }
-
-    @Override
-    public Restlet createInboundRoot() {
-        //this.authenticatior = createAuthenticator();
-        //authenticatior.setNext(UsersResource.class);
-        String oauthURL = "";
-
-        Router router = new Router(getContext());
-        router.attach("/token", AccessTokenServerResource.class);
-
-        //router.attach("/users", authenticatior);
-
-
-        return router;
+    public RestletApplication() {
+        CorsService corsService = new CorsService();
+        corsService.setAllowedOrigins(new HashSet(Arrays.asList("*")));
+        corsService.setAllowedCredentials(true);
+        getServices().add(corsService);
     }
 
    @Override
     public Restlet createInboundRoot() {
+
+        ChallengeAuthenticator guard = new ChallengeAuthenticator(getContext(), ChallengeScheme.HTTP_BASIC, "Test Realm");
+
+        guard.setVerifier(new ObjectifyVerifier());
+        guard.setEnroler(new ObjectifyEnroler());
+
+        RoleAuthorizer authorizer = createRoleAuthorizer();
 
         Router router = new Router(getContext());
 
@@ -67,8 +43,11 @@ public class RestletApplication extends Application {
         webdir.setDeeplyAccessible(true);
         webdir.setIndexName("index.html");
 
+        authorizer.setNext(UserResource.class);
+
+        //TODO Add Authorization only where is needed
         router.attach("/users", UsersResource.class);
-        router.attach("/users/{userId}", UserResource.class);
+        router.attach("/users/{userId}", authorizer);
         router.attach("/users/{userId}/attendances", UserAttendanceResource.class);
 
         router.attach("/main",webdir);
@@ -85,19 +64,20 @@ public class RestletApplication extends Application {
 
         router.attach("/groups/{groupId}/sessions", GroupSessionsResource.class);
         router.attach("/groups/{groupId}/sessions/{sessionId}", GroupSessionResource.class);
-        return router;
-    }
-}
 
-}
-class MyVerifier extends SecretVerifier {
-    public int verify(String identifier, char[] secret){
-        if( !"guest".equals(identifier) )
-            return RESULT_INVALID; //this could also return RESULT_UNKOWN
-        if ( compare("1234".toCharArray(), secret) ) {
-            return RESULT_VALID;
-        } else {
-            return RESULT_INVALID;
-        }
+        //GET = Get Token | POST = Validate Token
+        router.attach("/attendanceToken/{studentId}", AttendanceTokenResource.class);
+
+        guard.setNext(router);
+        return guard;
     }
+
+    private RoleAuthorizer createRoleAuthorizer() {
+        //Authorize owners and forbid users on roleAuth's children
+        RoleAuthorizer roleAuth = new RoleAuthorizer();
+        roleAuth.getAuthorizedRoles().add(Role.get(this, User.Type.INSTRUCTOR.name()));
+        roleAuth.getForbiddenRoles().add(Role.get(this, User.Type.STUDENT.name()));
+        return roleAuth;
+    }
+
 }

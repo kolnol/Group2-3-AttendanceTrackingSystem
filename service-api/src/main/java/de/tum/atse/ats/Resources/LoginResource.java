@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoginResource extends ServerResource {
-    @Post
-    public void loginUser(Representation rep) {
+    @Post("json")
+    public User loginUser(Representation rep) {
         Form form = new Form(rep);
         String email = form.getFirstValue("email");
         String password = form.getFirstValue("password");
@@ -35,7 +35,8 @@ public class LoginResource extends ServerResource {
         }
 
         if(loggedUser!=null) {
-            redirectPermanent(getRootRef().toString() + "/main");
+            return loggedUser;
         }
+        return null;
     }
 }

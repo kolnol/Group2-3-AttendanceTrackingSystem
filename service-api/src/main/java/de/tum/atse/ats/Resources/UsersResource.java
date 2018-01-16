@@ -15,13 +15,14 @@ public class UsersResource extends ServerResource {
 
     @Get("json")
     public List<User> getAllUsers() {
-        return ObjectifyService.ofy().load().type(User.class).list();
+        List<User> userList = ObjectifyService.ofy().load().type(User.class).list();
+        return userList;
     }
 
     @Post("json")
     public User saveNewUser(User newUser) throws IOException {
         if(isValid(newUser)) {
-            Key<User> res = ObjectifyService.ofy().save().entity(newUser).now();
+            ObjectifyService.ofy().save().entity(newUser).now();
             return newUser;
         }
         return null;

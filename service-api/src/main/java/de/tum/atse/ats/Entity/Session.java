@@ -9,13 +9,14 @@ import java.util.Date;
 public class Session {
     @Id
     Long id;
-    private Date time;
+    private Date startTime;
+    private Date endTime;
     private String place;
 
     public Session() {}
 
-    public Session(Date time, String place) {
-        this.time = time;
+    public Session(Date startTime, String place) {
+        this.startTime = startTime;
         this.place = place;
     }
 
@@ -23,13 +24,13 @@ public class Session {
         return id;
     }
 
-    public Date getTime() {
+    public Date getStartTime() {
 
-        return time;
+        return startTime;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
     public String getPlace() {
@@ -38,5 +39,13 @@ public class Session {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 }
