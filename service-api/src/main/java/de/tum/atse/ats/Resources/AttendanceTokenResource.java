@@ -89,7 +89,7 @@ public class AttendanceTokenResource extends ServerResource {
 
             Base64 base64 = new Base64();
             String e = attendance.getStudentId() + "" + attendance.getSessionId();
-            e = base64.encodeToString(DigestUtils.sha256(e));
+            e = DigestUtils.sha256Hex(e);
 
             JSONObject json = new JSONObject();
             json.put("hash", e);
