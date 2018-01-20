@@ -3,11 +3,13 @@ package de.tum.atse.ats.Entity;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Load;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Index
 @Entity
 public class Group {
     @Id
@@ -16,12 +18,12 @@ public class Group {
     @Load
     private Ref<User> instructor;
     @Load
-    private final List<Ref<User>> students = new ArrayList<>();
+    private transient List<Ref<User>> students = new ArrayList<>();
     @Load
-    private final List<Ref<Session>> sessions = new ArrayList<>();
+    private transient List<Ref<Session>> sessions = new ArrayList<>();
     @Load
-    private final List<Attendance> attendances = new ArrayList<>();
-    private int maxParticipnts;
+    private transient List<Attendance> attendances = new ArrayList<>();
+    private int maxParticipants;
 
     public Group() {}
 
@@ -30,16 +32,28 @@ public class Group {
         this.instructor = Ref.create(instructor);
     }
 
-    public boolean addNewStudent(User student) {
-        return this.students.add(Ref.create(student));
+    public void addNewStudent(User student) {
+        Ref<User> studentRef = Ref.create(student);
+        if(!students.contains(studentRef)){
+            students.add(studentRef);
+        }
     }
 
     public boolean removeStudent(User student) {
         return students.remove(Ref.create(student));
     }
 
-    public boolean addNewSession(Session session) {
-        return this.sessions.add(Ref.create(session));
+    public void addNewSession(Session session) {
+        Ref<Session> sessionRef = Ref.create(session);
+        if (!sessions.contains(sessionRef)) {
+            sessions.add(sessionRef);
+        }
+    }
+
+    public void addAttendance(Attendance attendance) {
+        if(!attendances.contains(attendance)) {
+            attendances.add(attendance);
+        }
     }
 
     public Long getId() {

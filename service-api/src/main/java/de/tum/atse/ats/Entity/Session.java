@@ -1,7 +1,9 @@
 package de.tum.atse.ats.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Load;
 
 import java.util.Date;
 
@@ -9,8 +11,15 @@ import java.util.Date;
 public class Session {
     @Id
     Long id;
+    @Load
+    @JsonFormat
+            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private Date startTime;
+    @Load
+    @JsonFormat
+            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private Date endTime;
+    @Load
     private String place;
 
     public Session() {}
@@ -48,4 +57,6 @@ public class Session {
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
+
+    public class Everything {}
 }

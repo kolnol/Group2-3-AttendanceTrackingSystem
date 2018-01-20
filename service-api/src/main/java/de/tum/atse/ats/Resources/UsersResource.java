@@ -3,6 +3,7 @@ package de.tum.atse.ats.Resources;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import de.tum.atse.ats.Entity.User;
+import org.restlet.resource.Delete;
 import org.restlet.resource.Get;
 import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
@@ -21,11 +22,21 @@ public class UsersResource extends ServerResource {
 
     @Post("json")
     public User saveNewUser(User newUser) throws IOException {
-        if(isValid(newUser)) {
+        if(isValid(newUser) && !isInDatabase(newUser)) {
             ObjectifyService.ofy().save().entity(newUser).now();
             return newUser;
         }
         return null;
+    }
+
+    @Delete
+    public void deleteAllUsers() {
+        List<User> userList = ObjectifyService.ofy().load().type(User.class).list();
+        ObjectifyService.ofy().delete().entities(userList).now();
+    }
+    private boolean isInDatabase(User newUser) {
+        int count = ObjectifyService.ofy().load().type(User.class).filter("email =", newUser.getEmail()).count();
+        return count > 0;
     }
 
     //TODO add validation inside of the object

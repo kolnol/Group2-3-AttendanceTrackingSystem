@@ -5,14 +5,16 @@ import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 import java.util.Date;
-
+@Index
 @Entity
 public class AttendanceToken {
     @Id
     Long id;
-    @Index private String token;
+    private String token;
     private Long studentId;
     private Long sessionId;
+
+    public AttendanceToken(){}
 
     public AttendanceToken(String token, Long studentId, Long sessionId) {
         this.token = token;

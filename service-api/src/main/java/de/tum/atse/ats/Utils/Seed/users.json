@@ -1,0 +1,32 @@
+[
+  {
+    "email": "sebastian@outlook.com",
+    "password": "pass",
+    "name": "Sebastian Barschkis",
+    "type": "INSTRUCTOR"
+  },
+  {
+    "email": "odn@gmail.com",
+    "password": "pass",
+    "name": "Mykola Odnoshyvkin",
+    "type": "STUDENT"
+  },
+  {
+    "email": "geor@me.com",
+    "password": "veryGoodPass",
+    "name": "Georgi Aylov",
+    "type": "STUDENT"
+  },
+  {
+    "email": "mai@yahoo.com",
+    "password": "pass123654",
+    "name": "Phuong Mai",
+    "type": "STUDENT"
+  },
+  {
+    "email": "max@tharr.com",
+    "password": "maxTheBest",
+    "name": "Max Tharr",
+    "type": "STUDENT"
+  }
+]

@@ -23,6 +23,7 @@ public class GroupStudentResource extends ServerResource {
         if(student.getType() != User.Type.STUDENT) {
             return Status.CLIENT_ERROR_NOT_ACCEPTABLE;
         }
+
         Long groupId = Long.parseLong(RequestUtills.getValue(getRequest(), "groupId"));
         Group group = ObjectifyService.ofy()
                 .load()

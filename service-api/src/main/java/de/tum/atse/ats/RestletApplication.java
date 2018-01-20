@@ -49,6 +49,7 @@ public class RestletApplication extends Application {
         router.attach("/users", UsersResource.class);
         router.attach("/users/{userId}", authorizer);
         router.attach("/users/{userId}/attendances", UserAttendanceResource.class);
+        router.attach("/users/{studentId}/groups", UserGroupResource.class);
 
         router.attach("/main",webdir);
 
@@ -65,11 +66,13 @@ public class RestletApplication extends Application {
         router.attach("/groups/{groupId}/sessions", GroupSessionsResource.class);
         router.attach("/groups/{groupId}/sessions/{sessionId}", GroupSessionResource.class);
 
+        router.attach("/groups/{groupId}/attendances", GroupAttendancesResource.class);
+
         //GET = Get Token | POST = Validate Token
         router.attach("/attendanceToken/{studentId}", AttendanceTokenResource.class);
 
         guard.setNext(router);
-        return guard;
+        return router;
     }
 
     private RoleAuthorizer createRoleAuthorizer() {
