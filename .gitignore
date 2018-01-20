@@ -55,6 +55,12 @@ cmake-build-debug/
 
 # IntelliJ
 out/
+.idea/misc.xml
+.idea/modules.xml
+web-ui/.idea/misc.xml
+web-ui/.idea/modules.xml
+web-ui/.idea/web-ui.iml
+web-ui/.idea/workspace.xml
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
