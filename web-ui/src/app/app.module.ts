@@ -12,10 +12,10 @@ import { DetailsView } from '../pages/detail/detail';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpClientModule, HttpClient } from "@angular/common/http";
+import { LoginAPI } from "../providers/login-api";
 import { ListAPI } from '../providers/list-api';
 import { DetailAPI } from '../providers/detail-api';
 import { GroupDetailAPI } from '../providers/group-detail-api';
-import { UserIdAPI } from "../providers/user-id-api";
 import { RegistrationsApi } from "../providers/registrations-api";
 import { RestAPI } from "../providers/rest-api";
 import { QRCodeModal } from "../helpers/qr-code-modal/qr-code";
@@ -52,10 +52,10 @@ import { QRCodeModule } from 'angular2-qrcode';
     StatusBar,
     SplashScreen,
     HttpClient,
+    LoginAPI,
     ListAPI,
     DetailAPI,
     GroupDetailAPI,
-    UserIdAPI,
     RegistrationsApi,
     RestAPI,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

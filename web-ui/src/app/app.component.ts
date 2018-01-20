@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, Events  } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -7,8 +7,6 @@ import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { DetailsView } from '../pages/detail/detail';
-
-import { UserIdAPI } from "../providers/user-id-api";
 
 @Component({
   templateUrl: 'app.html'
@@ -18,21 +16,26 @@ export class MyApp {
 
   rootPage: any = LoginPage;
   pages: Array<{title: string, icon: string, component: any, textColor: string}>;
-  user: Array<object> = []; //currently implemented as an array
+  user: {
+    "id": number,
+    "email": string,
+    "name": string,
+    "password": string,
+    "type": string
+  };
   registered: boolean = true;
   textColor: string;
 
   constructor(public platform: Platform,
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
-              private userIdAPI: UserIdAPI) {
+              public events: Events) {
 
     this.initializeApp();
 
-    this.userIdAPI.getData().subscribe((userDetails) => {
-      this.user.push(userDetails);
+    events.subscribe('logged in',(userData) => {
+      this.user = userData;
     });
-
 
     this.pages = [
       {title: 'Home', icon: "home", component: HomePage, textColor: 'primary'},

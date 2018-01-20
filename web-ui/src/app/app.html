@@ -2,9 +2,9 @@
   <ion-header>
     <ion-toolbar>
       <ion-title>
+        <span *ngIf="user">
         <ion-icon name="person"></ion-icon>
-        <span *ngFor="let usr of user">
-          {{usr.name}}
+          {{user.name}}
         </span>
       </ion-title>
     </ion-toolbar>
