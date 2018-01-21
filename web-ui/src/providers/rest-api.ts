@@ -4,7 +4,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 
 @Injectable()
 export class RestAPI {
-  url: string;
+  url: string = 'https://atseguestbook-185902.appspot.com/servlet';
 
   constructor(private http: HttpClient) {
 

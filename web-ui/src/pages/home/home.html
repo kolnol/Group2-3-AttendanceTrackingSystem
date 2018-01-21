@@ -18,15 +18,20 @@
     Monday, 12:00 - 14:00 <br>
     Friday, 08:00 - 10:00
   </p>
-  <p *ngIf="userMail">
+  <p *ngIf="user">
     <ion-icon name="at"></ion-icon>
-    {{userMail}}
+    {{user.email}}
   </p>
-  <p>
+  <p *ngIf="registeredGroup && registeredGroup.number">
     <ion-icon name="people"></ion-icon>
-    You are currently registered for the tutorial group 3.
+    You are currently registered for the tutorial group {{registeredGroup.number}}.
     <button ion-button secondary menuToggle (click)="itemSelected()" small>See details</button>
+  </p>
+  <p *ngIf="registeredGroup && registeredGroup.number">
     <button ion-button (click)="getNextQRCode()" small>Get Attendance Token</button>
-
+  </p>
+  <p *ngIf="!registeredGroup">
+    <ion-icon name="people"></ion-icon>
+    You are currently not registered for a tutorial group.
   </p>
 </ion-content>

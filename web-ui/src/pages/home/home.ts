@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {MenuController, ModalController, NavController, NavParams} from 'ionic-angular';
 import {DetailsView} from '../detail/detail';
-import {RegistrationsApi} from "../../providers/registrations-api";
 import Constants from '../../assets/Constants.json';
 import {QRCodeModal} from "../../helpers/qr-code-modal/qr-code";
+import {RestAPI} from "../../providers/rest-api";
 
 @Component({
   selector: 'page-home',
@@ -11,31 +11,35 @@ import {QRCodeModal} from "../../helpers/qr-code-modal/qr-code";
 })
 export class HomePage {
 
-  registeredGroups: object;
+  user: {
+    id: number,
+    email: string,
+    name: string,
+    password: string,
+    type: string
+  };
   CONSTANTS: any = Constants;
-  userMail: string;
+  registeredGroup: object;
 
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
               public menuCtrl: MenuController,
               public navParams: NavParams,
-              private registrationsAPI: RegistrationsApi) {
-    this.userMail = this.navParams.get("email");
+              private restAPI: RestAPI) {
+
     //TODO: get lecture info
-    /*this.registrationsAPI.getData().subscribe((registrations) => {
-      this.registeredGroups = registrations;
-      for(let key in this.registeredGroups) {
-        if(this.registeredGroups.hasOwnProperty(key)) {
-          this.registeredGroups = this.registeredGroups[key];
-          break;
-        }
-      }
-    });*/
+    this.user = this.navParams.get('user');
+    //Currently we only allow a student to be registered in one tutorial group
+    this.restAPI.get('users/' + this.user.id +'/groups').subscribe((response) => {
+      this.registeredGroup = response;
+    });
+
   }
 
   itemSelected() {
-    this.navCtrl.push(DetailsView, {
-      item: {}
+    this.navCtrl.setRoot(DetailsView, {
+      user: this.user,
+      group: this.registeredGroup
     });
   }
 

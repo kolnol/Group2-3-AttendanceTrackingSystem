@@ -7,6 +7,7 @@ import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { DetailsView } from '../pages/detail/detail';
+import { RestAPI } from "../providers/rest-api";
 
 @Component({
   templateUrl: 'app.html'
@@ -23,33 +24,26 @@ export class MyApp {
     "password": string,
     "type": string
   };
-  registered: boolean = true;
   textColor: string;
+  group: object;
 
   constructor(public platform: Platform,
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
-              public events: Events) {
+              public events: Events, private restAPI: RestAPI) {
 
     this.initializeApp();
 
-    events.subscribe('logged in',(userData) => {
-      this.user = userData;
+    events.subscribe('share user data', (response) => {
+      this.user = response;
+      //Currently we only allow a student to be registered in one tutorial group
+      this.restAPI.get('users/' + this.user.id +'/groups').subscribe((response) => {
+        this.group = response;
+        this.setUpPageMenu();
+      });
     });
 
-    this.pages = [
-      {title: 'Home', icon: "home", component: HomePage, textColor: 'primary'},
-      {title: 'List', icon: "list", component: ListPage, textColor: 'dark'}];
-
-    if(this.registered) {
-      this.pages.push(
-        {title: 'Group details', icon: "book", component: DetailsView, textColor: 'dark'}
-      )
-    }
-
-    this.pages.push(
-      {title: 'Logout', icon: "log-out", component: LoginPage, textColor: 'dark'}
-    );
+    this.setUpPageMenu();
 
   }
 
@@ -63,13 +57,35 @@ export class MyApp {
   }
 
   /**
+   * build the menu items
+   */
+  setUpPageMenu() {
+    this.pages = [
+      {title: 'Home', icon: "home", component: HomePage, textColor: 'primary'},
+      {title: 'List', icon: "list", component: ListPage, textColor: 'dark'}];
+
+    if(this.group) {
+      this.pages.push(
+        {title: 'Group details', icon: "book", component: DetailsView, textColor: 'dark'}
+      )
+    }
+
+    this.pages.push(
+      {title: 'Logout', icon: "log-out", component: LoginPage, textColor: 'dark'}
+    );
+  }
+
+  /**
    *
    * @param {{title: string, icon: string, component: object, textColor: string}} page
    */
   openPage(page) {
     page.textColor = 'primary';
     this.resetOtherTextColors(page);
-    this.nav.setRoot(page.component);
+    this.nav.setRoot(page.component, {
+      user: this.user,
+      group: this.group
+    });
   }
 
   /**

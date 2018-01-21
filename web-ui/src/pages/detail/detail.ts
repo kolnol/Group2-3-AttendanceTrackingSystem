@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
-import {DetailAPI} from '../../providers/detail-api';
-import {GroupDetailAPI} from "../../providers/group-detail-api";
+import {NavController, NavParams} from 'ionic-angular';
+import {RestAPI} from "../../providers/rest-api";
 import Constants from '../../assets/Constants.json';
 
 @Component({
@@ -10,19 +9,37 @@ import Constants from '../../assets/Constants.json';
 })
 export class DetailsView {
 
+  user: {
+    id: number,
+    email: string,
+    name: string,
+    password: string,
+    type: string
+  };
   attendanceIds: Array<number> = []; //contains the ids of the sessions the logged in user visited
-  group: Array<object> = []; //currently a student can only be registered in one group
+  group: {
+    id: number,
+    number: string,
+    instructor: {
+      id: number,
+      email: string,
+      name: string,
+      password: string,
+      type: string
+    },
+    sessions: Array <{
+      id: number,
+      startTime: string,
+      endTime: string,
+      place: string
+    }>,
+    students: Array<object>,
+    attendances: Array<object>
+  };
   weekdays: Array<string> = [
     "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
   ];
   groupWeekDay: string;
-  CONSTANTS: any = Constants;
-  sessions: Array<{
-    id: number,
-    startTime: string,
-    endTime: string,
-    place: string
-  }>;
   //we define a first session which represents the weekly time data for the group in the detail.html
   firstSession: {
     id: number,
@@ -30,44 +47,32 @@ export class DetailsView {
     endTime: string,
     place: string
   };
+  CONSTANTS: any = Constants;
 
   constructor(public navCtrl: NavController,
-              private groupDetailAPI: GroupDetailAPI,
-              private detailAPI: DetailAPI) {
+              public navParams : NavParams,
+              private restAPI: RestAPI) {
 
-    this.groupDetailAPI.getData().subscribe((details) => {
-      this.group.push(details);
-      for(let i= 0; i < this.group.length; i++) {
-        for(let key in this.group[i]) {
-          if(this.group[i].hasOwnProperty(key) && key === 'sessions') {
-            this.sessions = this.group[i][key];
-            if(this.sessions[0]) {
-              this.firstSession = this.sessions[0];
-              this.groupWeekDay = this.firstSession.startTime ? this.weekdays[new Date(this.firstSession.startTime).getDay()]
-                : 't.b.a.';
-            }
-            break;
+    this.user = this.navParams.get('user');
+    this.group = this.navParams.get('group');
+
+    if(this.group.sessions && Array.isArray(this.group.sessions) && this.group.sessions.length > 0) {
+      this.firstSession = this.group.sessions[0];
+      this.groupWeekDay = this.firstSession.startTime ? this.weekdays[new Date(this.firstSession.startTime).getDay()]
+        : 't.b.a.';
+    }
+
+    let attendances;
+    this.restAPI.get('users/'+ this.user.id +'/attendances').subscribe((response) => {
+      attendances = response;
+      if(Array.isArray(attendances)) {
+        for(let at in attendances) {
+          if(Object.keys(at).indexOf('id') > 0) {
+            this.attendanceIds.push(at['id']);
           }
         }
       }
     });
-
-    let attendances = [];
-    this.detailAPI.getData().subscribe((attendancesRaw) => {
-      for (let key in attendancesRaw) {
-        if (attendancesRaw.hasOwnProperty(key)) {
-          attendances = attendancesRaw[key];
-          for(let i = 0; i < attendances.length; i++) {
-            if(attendances[i].sessionId) {
-              this.attendanceIds.push(attendances[i].sessionId);
-            }
-          }
-          break;
-        }
-      }
-    });
-
-    // this.selectedItem = navParams.get('item'); //navigated from list
   }
 
 

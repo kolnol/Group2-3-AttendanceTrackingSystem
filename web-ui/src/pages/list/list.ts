@@ -1,10 +1,9 @@
 import {Component, ViewChild} from '@angular/core';
-import {NavController, NavParams, Nav} from 'ionic-angular';
+import {NavController, NavParams, Nav, AlertController} from 'ionic-angular';
 
 import {HomePage} from '../home/home';
 import {DetailsView} from '../detail/detail';
-import {ListAPI} from '../../providers/list-api';
-import {RegistrationsApi} from "../../providers/registrations-api";
+import {RestAPI} from "../../providers/rest-api";
 
 import Constants from '../../assets/Constants.json';
 
@@ -15,74 +14,84 @@ import Constants from '../../assets/Constants.json';
 export class ListPage {
   @ViewChild(Nav) nav: Nav;
   rootPage: any = HomePage;
+  user: {
+    id: number,
+    email: string,
+    name: string,
+    password: string,
+    type: string
+  };
   selectedItem: any;
-  groups: Array<object>;
-  firstSession: {id: number, startTime: string, endTime: string, place: string} = {id:0, startTime: 't.b.a.', endTime: 't.b.a.', place: 't.b.a.'};
-  registeredId: number; //the id of the users tutorial group
+  groups: object;
+  registeredGroupNumber: number;
   CONSTANTS: any = Constants;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              private listAPI: ListAPI, private registrationsAPI: RegistrationsApi) {
-    this.listAPI.getData().subscribe((response) => {
-      for(let key in response) {
-        if(response.hasOwnProperty(key)) {
-          this.groups = response[key];
-          let currentGroup;
-          for(let i=0; i < this.groups.length; i++) {
-            currentGroup = this.groups[i];
-            if(currentGroup.sessions) {
-              this.firstSession = currentGroup.sessions[0] ? currentGroup.sessions[0] : this.firstSession;
-            }
-          }
+              private alertCtrl: AlertController,
+              private restAPI: RestAPI) {
 
-          break;
-        }
-      }
+    this.user = this.navParams.get('user');
+
+    this.restAPI.get('groups').subscribe((response) => {
+      this.groups = response;
     });
 
-    this.registrationsAPI.getData().subscribe((response) => {
-      for(let key in response) {
-        if(response.hasOwnProperty(key)) {
-          if(Array.isArray(response[key]) && response[key].length > 0){
-            this.registeredId = response[key][0].number ? Number(response[key][0].number) : null;
-          }
-          break;
-        }
+    let group;
+    //Currently we only allow a student to be registered in one tutorial group
+    this.restAPI.get('users/' + this.user.id +'/groups').subscribe((response) => {
+      group = response;
+      if(group) {
+        this.registeredGroupNumber = group.number ? group.number : null;
       }
     });
   }
 
   /**
    * extracts the day out of a date string
-   * @returns {string} the week day
+   * @returns {string} the week day of the weekly sessions
    */
-  getDay():string {
-    if(this.firstSession.startTime === 't.b.a.') {
-      return 't.b.a.';
-    } else {
+  getDay(group): string {
+    if (group.sessions && group.sessions[0]) {
       let weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-      return weekdays[new Date(this.firstSession.startTime).getDay()];
+      return weekdays[new Date(group.sessions[0].startTime).getDay()];
+    } else {
+      return 't.b.a.';
     }
   }
 
-  getStartTime() {
-    if(this.firstSession.startTime === 't.b.a.') {
+  /**
+   * extracts the start time out of a date string
+   * @returns {string} the start time of the weekly sessions
+   */
+  getStartTime(group) {
+    if (group.sessions && group.sessions[0]) {
+      let sessionDate = new Date(group.sessions[0].startTime);
+      if(sessionDate.getHours() && sessionDate.getMinutes()) {
+        return sessionDate.getHours() % 12 + ':' + sessionDate.getMinutes();
+      }
       return 't.b.a.';
     } else {
-      let sessionDate = new Date(this.firstSession.startTime);
-      return sessionDate.getHours()%12 + ':' + sessionDate.getMinutes();
+      return 't.b.a.';
     }
   }
 
-  getEndTime() {
-    if(this.firstSession.endTime === 't.b.a.') {
+  /**
+   * extracts the end time out of a date string
+   * @returns {string} the end time of the weekly sessions
+   */
+  getEndTime(group) {
+    if (group.sessions && group.sessions[0]) {
+      let sessionDate = new Date(group.sessions[0].endTime);
+      if(sessionDate.getHours() && sessionDate.getMinutes()) {
+        return sessionDate.getHours() % 12 + ':' + sessionDate.getMinutes();
+      }
       return 't.b.a.';
     } else {
-      let sessionDate = new Date(this.firstSession.endTime);
-      return sessionDate.getHours()%12 + ':' + sessionDate.getMinutes();
+      return 't.b.a.';
     }
   }
 
+  //optional feature which could be implemented if time is left
   showDetails(event, item) {
     /* Should any user see the details of a group?
     this.navCtrl.push(DetailsView, {
@@ -91,10 +100,53 @@ export class ListPage {
     */
   }
 
-  joinGroup(item) {
+  /**
+   * handles joining with request to the server
+   */
+  joinGroup(group) {
     //TODO: pop up and post request, show buttons only if not registered yet as moving group is not possible yet
-    this.navCtrl.push(DetailsView, {
-      item: item
-    });
+    let alert;
+    if(this.registeredGroupNumber) {
+      alert = this.alertCtrl.create({
+         title: 'Joining not possible.',
+         message: 'You are already registered in a tutorial group.',
+        buttons: [
+          {
+            text: 'Ok',
+            role: 'cancel',
+            handler: () => {
+            }
+          }
+        ]
+      });
+    } else {
+      alert = this.alertCtrl.create({
+        title: 'Confirm join',
+        message: 'Do you want to join this tutorial group?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+            }
+          },
+          {
+            text: 'Join',
+            handler: () => {
+              this.restAPI.put('groups/'+ group.id + '/students/' + this.user.id, {}).subscribe((response) => {
+                console.log(response);
+                }
+              );
+              this.navCtrl.setRoot(DetailsView, {
+                user: this.user,
+                group: group
+              });
+            }
+          }
+        ]
+      });
+    }
+    alert.present();
   }
+
 }

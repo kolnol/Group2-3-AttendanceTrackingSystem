@@ -31,29 +31,29 @@
         </ion-col>
       </ion-row>
     </ion-list-header>
-    <button ion-item *ngFor="let group of groups">
+    <div ion-item *ngFor="let group of groups">
       <ion-row>
         <ion-col>
           {{CONSTANTS.LIST.GROUP}} {{group.number}}
         </ion-col>
         <ion-col>
-          {{getDay()}}
+          {{getDay(group)}}
         </ion-col>
         <ion-col >
-          {{getStartTime()}} - {{getEndTime()}}
+          {{getStartTime(group)}} - {{getEndTime(group)}}
         </ion-col>
         <ion-col>
-          {{group.students.length}} / {{group.maxNrOfParticipants}}
+          {{group.students.length}} / {{group.maxNrOfParticipants ? group.maxNrOfParticipants : 32}}
         </ion-col>
         <ion-col>
           07/11/2017 - 01/28/2018
         </ion-col>
         <ion-col>
-            <button ion-button (click)="joinGroup(group)" [disabled]="group.id === registeredId">
+            <button ion-button (click)="joinGroup(group)" [disabled]="group.number === registeredGroupNumber">
               {{CONSTANTS.LIST.JOIN}}
             </button>
         </ion-col>
       </ion-row>
-    </button>
+    </div>
   </ion-list>
 </ion-content>

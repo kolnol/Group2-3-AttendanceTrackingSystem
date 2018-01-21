@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Events } from 'ionic-angular';
+import { NavController, Events } from 'ionic-angular';
 import { SignupPage } from '../signup/signup';
 import { HomePage } from "../home/home";
-import { LoginAPI } from "../../providers/login-api";
+import { RestAPI } from "../../providers/rest-api";
 
 import Constants from '../../assets/Constants.json';
 
@@ -18,9 +18,8 @@ export class LoginPage {
   wrongDataEntered: boolean;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
               public events: Events,
-              private loginAPI: LoginAPI) {
+              private restAPI: RestAPI) {
   }
 
   ionViewDidLoad() {
@@ -28,19 +27,17 @@ export class LoginPage {
   }
 
   login() {
-    console.log("login");
-    //TODO: Post request for authentication
-   /* if(this.username && this.password) {
-      this.navCtrl.setRoot(HomePage);
-    }*/
-    this.loginAPI.postData({
+    this.restAPI.post( 'login',{
       "email": this.username,
       "password": this.password
     }).subscribe((response) => {
       if(response) {
         this.wrongDataEntered = false;
-        this.events.publish('logged in', response);
-        this.navCtrl.setRoot(HomePage, response)
+        this.events.publish('share user data', response);
+        this.navCtrl.setRoot(HomePage, {
+          user: response,
+          group: {}
+        })
       } else {
         this.wrongDataEntered = true;
       }
@@ -48,7 +45,6 @@ export class LoginPage {
   }
 
   signup() {
-    console.log("signup");
     this.navCtrl.push(SignupPage);
   }
 }

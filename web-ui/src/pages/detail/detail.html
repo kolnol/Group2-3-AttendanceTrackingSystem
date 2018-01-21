@@ -24,13 +24,12 @@
               {{CONSTANTS.GROUP_DETAIL.DETAILS.TUTOR}} :
             </ion-col>
             <ion-col>
-              <div *ngFor="let grp of getArray(group)">
-                {{grp.number}} <br>
+                {{group.number}} <br>
                 {{groupWeekDay}}<br>
                 {{getStartTime(firstSession.startTime)}} - {{getEndTime(firstSession.endTime)}}<br>
                 {{firstSession.place}} <br>
-                {{grp.instructor.name}}
-              </div>
+                {{group.instructor.name}}
+
             </ion-col>
           </ion-row>
         </ion-card-content>
@@ -55,8 +54,8 @@
         </ion-card-header>
         <ion-card-content>
           <ion-list>
-            <div>
-              <button ion-item *ngFor="let session of sessions">
+            <div *ngIf="group.sessions">
+              <button ion-item *ngFor="let session of group.sessions">
                 <span class="leftElement">
                   <ion-icon name="checkbox" *ngIf="attendanceIds.indexOf(session.id)>0"></ion-icon>
                   <ion-icon name="square" *ngIf="attendanceIds.indexOf(session.id)<=0"></ion-icon>
@@ -64,6 +63,10 @@
                 </span>
                 <span class="rightElement">{{getStartTime(session.startTime)}} - {{getEndTime(session.endTime)}}</span>
               </button>
+            </div>
+
+            <div *ngIf="!group.sessions">
+              Currently no sessions dates are known for this group.
             </div>
           </ion-list>
         </ion-card-content>

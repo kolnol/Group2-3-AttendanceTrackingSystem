@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { LoginPage } from '../login/login';
+import { RestAPI } from "../../providers/rest-api";
 import Constants from '../../assets/Constants.json';
 
 @Component({
@@ -11,10 +12,12 @@ export class SignupPage {
   firstname: string;
   lastname: string;
   email: string;
-  enrollmentNumber: string;
+  enrollmentNumber: string; //TODO: check this
+  password: string;
   CONSTANTS: any = Constants;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+              private restAPI: RestAPI) {
 
   }
 
@@ -23,8 +26,14 @@ export class SignupPage {
   }
 
   signup() {
-    //TODO: REST requests
-    console.log("signup");
+    this.restAPI.post('users', JSON.stringify({
+      "email": this.email,
+      "password": this.password,
+      "name": this.firstname + " "+ this.lastname,
+      "type": "STUDENT"
+    }),{}).subscribe((response)=>{
+      console.log(response);
+    });
     this.navCtrl.push(LoginPage);
   }
 
