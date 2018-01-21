@@ -32,6 +32,12 @@ public class Group {
         this.instructor = Ref.create(instructor);
     }
 
+    public Group(Long id, String number, User instructor) {
+        this.id = id;
+        this.number = number;
+        this.instructor = Ref.create(instructor);
+    }
+
     public void addNewStudent(User student) {
         Ref<User> studentRef = Ref.create(student);
         if(!students.contains(studentRef)){

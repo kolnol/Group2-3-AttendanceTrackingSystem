@@ -1,29 +1,55 @@
 [
   {
+    "id": 1,
     "email": "sebastian@outlook.com",
     "password": "pass",
     "name": "Sebastian Barschkis",
     "type": "INSTRUCTOR"
   },
   {
+    "id": 2,
+    "email": "man@outlook.com",
+    "password": "pass",
+    "name": "Cool Man",
+    "type": "INSTRUCTOR"
+  },
+  {
+    "id": 3,
+    "email": "pret@outlook.com",
+    "password": "pass",
+    "name": "Renhcsterp Rednaxela",
+    "type": "INSTRUCTOR"
+  },
+  {
+    "id": 4,
+    "email": "do@outlook.com",
+    "password": "pass",
+    "name": "Oanh Do",
+    "type": "INSTRUCTOR"
+  },
+  {
+    "id": 5,
     "email": "odn@gmail.com",
     "password": "pass",
     "name": "Mykola Odnoshyvkin",
     "type": "STUDENT"
   },
   {
+    "id": 6,
     "email": "geor@me.com",
     "password": "veryGoodPass",
     "name": "Georgi Aylov",
     "type": "STUDENT"
   },
   {
+    "id": 7,
     "email": "mai@yahoo.com",
     "password": "pass123654",
     "name": "Phuong Mai",
     "type": "STUDENT"
   },
   {
+    "id": 8,
     "email": "max@tharr.com",
     "password": "maxTheBest",
     "name": "Max Tharr",

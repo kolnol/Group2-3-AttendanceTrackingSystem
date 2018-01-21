@@ -1,7 +1,7 @@
 package de.tum.atse.ats.Resources;
 
-import com.google.appengine.repackaged.com.google.gson.Gson;
-import com.google.appengine.repackaged.com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Ref;
@@ -47,10 +47,18 @@ public class GroupsResource extends ServerResource {
     }
 
     @Post
-    public Group saveGroup(JsonRepresentation rep) throws IOException {
+    public Group saveGroup(JsonRepresentation rep) {
 
         JSONObject jsonObject = rep.getJsonObject();
         String number = jsonObject.get(GROUPNUMBERTAG).toString();
+        Long id = null;
+
+        try{
+            id = Long.parseLong(jsonObject.get("id").toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         if (number == null || isInDatabase(number)) return null;
         User instructor = ObjectifyService.ofy()
                 .load()
@@ -77,13 +85,13 @@ public class GroupsResource extends ServerResource {
         }
 
 
-        Group newGroup = new Group(number, instructor);
+        Group newGroup = new Group(id, number, instructor);
 
         for (User student: students) {
             newGroup.addNewStudent(student);
         }
 
-        Key<Group> res = ObjectifyService
+        ObjectifyService
                 .ofy()
                 .save()
                 .entity(newGroup)
@@ -92,15 +100,12 @@ public class GroupsResource extends ServerResource {
         return newGroup;
     }
 
-    private boolean isInDatabase(String groupNumer) {
+    private boolean isInDatabase(String groupNumber) {
         int count = ObjectifyService.ofy()
                 .load()
                 .type(Group.class)
-                .filter("number =", groupNumer)
+                .filter("number =", groupNumber)
                 .count();
         return count > 0;
     }
-
-
-
 }

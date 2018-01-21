@@ -70,6 +70,9 @@ public class RestletApplication extends Application {
 
         //GET = Get Token | POST = Validate Token
         router.attach("/attendanceToken/{studentId}", AttendanceTokenResource.class);
+        router.attach("/attendanceToken", AttendanceTokenResource.class);
+
+        router.attach("/reset", ResetResource.class);
 
         guard.setNext(router);
         return router;

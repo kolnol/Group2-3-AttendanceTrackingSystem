@@ -34,6 +34,7 @@ public class UsersResource extends ServerResource {
         List<User> userList = ObjectifyService.ofy().load().type(User.class).list();
         ObjectifyService.ofy().delete().entities(userList).now();
     }
+
     private boolean isInDatabase(User newUser) {
         int count = ObjectifyService.ofy().load().type(User.class).filter("email =", newUser.getEmail()).count();
         return count > 0;

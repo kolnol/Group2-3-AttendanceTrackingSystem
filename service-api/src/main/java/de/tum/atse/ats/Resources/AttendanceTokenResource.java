@@ -87,7 +87,6 @@ public class AttendanceTokenResource extends ServerResource {
         if (attendance.getSessionId().equals(attendanceToken.getSessionId())
                 && attendance.getStudentId().equals(attendanceToken.getStudentId())) {
 
-            Base64 base64 = new Base64();
             String e = attendance.getStudentId() + "" + attendance.getSessionId();
             e = DigestUtils.sha256Hex(e);
 
@@ -96,11 +95,34 @@ public class AttendanceTokenResource extends ServerResource {
             json.put("sessionId", attendance.getSessionId() + "");
             json.put("studentId", attendance.getStudentId() + "");
 
+            ObjectifyService.ofy().delete().entity(attendanceToken).now();
+            //TODO Make it clean
+            User student = ObjectifyService.ofy()
+                    .load()
+                    .type(User.class)
+                    .id(attendance.getStudentId())
+                    .now();
+            List<Group> groups = ObjectifyService.ofy()
+                    .load()
+                    .type(Group.class)
+                    .list();
+            Group currentGroup = null;
+            for(Group group: groups) {
+                if(group.getStudents().contains(student)) {
+                    currentGroup = group;
+                }
+            }
+            if (currentGroup == null) return null;
+            currentGroup.addAttendance(attendance);
+            ObjectifyService.ofy()
+                    .save()
+                    .entity(currentGroup)
+                    .now();
+
             return new JsonRepresentation(json);
         } else {
             return null;
         }
-
     }
 
     private String generateAttendanceTokenHash(Long studentId, Long sessionId) {

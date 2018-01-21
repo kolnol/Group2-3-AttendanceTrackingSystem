@@ -4,10 +4,15 @@ import com.googlecode.objectify.annotation.Entity;
 
 import java.util.Date;
 
+
 public class Attendance {
-    private final Long studentId;
-    private final Long sessionId;
-    private final Date timestamp;
+
+    private Long studentId;
+    private Long sessionId;
+    private Date timestamp;
+
+    public Attendance() {
+    }
 
     public Attendance(Long studentId, Long sessionId, Date timestamp) {
         this.studentId = studentId;
