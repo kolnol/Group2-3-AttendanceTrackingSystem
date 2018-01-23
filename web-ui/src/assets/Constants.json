@@ -17,6 +17,10 @@
   "HOME": {
     "TITLE": "Home"
   },
+  "USER_TYPE": {
+    "INSTRUCTOR": "INSTRUCTOR",
+    "STUDENT": "STUDENT"
+  },
   "LIST": {
     "TITLE": "Group list",
     "GROUPNAME": "Group name",
@@ -26,7 +30,8 @@
     "REGISTRATION_INTERVAL": "Registration interval",
     "ACTION": "Action",
     "JOIN": "Join",
-    "GROUP": "Group"
+    "GROUP": "Group",
+    "DETAILS": "Details"
   },
   "GROUP_DETAIL": {
     "TITLE": "Group details",
@@ -40,6 +45,9 @@
     },
     "ATTENDANCES":{
       "TITLE": "Sessions"
+    },
+    "STUDENTS": {
+      "TITLE": "Participants"
     }
   }
 }

@@ -36,8 +36,8 @@
       </ion-card>
 
 
-
-      <ion-card class="attendance-content">
+      <!-- student view-->
+      <ion-card class="attendance-content" *ngIf="user.type === 'STUDENT'">
         <ion-card-header color="primary">
           <span class="leftElement">
             {{CONSTANTS.GROUP_DETAIL.ATTENDANCES.TITLE}}
@@ -71,6 +71,35 @@
           </ion-list>
         </ion-card-content>
       </ion-card>
+
+
+    <!-- tutor view-->
+    <ion-card class="attendance-content" *ngIf="user.type === 'INSTRUCTOR'">
+      <ion-card-header color="primary">
+          <span class="leftElement">
+           Participants <!--{{CONSTANTS.GROUP_DETAIL.STUDENTS.TITLE}}-->
+          </span>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <div *ngIf="group.students && group.students.length > 0">
+            <button ion-item *ngFor="let student of group.students" (click)="showStudentDetails()">
+                <span class="leftElement">
+                  <ion-icon name="person"></ion-icon>
+                  {{student.name}}
+                </span>
+              <!-- add matr nr?
+              <span class="rightElement"></span>-->
+            </button>
+          </div>
+
+          <div *ngIf="group.students && group.students.length === 0">
+            Currently no students are registered for this tutorial group.
+          </div>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
 
   </ion-row>
   <div class="clear"></div>

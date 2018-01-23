@@ -33,11 +33,21 @@
     </ion-list-header>-->
     <div *ngFor="let group of groups">
 
-      <ion-item>
+      <!-- student view -->
+      <ion-item *ngIf="user.type === 'STUDENT'" >
+        <h2>{{CONSTANTS.LIST.GROUP}} {{group.number}} {{user.type === 'INSTRUCTOR'}}</h2>
+        <p>{{getStartTime(group)}} - {{getEndTime(group)}}</p>
+        <button ion-button clear item-end large *ngIf="user.type === 'STUDENT'" (click)="joinGroup(group)" [disabled]="group.number === registeredGroupNumber">
+          {{CONSTANTS.LIST.JOIN}}
+        </button>
+      </ion-item>
+
+      <!-- tutor view -->
+      <ion-item *ngIf="user.type === 'INSTRUCTOR' && group.instructor.id === user.id">
         <h2>{{CONSTANTS.LIST.GROUP}} {{group.number}}</h2>
         <p>{{getStartTime(group)}} - {{getEndTime(group)}}</p>
-        <button ion-button clear item-end large (click)="joinGroup(group)" [disabled]="group.number === registeredGroupNumber">
-          {{CONSTANTS.LIST.JOIN}}
+        <button ion-button clear item-end large (click)="showDetails(group)" >
+          {{CONSTANTS.LIST.DETAILS}}
         </button>
       </ion-item>
 

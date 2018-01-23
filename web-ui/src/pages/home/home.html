@@ -14,7 +14,8 @@
       <div class="card-title">Advanced Topics of Software Engineering <br> WS 17/18</div>
     </ion-card>
 
-    <ion-card>
+  <!-- student view -->
+    <ion-card *ngIf="user.type === 'STUDENT'">
       <ion-card-header>
         Information
       </ion-card-header>
@@ -35,7 +36,7 @@
         <p *ngIf="registeredGroup && registeredGroup.number">
           <ion-icon name="people"></ion-icon>
           You are in the tutorial group {{registeredGroup.number}}. <br>
-          <button ion-button secondary menuToggle (click)="itemSelected()" small>See details</button>
+          <button ion-button secondary menuToggle (click)="showGroupDetails()" small>See details</button>
         </p>
         <p *ngIf="!registeredGroup">
           <ion-icon name="people"></ion-icon>
@@ -44,12 +45,46 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-card>
+    <ion-card *ngIf="user.type === 'STUDENT'">
       <ion-card-content>
         <p *ngIf="registeredGroup && registeredGroup.number">
           <button ion-button block large (click)="getNextQRCode()">Get Attendance Token</button>
         </p>
       </ion-card-content>
     </ion-card>
+
+  <!-- tutor view -->
+  <ion-card *ngIf="user.type === 'INSTRUCTOR'">
+    <ion-card-header>
+      Information
+    </ion-card-header>
+    <ion-card-content>
+      <p *ngIf="registeredGroup && registeredGroup.number">
+        <ion-icon name="people"></ion-icon>
+        You are assigned to the tutorial group {{registeredGroup.number}}. <br>
+        <button ion-button secondary menuToggle (click)="showGroupDetails()" small>See details</button>
+      </p>
+      <p *ngIf="!registeredGroup">
+        <ion-icon name="people"></ion-icon>
+        You are currently not assigned to a tutorial group.
+      </p>
+      <p>
+        <button ion-button round outline (click)="startSession()">Start session</button>
+      </p>
+      <p>
+        <button ion-button round outline (click)="endSession()">End session</button>
+      </p>
+
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card *ngIf="user.type === 'INSTRUCTOR'">
+    <ion-card-content>
+      <p *ngIf="registeredGroup">
+        <button ion-button block large (click)="getAttendanceLog()">Get attendance log</button>
+      </p>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

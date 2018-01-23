@@ -123,6 +123,13 @@ export class DetailsView {
     }
   }
 
+  /**
+   * Tutor view
+   */
+  showStudentDetails(){
+   //TODO
+  }
+
   /*
   * for calendar implementation which will follow in the next submission
   * currently only list view available

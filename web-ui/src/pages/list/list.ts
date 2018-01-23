@@ -44,6 +44,7 @@ export class ListPage {
         this.registeredGroupNumber = group.number ? group.number : null;
       }
     });
+
   }
 
   /**
@@ -95,17 +96,21 @@ export class ListPage {
     }
   }
 
-  //optional feature which could be implemented if time is left
-  showDetails(event, item) {
-    /* Should any user see the details of a group?
-    this.navCtrl.push(DetailsView, {
-      item: item
+  /**
+   * For tutor view
+   * @param group
+   */
+  showDetails(group) {
+    this.navCtrl.setRoot(DetailsView, {
+      user: this.user,
+      group: group
     });
-    */
   }
 
   /**
+   * For student view
    * handles joining with request to the server
+   * @param group
    */
   joinGroup(group) {
     //TODO: pop up and post request, show buttons only if not registered yet as moving group is not possible yet

@@ -30,13 +30,26 @@ export class HomePage {
     //TODO: get lecture info
     this.user = this.navParams.get('user');
     //Currently we only allow a student to be registered in one tutorial group
-    this.restAPI.get('users/' + this.user.id +'/groups').subscribe((response) => {
-      this.registeredGroup = response;
-    });
+    if(this.user && this.user.type === this.CONSTANTS.USER_TYPE.STUDENT) {
+      this.restAPI.get('users/' + this.user.id +'/groups').subscribe((response) => {
+        this.registeredGroup = response;
+      });
+    } else if(this.user && this.user.type === this.CONSTANTS.USER_TYPE.INSTRUCTOR) {
+      this.restAPI.get('groups').subscribe((response) => {
+        if(Array.isArray(response)) {
+          for(let g = 0; g< response.length; g++) {
+            if(response[g].instructor.id === this.user.id) {
+              this.registeredGroup = response[g];
+            }
+          }
+        }
+      });
+    }
+
 
   }
 
-  itemSelected() {
+  showGroupDetails() {
     this.navCtrl.setRoot(DetailsView, {
       user: this.user,
       group: this.registeredGroup
@@ -53,5 +66,20 @@ export class HomePage {
         qrCodeModal.present();
       }
     });
+  }
+
+  //TODO
+  startSession() {
+
+  }
+
+  //TODO
+  endSession() {
+
+  }
+
+  //TODO
+  getAttendanceLog() {
+
   }
 }
