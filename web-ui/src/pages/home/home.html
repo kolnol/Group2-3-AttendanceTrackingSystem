@@ -7,31 +7,49 @@
   </ion-navbar>
 </ion-header>
 <!-- Content will be replaced by Constants soon -->
-<ion-content padding>
-  <h3>Advanced Topics of Software Engineering WS 17/18</h3>
-  <p>
-    <ion-icon name="school"></ion-icon>
-    Pretschner, Alexander, Prof. Dr.
-  </p>
-  <p>
-    <ion-icon name="time"></ion-icon>
-    Monday, 12:00 - 14:00 <br>
-    Friday, 08:00 - 10:00
-  </p>
-  <p *ngIf="user">
-    <ion-icon name="at"></ion-icon>
-    {{user.email}}
-  </p>
-  <p *ngIf="registeredGroup && registeredGroup.number">
-    <ion-icon name="people"></ion-icon>
-    You are currently registered for the tutorial group {{registeredGroup.number}}.
-    <button ion-button secondary menuToggle (click)="itemSelected()" small>See details</button>
-  </p>
-  <p *ngIf="registeredGroup && registeredGroup.number">
-    <button ion-button (click)="getNextQRCode()" small>Get Attendance Token</button>
-  </p>
-  <p *ngIf="!registeredGroup">
-    <ion-icon name="people"></ion-icon>
-    You are currently not registered for a tutorial group.
-  </p>
+<ion-content class="card-background-page">
+
+    <ion-card>
+      <img src="img/ase_back3.jpg"/>
+      <div class="card-title">Advanced Topics of Software Engineering <br> WS 17/18</div>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        Information
+      </ion-card-header>
+      <ion-card-content>
+        <p>
+          <ion-icon name="school"></ion-icon>
+          Pretschner, Alexander, Prof. Dr.
+        </p>
+        <p>
+          <ion-icon name="time"></ion-icon>
+          Monday, 12:00 - 14:00 <br>
+          Friday, 08:00 - 10:00
+        </p>
+        <p *ngIf="user">
+          <ion-icon name="at"></ion-icon>
+          {{user.email}}
+        </p>
+        <p *ngIf="registeredGroup && registeredGroup.number">
+          <ion-icon name="people"></ion-icon>
+          You are in the tutorial group {{registeredGroup.number}}. <br>
+          <button ion-button secondary menuToggle (click)="itemSelected()" small>See details</button>
+        </p>
+        <p *ngIf="!registeredGroup">
+          <ion-icon name="people"></ion-icon>
+          You are currently not registered for a tutorial group.
+        </p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content>
+        <p *ngIf="registeredGroup && registeredGroup.number">
+          <button ion-button block large (click)="getNextQRCode()">Get Attendance Token</button>
+        </p>
+      </ion-card-content>
+    </ion-card>
+
 </ion-content>

@@ -44,7 +44,14 @@ export class HomePage {
   }
 
   getNextQRCode() {
-    let qrCodeModal = this.modalCtrl.create(QRCodeModal, {value: "Hello"});
-    qrCodeModal.present();
+    let qrCodeText;
+    this.restAPI.get('attendanceToken/' + this.user.id).subscribe((response) => {
+      console.log(response);
+      qrCodeText = response;
+      if(qrCodeText) {
+        let qrCodeModal = this.modalCtrl.create(QRCodeModal, {value: qrCodeText.token ? qrCodeText.token: null});
+        qrCodeModal.present();
+      }
+    });
   }
 }

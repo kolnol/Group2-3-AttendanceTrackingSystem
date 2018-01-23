@@ -28,7 +28,7 @@ export class LoginPage {
 
   login() {
     this.restAPI.post( 'login',{
-      "email": this.username,
+      "email": this.username.toLowerCase(),
       "password": this.password
     }).subscribe((response) => {
       if(response) {

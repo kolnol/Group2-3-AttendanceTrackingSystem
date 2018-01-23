@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-list-header>
+    <!--<ion-list-header>
       <ion-row>
         <ion-col>
           {{CONSTANTS.LIST.GROUPNAME}}
@@ -30,9 +30,18 @@
           {{CONSTANTS.LIST.ACTION}}
         </ion-col>
       </ion-row>
-    </ion-list-header>
-    <div ion-item *ngFor="let group of groups">
-      <ion-row>
+    </ion-list-header>-->
+    <div *ngFor="let group of groups">
+
+      <ion-item>
+        <h2>{{CONSTANTS.LIST.GROUP}} {{group.number}}</h2>
+        <p>{{getStartTime(group)}} - {{getEndTime(group)}}</p>
+        <button ion-button clear item-end large (click)="joinGroup(group)" [disabled]="group.number === registeredGroupNumber">
+          {{CONSTANTS.LIST.JOIN}}
+        </button>
+      </ion-item>
+
+      <!--<ion-row>
         <ion-col>
           {{CONSTANTS.LIST.GROUP}} {{group.number}}
         </ion-col>
@@ -53,7 +62,7 @@
               {{CONSTANTS.LIST.JOIN}}
             </button>
         </ion-col>
-      </ion-row>
+      </ion-row>-->
     </div>
   </ion-list>
 </ion-content>

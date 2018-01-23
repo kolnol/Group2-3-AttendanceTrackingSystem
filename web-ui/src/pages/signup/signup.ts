@@ -26,12 +26,13 @@ export class SignupPage {
   }
 
   signup() {
-    this.restAPI.post('users', JSON.stringify({
+    let newUser = {
       "email": this.email,
       "password": this.password,
       "name": this.firstname + " "+ this.lastname,
       "type": "STUDENT"
-    }),{}).subscribe((response)=>{
+    };
+    this.restAPI.post('users', newUser,{}).subscribe((response)=>{
       console.log(response);
     });
     this.navCtrl.push(LoginPage);

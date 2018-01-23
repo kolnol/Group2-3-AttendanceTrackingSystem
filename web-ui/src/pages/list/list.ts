@@ -66,10 +66,8 @@ export class ListPage {
   getStartTime(group) {
     if (group.sessions && group.sessions[0]) {
       let sessionDate = new Date(group.sessions[0].startTime);
-      if(sessionDate.getHours() && sessionDate.getMinutes()) {
-        return sessionDate.getHours() % 12 + ':' + sessionDate.getMinutes();
-      }
-      return 't.b.a.';
+
+      return this.getTime(sessionDate);
     } else {
       return 't.b.a.';
     }
@@ -82,10 +80,16 @@ export class ListPage {
   getEndTime(group) {
     if (group.sessions && group.sessions[0]) {
       let sessionDate = new Date(group.sessions[0].endTime);
-      if(sessionDate.getHours() && sessionDate.getMinutes()) {
-        return sessionDate.getHours() % 12 + ':' + sessionDate.getMinutes();
-      }
+      return this.getTime(sessionDate);
+
+    } else {
       return 't.b.a.';
+    }
+  }
+
+  getTime(sessionDate: Date) {
+    if(sessionDate.getHours()>=0 && sessionDate.getMinutes()>=0) {
+      return sessionDate.getHours()%12 + ':' + sessionDate.getMinutes();
     } else {
       return 't.b.a.';
     }
@@ -133,7 +137,7 @@ export class ListPage {
           {
             text: 'Join',
             handler: () => {
-              this.restAPI.put('groups/'+ group.id + '/students/' + this.user.id, {}).subscribe((response) => {
+              this.restAPI.put('groups/'+ group.id + '/students/' + this.user.id, null).subscribe((response) => {
                 console.log(response);
                 }
               );
