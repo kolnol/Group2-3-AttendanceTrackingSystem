@@ -20,6 +20,7 @@ import { RegistrationsApi } from "../providers/registrations-api";
 import { RestAPI } from "../providers/rest-api";
 import { QRCodeModal } from "../helpers/qr-code-modal/qr-code";
 import { QRCodeModule } from 'angular2-qrcode';
+import { NotaryService } from '../../notary/notary';
 
 
 @NgModule({
@@ -58,6 +59,7 @@ import { QRCodeModule } from 'angular2-qrcode';
     UserIdAPI,
     RegistrationsApi,
     RestAPI,
+    NotaryService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

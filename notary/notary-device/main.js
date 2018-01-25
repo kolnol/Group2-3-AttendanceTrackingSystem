@@ -372,5 +372,5 @@ var attendanceResponsesMap = new Map();
 
 //initHttpServer();
 //initP2PServer();
-connectToPeers(['ws://ec2-34-240-13-114.eu-west-1.compute.amazonaws.com:5000/']);
+connectToPeers(['ws://35.189.84.234:5000/']);
 //fetchBlockchain();

@@ -7,8 +7,10 @@ import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { DetailsView } from '../pages/detail/detail';
+//import * as Notary from '../../notary/notaryts';
 
 import { UserIdAPI } from "../providers/user-id-api";
+import { NotaryService } from '../../notary/notary';
 
 @Component({
   templateUrl: 'app.html'
@@ -25,7 +27,8 @@ export class MyApp {
   constructor(public platform: Platform,
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
-              private userIdAPI: UserIdAPI) {
+              private userIdAPI: UserIdAPI,
+              private notaryService : NotaryService) {
 
     this.initializeApp();
 
@@ -56,6 +59,9 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      // blockchain 
+      this.notaryService.connectToPeers(['ws://35.189.84.234:5000/']);
+
     });
   }
 

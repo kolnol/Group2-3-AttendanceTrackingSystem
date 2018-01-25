@@ -11,6 +11,11 @@ const MessageType = {
     RESPONSE_VERIFICATION: 4
 };
 
+const Result = {
+    CONFIRMED: "confirmed",
+    DENIED: "denied"
+}
+
 var http_port = 3000;
 var ws_port = 5000;
 var socketPeers = [];
@@ -18,6 +23,10 @@ var socketPeers = [];
 var initP2PServer = () => {
     wss = new WebSocket.Server({port: ws_port});    
     wss.on('connection', ws => initConnection(ws));
+    wss.on('error', () => {
+        console.log("ws connection error")
+        socketPeers.splice(socketPeers.indexOf(ws), 1);
+    });
     console.log('WS Server listening on port: ' + ws_port);
 }
 
@@ -28,7 +37,7 @@ var initConnection = (ws) => {
     ws.on('close', () => {
         console.log('Close connection');
         socketPeers.splice(socketPeers.indexOf(ws), 1);
-    })
+    });
     //fetchBlockchain(ws, fetchBlockchainMsg())
 }
 
@@ -88,6 +97,10 @@ var responseVerificationMsg = (sessionId, attendance, result) => ({
     })
 })
 
+var responseVerificationResultMsg = (result) => ({
+    'result': result
+})
+
 var fetchBlockchain = () => {
     console.log("fetch blockchain")
     if(socketPeers.length > 0)
@@ -133,13 +146,13 @@ var handleVerificationResponse = (data) => {
 
     if(attendanceClaimsMap.get(attendance).length == numberOfPeers){
         if(majorityConfirm(attendance)){
-            attendanceResponsesMap.get(attendance).send('confirmed');
+            attendanceResponsesMap.get(attendance).send(responseVerificationResultMsg(Result.CONFIRMED));
         } else {
             attendanceResponsesMap.forEach((key, value) => {
                 console.log(key + " = " + value)
                 console.log(attendance)
             })
-            attendanceResponsesMap.get(attendance).send('denied');
+            attendanceResponsesMap.get(attendance).send(responseVerificationResultMsg(Result.DENIED));
             attendanceResponsesMap.delete(attendance);
         }
     }
@@ -169,7 +182,10 @@ var connectToPeers = (peers) => {
     peers.forEach(peer => {
         ws = new WebSocket(peer);
         ws.on('open', () => initConnection(ws));
-        ws.on('error', () => console.log("ws connection error"));
+        ws.on('error', () => {
+            console.log("ws connection error")
+            socketPeers.splice(socketPeers.indexOf(ws), 1);
+        });
     });
 }
 
@@ -191,7 +207,7 @@ var initHttpServer = () => {
 
         console.log(attendanceQueue.get(sessionId).length)
 
-        res.send()
+        res.status(200).send("OK");
     });
     
     app.post('/addSession', function(req, res){
@@ -216,7 +232,7 @@ var initHttpServer = () => {
                     res.send('Session already began!');                    
                 } else {
                     attendanceQueue.set(sessionId, []);
-                    res.send();
+                    res.status(200).send("OK");
                 }
                 break;
             case 'end':
@@ -226,7 +242,7 @@ var initHttpServer = () => {
                     broadcast(addBlockMsg(sessionId));
                     attendanceQueue.delete(sessionId);                    
                 }
-                res.send();
+                res.status(200).send("OK");
                 break;
             default:
                 res.send('Bad request');    
@@ -265,11 +281,11 @@ var verifyAttendanceMaster = (sessionId, attendance, res) => {
     var block = blockchain[blockIndex];
 
     if(false || findAttendanceInBlock(attendance, block)){
-        res.send('confirmed');
+        res.send(responseVerificationResultMsg(Result.CONFIRMED));
     } else {
         if(socketPeers.length == 0) {
             console.log("no peers")
-            res.send('denied')
+            res.send(responseVerificationResultMsg(Result.DENIED))
         } else {
             console.log("ASK OTHERS");
             broadcast(verifyAttendanceMsg(sessionId, attendance));
