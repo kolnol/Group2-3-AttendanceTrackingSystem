@@ -6,7 +6,6 @@ import de.tum.atse.ats.Entity.User;
 import de.tum.atse.ats.RequestUtills;
 import org.restlet.data.Status;
 import org.restlet.resource.Delete;
-import org.restlet.resource.Post;
 import org.restlet.resource.Put;
 import org.restlet.resource.ServerResource;
 
@@ -24,6 +23,7 @@ public class GroupStudentResource extends ServerResource {
         if(student.getType() != User.Type.STUDENT) {
             return Status.CLIENT_ERROR_NOT_ACCEPTABLE;
         }
+
         Long groupId = Long.parseLong(RequestUtills.getValue(getRequest(), "groupId"));
         Group group = ObjectifyService.ofy()
                 .load()

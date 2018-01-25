@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "number": "1-3",
+    "instructorId": 1,
+    "studentsIds": []
+  },
+  {
+    "id": 2,
+    "number": "2-3",
+    "instructorId": 2,
+    "studentsIds": [5,8]
+  },
+  {
+    "id": 3,
+    "number": "3-3",
+    "instructorId": 3,
+    "studentsIds": [6]
+  },
+  {
+    "id": 4,
+    "number": "4-3",
+    "instructorId": 4,
+    "studentsIds": [7]
+  }
+]
+

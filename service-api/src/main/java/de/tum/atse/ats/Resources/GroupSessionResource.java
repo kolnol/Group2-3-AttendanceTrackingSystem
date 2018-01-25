@@ -1,7 +1,6 @@
 package de.tum.atse.ats.Resources;
 
 import com.googlecode.objectify.ObjectifyService;
-import de.tum.atse.ats.Entity.Group;
 import de.tum.atse.ats.Entity.Session;
 import de.tum.atse.ats.RequestUtills;
 import org.restlet.data.Status;
@@ -33,8 +32,10 @@ public class GroupSessionResource extends ServerResource {
                 .id(sessionId)
                 .now();
         if(session != null) {
-            session.setPlace(newSession.getPlace());
-            session.setTime(newSession.getTime());
+            session.setPlace(newSession.getPlace() == null ? session.getPlace() : newSession.getPlace());
+            session.setStartTime(newSession.getStartTime() == null ? session.getStartTime() : newSession.getStartTime());
+            session.setEndTime(newSession.getEndTime() == null ? session.getEndTime() : newSession.getEndTime());
+            session.setState(newSession.getState() == null ? session.getState() : newSession.getState());
             ObjectifyService.ofy()
                     .save()
                     .entity(session)

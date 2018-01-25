@@ -1,8 +1,8 @@
 package de.tum.atse.ats.Resources;
 
 import com.googlecode.objectify.ObjectifyService;
+import de.tum.atse.ats.Entity.Attendance;
 import de.tum.atse.ats.Entity.Group;
-import de.tum.atse.ats.Entity.Session;
 import de.tum.atse.ats.RequestUtills;
 import org.restlet.data.Status;
 import org.restlet.resource.Get;
@@ -11,24 +11,21 @@ import org.restlet.resource.ServerResource;
 
 import java.util.List;
 
-public class GroupSessionsResource extends ServerResource {
+public class GroupAttendancesResource extends ServerResource {
 
-    @Get("json")
-    public List<Session> getSesssions() {
+    @Get
+    public List<Attendance> getAllAttendances () {
         Long groupId = Long.parseLong(RequestUtills.getValue(getRequest(), "groupId"));
         Group group = ObjectifyService.ofy()
                 .load()
                 .type(Group.class)
                 .id(groupId)
                 .now();
-        if(group != null) {
-            return group.getSessions();
-        }
-        return null;
+        return group.getAttendances();
     }
 
     @Post
-    public Status addSession(Session session) {
+    public Status addAttendance(Attendance attendance) {
         Long groupId = Long.parseLong(RequestUtills.getValue(getRequest(), "groupId"));
         Group group = ObjectifyService.ofy()
                 .load()
@@ -36,11 +33,10 @@ public class GroupSessionsResource extends ServerResource {
                 .id(groupId)
                 .now();
         if(group != null) {
-            if(group.getSessions().contains(session)) return Status.SUCCESS_ACCEPTED;
+            if(group.getAttendances().contains(attendance)) return Status.SUCCESS_ACCEPTED;
 
-            ObjectifyService.ofy().save().entity(session).now();
-
-            group.addNewSession(session);
+            ObjectifyService.ofy().save().entity(attendance).now();
+            group.addAttendance(attendance);
 
             ObjectifyService.ofy().save().entity(group).now();
 
@@ -49,5 +45,4 @@ public class GroupSessionsResource extends ServerResource {
 
         return Status.CLIENT_ERROR_NOT_FOUND;
     }
-
 }
