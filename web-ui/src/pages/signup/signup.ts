@@ -12,7 +12,6 @@ export class SignupPage {
   firstname: string;
   lastname: string;
   email: string;
-  enrollmentNumber: string; //TODO: check this
   password: string;
   CONSTANTS: any = Constants;
 

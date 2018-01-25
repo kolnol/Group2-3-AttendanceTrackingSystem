@@ -25,6 +25,14 @@ export class HomePage {
   registeredGroup: any;
   sessions: any;
   currentSession: any;
+  registeredGroup = {
+    id: null,
+    number: null,
+    instructor: {},
+    sessions: [],
+    students: [],
+    attendances: []
+  };
   started: boolean = false;
   sessionButtonCaption = "Start session";
 
@@ -40,7 +48,13 @@ export class HomePage {
     //Currently we only allow a student to be registered in one tutorial group
     if(this.user && this.user.type === this.CONSTANTS.USER_TYPE.STUDENT) {
       this.restAPI.get('users/' + this.user.id +'/groups').subscribe((response) => {
-        this.registeredGroup = response;
+        if(response) {
+          for(let key in response) {
+            if (response.hasOwnProperty(key)) {
+              this.registeredGroup[key] = response[key];
+            }
+          }
+        }
       });
     } else if(this.user && this.user.type === this.CONSTANTS.USER_TYPE.INSTRUCTOR) {
         this.restAPI.get('groups').subscribe((response) => {

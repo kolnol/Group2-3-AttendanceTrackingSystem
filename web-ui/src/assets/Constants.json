@@ -11,7 +11,6 @@
     "FIRST_NAME": "First name",
     "LAST_NAME": "Last name",
     "EMAIL": "Email address",
-    "ENROLLMENT_NR": "Enrollment number",
     "PASSWORD": "Password"
   },
   "HOME": {
