@@ -4,7 +4,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 
 @Injectable()
 export class NotaryAPI {
-  url: string = 'http://localhost:3000';
+  url: string = 'http://35.189.84.234:3000';
 
   constructor(private http: HttpClient) {
 

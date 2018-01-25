@@ -22,7 +22,9 @@ export class HomePage {
     type: string
   };
   CONSTANTS: any = Constants;
-  registeredGroup: object;
+  registeredGroup: any;
+  sessions: any;
+  currentSession: any;
   started: boolean = false;
   sessionButtonCaption = "Start session";
 
@@ -41,18 +43,34 @@ export class HomePage {
         this.registeredGroup = response;
       });
     } else if(this.user && this.user.type === this.CONSTANTS.USER_TYPE.INSTRUCTOR) {
-      this.restAPI.get('groups').subscribe((response) => {
-        if(Array.isArray(response)) {
-          for(let g = 0; g< response.length; g++) {
-            if(response[g].instructor.id === this.user.id) {
-              this.registeredGroup = response[g];
+        this.restAPI.get('groups').subscribe((response) => {
+          if(Array.isArray(response)) {
+            for(let g = 0; g< response.length; g++) {
+              if(response[g].instructor.id === this.user.id) {
+                this.registeredGroup = response[g];
+                this.restAPI.get('groups/'+ this.registeredGroup.id + '/sessions').subscribe((response) => {
+                  this.sessions = response;
+                  this.findCurrentSession(this.sessions);
+                });
+              }
             }
           }
-        }
-      });
+        });
     }
 
 
+  }
+
+  findCurrentSession(sessions) {
+    sessions.forEach(session => {
+      let startTime = new Date(session.startTime);
+      let endTime = new Date(session.endTime);
+      if(startTime.getTime() <= Date.now() && endTime.getTime() >= Date.now()){
+        this.currentSession = session;
+        console.log("Current session found: " + this.currentSession);
+        return;
+      }
+    })
   }
 
   showGroupDetails() {
@@ -76,7 +94,7 @@ export class HomePage {
 
   startSession() {
     let sth =this.notaryAPI.post('addSession', {
-      "sessionId": 1,
+      "sessionId": this.currentSession,
       "state": "begin"
     }).subscribe(response => {
       console.log(response)
@@ -87,7 +105,7 @@ export class HomePage {
 
   endSession() {
     let sth =this.notaryAPI.post('addSession', {
-      sessionId: 1,
+      sessionId: this.currentSession,
       state: "end"
     }).subscribe(response => {
       console.log(response)
