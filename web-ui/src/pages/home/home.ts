@@ -22,7 +22,6 @@ export class HomePage {
     type: string
   };
   CONSTANTS: any = Constants;
-  registeredGroup: any;
   sessions: any;
   currentSession: any;
   registeredGroup = {
