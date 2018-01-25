@@ -8,6 +8,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { DetailsView } from '../pages/detail/detail';
 import { RestAPI } from "../providers/rest-api";
+import { NotaryService } from '../../notary/notary';
 
 @Component({
   templateUrl: 'app.html'
@@ -30,7 +31,8 @@ export class MyApp {
   constructor(public platform: Platform,
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
-              public events: Events, private restAPI: RestAPI) {
+              public events: Events, private restAPI: RestAPI,
+              public notaryService: NotaryService) {
 
     this.initializeApp();
 
@@ -53,6 +55,7 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      this.notaryService.connectToPeers(['ws://35.189.84.234:5000/'])
     });
   }
 
