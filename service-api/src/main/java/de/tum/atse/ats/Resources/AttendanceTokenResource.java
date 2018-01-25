@@ -32,7 +32,7 @@ public class AttendanceTokenResource extends ServerResource {
             "PKCS5Padding");
 
     @Get
-    public Representation getAttendanceToken() {
+    public JsonRepresentation getAttendanceToken() {
         Long studentId = Long.parseLong(RequestUtills.getValue(getRequest(), "studentId"));
         User student = ObjectifyService.ofy()
                 .load()
@@ -63,8 +63,10 @@ public class AttendanceTokenResource extends ServerResource {
                 ,currentSession.getId());
         ObjectifyService.ofy().save().entity(attendanceToken).now();
 
-        Representation rep = new StringRepresentation(token);
-        return rep;
+        JSONObject json = new JSONObject();
+        json.put("token", token);
+
+        return new JsonRepresentation(json);
     }
 
     @Post("json")
@@ -91,9 +93,9 @@ public class AttendanceTokenResource extends ServerResource {
             e = DigestUtils.sha256Hex(e);
 
             JSONObject json = new JSONObject();
-            json.put("hash", e);
+            json.put("attendance", e);
             json.put("sessionId", attendance.getSessionId() + "");
-            json.put("studentId", attendance.getStudentId() + "");
+            //json.put("studentId", attendance.getStudentId() + "");
 
             ObjectifyService.ofy().delete().entity(attendanceToken).now();
             //TODO Make it clean

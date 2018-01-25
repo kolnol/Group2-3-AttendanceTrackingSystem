@@ -6,10 +6,6 @@ import de.tum.atse.ats.Utils.ObjectifyEnroler;
 import de.tum.atse.ats.Utils.ObjectifyVerifier;
 import org.restlet.*;
 import org.restlet.data.ChallengeScheme;
-import org.restlet.data.LocalReference;
-import org.restlet.data.Method;
-import org.restlet.data.Status;
-import org.restlet.ext.oauth.*;
 import org.restlet.resource.Directory;
 import org.restlet.routing.Router;
 import org.restlet.security.*;
@@ -39,13 +35,11 @@ public class RestletApplication extends Application {
 
         Router router = new Router(getContext());
 
+        //TODO put Ionic app here
         Directory webdir = new Directory(getContext(), "war:///");
         webdir.setDeeplyAccessible(true);
         webdir.setIndexName("index.html");
 
-        authorizer.setNext(UserResource.class);
-
-        //TODO Add Authorization only where is needed
         router.attach("/users", UsersResource.class);
         router.attach("/users/{userId}", authorizer);
         router.attach("/users/{userId}/attendances", UserAttendanceResource.class);
@@ -72,8 +66,14 @@ public class RestletApplication extends Application {
         router.attach("/attendanceToken/{studentId}", AttendanceTokenResource.class);
         router.attach("/attendanceToken", AttendanceTokenResource.class);
 
+        router.attach("/verificationMismatch", VerificationMismatchResource.class);
+
         router.attach("/reset", ResetResource.class);
 
+        //TODO Add Authorization only where is needed
+        authorizer.setNext(UserResource.class);
+
+        //TODO Activate Authentication = guard.setNext(router); return guard;
         guard.setNext(router);
         return router;
     }

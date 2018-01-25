@@ -18,6 +18,8 @@ import org.apache.commons.codec.binary.Base64;
 import java.util.Arrays;
 import java.util.Date;
 
+
+// TODO Make it singleton and remove secret from db
 public class DesAttendanceTokenGenerator implements AttendanceTokenGenerator {
     private final String KEY = "okbhosuigfüb368&%dubcpiezr";
     private SecretKey secretKey;

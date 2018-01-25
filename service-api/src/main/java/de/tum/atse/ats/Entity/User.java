@@ -20,7 +20,6 @@ public class User {
     private String password; //TODO use only hash
     private Type type;
 
-    //Empty constructor is needed to use Objectify
     private User(){}
 
     public User(String name,String email, String password, Type type) {

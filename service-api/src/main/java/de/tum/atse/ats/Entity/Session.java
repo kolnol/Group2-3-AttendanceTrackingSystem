@@ -9,24 +9,35 @@ import java.util.Date;
 
 @Entity
 public class Session {
+
+    public enum State {
+        PLANNED,
+        ONGOING,
+        FINISHED
+    }
+
     @Id
     Long id;
     @Load
     @JsonFormat
-            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+            (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date startTime;
     @Load
     @JsonFormat
-            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+            (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date endTime;
     @Load
     private String place;
+
+    private State state;
+
 
     public Session() {}
 
     public Session(Date startTime, String place) {
         this.startTime = startTime;
         this.place = place;
+        this.state = State.PLANNED;
     }
 
     public Long getId() {
@@ -58,5 +69,11 @@ public class Session {
         this.endTime = endTime;
     }
 
-    public class Everything {}
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
 }

@@ -32,8 +32,10 @@ public class GroupSessionResource extends ServerResource {
                 .id(sessionId)
                 .now();
         if(session != null) {
-            session.setPlace(newSession.getPlace());
-            session.setStartTime(newSession.getStartTime());
+            session.setPlace(newSession.getPlace() == null ? session.getPlace() : newSession.getPlace());
+            session.setStartTime(newSession.getStartTime() == null ? session.getStartTime() : newSession.getStartTime());
+            session.setEndTime(newSession.getEndTime() == null ? session.getEndTime() : newSession.getEndTime());
+            session.setState(newSession.getState() == null ? session.getState() : newSession.getState());
             ObjectifyService.ofy()
                     .save()
                     .entity(session)
