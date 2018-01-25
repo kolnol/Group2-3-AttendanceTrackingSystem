@@ -29,77 +29,60 @@
                 {{getStartTime(firstSession.startTime)}} - {{getEndTime(firstSession.endTime)}}<br>
                 {{firstSession.place}} <br>
                 {{group.instructor.name}}
-
             </ion-col>
           </ion-row>
         </ion-card-content>
       </ion-card>
 
 
-      <!-- student view-->
-      <ion-card class="attendance-content" *ngIf="user.type === 'STUDENT'">
+
+      <ion-card class="attendance-content">
         <ion-card-header color="primary">
           <span class="leftElement">
             {{CONSTANTS.GROUP_DETAIL.ATTENDANCES.TITLE}}
           </span>
-          <!-- for calender implementation  -->
+          <!-- for calender implementation
           <p class="rightElement">
-            <button> <!-- (click)="switchToListView()" -->
+            <button (click)="switchToListView()" >
               <ion-icon name="list" color="primary"></ion-icon>
             </button>
-            <!-- <button (click)="switchToCalendarView()"> -->
+             <button (click)="switchToCalendarView()">
             <ion-icon name="calendar" color="gray"></ion-icon>
-            <!--</button> -->
-          </p>
+            </button>
+          </p> -->
         </ion-card-header>
         <ion-card-content>
           <ion-list>
-            <div *ngIf="group.sessions">
-              <button ion-item *ngFor="let session of group.sessions">
+            <div *ngIf="group.sessions && user.type==='STUDENT'">
+              <!--student view-->
+              <div ion-item *ngFor="let session of group.sessions">
                 <span class="leftElement">
                   <ion-icon name="checkbox" *ngIf="attendanceIds.indexOf(session.id)>0"></ion-icon>
                   <ion-icon name="square" *ngIf="attendanceIds.indexOf(session.id)<=0"></ion-icon>
-                  {{getSessionDate(session.startTime)}}
+                  {{getSessionDate(session.startTime)}} {{getStartTime(session.startTime)}} - {{getEndTime(session.endTime)}}
                 </span>
-                <span class="rightElement">{{getStartTime(session.startTime)}} - {{getEndTime(session.endTime)}}</span>
+                <span class="rightElement">
+                  <button ion-item (click)="verifyAttendance()">Verify</button>
+                </span>
+              </div>
+            </div>
+
+            <!-- tutor view-->
+            <div *ngIf="group.sessions && user.type==='INSTRUCTOR'">
+              <button ion-item *ngFor="let session of group.sessions" (click)="showAllStudents(session)">
+                <span class="leftElement">{{getSessionDate(session.startTime)}} {{getStartTime(session.startTime)}} - {{getEndTime(session.endTime)}}</span>
+                <span class="rightElement">
+                  <ion-icon name="arrow-dropright"></ion-icon>
+                </span>
               </button>
             </div>
 
             <div *ngIf="!group.sessions">
-              Currently no sessions dates are known for this group.
+              Currently no sessions dates are scheduled for this group.
             </div>
           </ion-list>
         </ion-card-content>
       </ion-card>
-
-
-    <!-- tutor view-->
-    <ion-card class="attendance-content" *ngIf="user.type === 'INSTRUCTOR'">
-      <ion-card-header color="primary">
-          <span class="leftElement">
-           Participants <!--{{CONSTANTS.GROUP_DETAIL.STUDENTS.TITLE}}-->
-          </span>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-list>
-          <div *ngIf="group.students && group.students.length > 0">
-            <button ion-item *ngFor="let student of group.students" (click)="showStudentDetails()">
-                <span class="leftElement">
-                  <ion-icon name="person"></ion-icon>
-                  {{student.name}}
-                </span>
-              <!-- add matr nr?
-              <span class="rightElement"></span>-->
-            </button>
-          </div>
-
-          <div *ngIf="group.students && group.students.length === 0">
-            Currently no students are registered for this tutorial group.
-          </div>
-        </ion-list>
-      </ion-card-content>
-    </ion-card>
-
 
   </ion-row>
   <div class="clear"></div>

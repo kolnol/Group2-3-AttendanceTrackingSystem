@@ -75,17 +75,6 @@ export class DetailsView {
     });
   }
 
-
-  /**
-   * Angular sometimes does not recognize an array of objects in ngFor..
-   * only currently implemented
-   * @param raw - the response of the server
-   * @returns {[]}
-   */
-  getArray(raw) {
-    return Array.from(raw);
-  }
-
   getSessionDate(sessionStartTime){
     if(!sessionStartTime) {
       return 't.b.a.';
@@ -126,8 +115,16 @@ export class DetailsView {
   /**
    * Tutor view
    */
-  showStudentDetails(){
-   //TODO
+  showAllStudents(session){
+    console.log(session);
+   //TODO: Georgi add list
+  }
+
+  /**
+   * Student view
+   */
+  verifyAttendance(){
+    //TODO
   }
 
   /*
