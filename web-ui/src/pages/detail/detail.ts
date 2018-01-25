@@ -33,8 +33,18 @@ export class DetailsView {
       endTime: string,
       place: string
     }>,
-    students: Array<object>,
-    attendances: Array<object>
+    students: Array<{
+      id: number,
+      email: string,
+      name: string,
+      password: string,
+      type: string
+    }>,
+    attendances: Array<{
+      studentId: number,
+      sessionId: number,
+      timestamp: string
+    }>
   };
   weekdays: Array<string> = [
     "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
