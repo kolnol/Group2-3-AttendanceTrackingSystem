@@ -41,28 +41,30 @@
           <span class="leftElement">
             {{CONSTANTS.GROUP_DETAIL.ATTENDANCES.TITLE}}
           </span>
-          <!-- for calender implementation  -->
+          <!-- for calender implementation
           <p class="rightElement">
-            <button> <!-- (click)="switchToListView()" -->
+            <button (click)="switchToListView()" >
               <ion-icon name="list" color="primary"></ion-icon>
             </button>
-            <!-- <button (click)="switchToCalendarView()"> -->
+             <button (click)="switchToCalendarView()">
             <ion-icon name="calendar" color="gray"></ion-icon>
-            <!--</button> -->
-          </p>
+            </button>
+          </p> -->
         </ion-card-header>
         <ion-card-content>
           <ion-list>
             <div *ngIf="group.sessions && user.type==='STUDENT'">
               <!--student view-->
-              <button ion-item *ngFor="let session of group.sessions">
+              <div ion-item *ngFor="let session of group.sessions">
                 <span class="leftElement">
                   <ion-icon name="checkbox" *ngIf="attendanceIds.indexOf(session.id)>0"></ion-icon>
                   <ion-icon name="square" *ngIf="attendanceIds.indexOf(session.id)<=0"></ion-icon>
-                  {{getSessionDate(session.startTime)}}
+                  {{getSessionDate(session.startTime)}} {{getStartTime(session.startTime)}} - {{getEndTime(session.endTime)}}
                 </span>
-                <span class="rightElement">{{getStartTime(session.startTime)}} - {{getEndTime(session.endTime)}}</span>
-              </button>
+                <span class="rightElement">
+                  <button ion-item (click)="verifyAttendance()">Verify</button>
+                </span>
+              </div>
             </div>
 
             <!-- tutor view-->

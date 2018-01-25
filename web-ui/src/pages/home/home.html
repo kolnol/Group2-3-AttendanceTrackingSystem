@@ -22,34 +22,33 @@
       <ion-card-content>
         <p>
           <ion-icon name="school"></ion-icon>
-          Pretschner, Alexander, Prof. Dr.
+          Pretschner, Alexander, Prof. Dr. <br>
         </p>
         <p>
           <ion-icon name="time"></ion-icon>
-          Monday, 12:00 - 14:00 <br>
+          Monday, 12:00 - 14:00
+        </p>
+        <p>
           Friday, 08:00 - 10:00
         </p>
-        <p *ngIf="user">
-          <ion-icon name="at"></ion-icon>
-          {{user.email}}
-        </p>
+        <br>
         <p *ngIf="registeredGroup && registeredGroup.number">
           <ion-icon name="people"></ion-icon>
           You are in the tutorial group {{registeredGroup.number}}. <br>
-          <button ion-button secondary menuToggle (click)="showGroupDetails()" small>See details</button>
+          <button ion-button secondary menuToggle (click)="showGroupDetails()" small>Show group details</button>
         </p>
         <p *ngIf="!registeredGroup">
           <ion-icon name="people"></ion-icon>
           You are currently not registered for a tutorial group.
+          <br>
+          <button ion-button secondary menuToggle (click)="navigateToGroupList()" small>Join a group</button>
         </p>
       </ion-card-content>
     </ion-card>
 
-    <ion-card *ngIf="user.type === 'STUDENT'">
+    <ion-card *ngIf="user.type === 'STUDENT' && registeredGroup && registeredGroup.number">
       <ion-card-content>
-        <p *ngIf="registeredGroup && registeredGroup.number">
           <button ion-button block large (click)="getNextQRCode()">Get Attendance Token</button>
-        </p>
       </ion-card-content>
     </ion-card>
 
@@ -62,7 +61,7 @@
       <p *ngIf="registeredGroup && registeredGroup.number">
         <ion-icon name="people"></ion-icon>
         You are assigned to the tutorial group {{registeredGroup.number}}. <br>
-        <button ion-button secondary menuToggle (click)="showGroupDetails()" small>See details</button>
+        <button ion-button secondary menuToggle (click)="showGroupDetails()" small>Show group details</button>
       </p>
       <p *ngIf="!registeredGroup">
         <ion-icon name="people"></ion-icon>

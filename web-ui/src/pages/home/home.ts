@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {MenuController, ModalController, NavController, NavParams} from 'ionic-angular';
 import {DetailsView} from '../detail/detail';
+import {ListPage} from "../list/list";
 import Constants from '../../assets/Constants.json';
 import {QRCodeModal} from "../../helpers/qr-code-modal/qr-code";
 import {RestAPI} from "../../providers/rest-api";
@@ -78,4 +79,13 @@ export class HomePage {
 
   }
 
+  /**
+   * Student view
+   */
+  navigateToGroupList(){
+    this.navCtrl.setRoot(ListPage, {
+      user: this.user,
+      group: this.registeredGroup
+    })
+  }
 }
