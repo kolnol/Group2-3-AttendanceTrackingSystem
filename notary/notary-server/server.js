@@ -192,14 +192,22 @@ var connectToPeers = (peers) => {
 var initHttpServer = () => {
     var app = express();
     app.use(bodyParser.json());
+    app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+      });
 
     app.post('/addAttendance', function(req, res) {
         // we get hash = e  = sha256(studentId, sessionId) and sessionId
         var sessionId = req.body.sessionId;
+        console.log("Add attendance session: " + sessionId);
         var attendance = req.body.attendance;
+        console.log("Add attendance attendance: " + attendance);
+
 
         if(!attendanceQueue.get(sessionId)) {
-            res.send('Session ' + sessionId + ' does not exist!');
+            res.json({"result": "Session " + sessionId + " does not exist!"});
             return;
         } else {
             attendanceQueue.get(sessionId).push(attendance);
@@ -207,16 +215,18 @@ var initHttpServer = () => {
 
         console.log(attendanceQueue.get(sessionId).length)
 
-        res.status(200).send("OK");
+        res.json({"result": "OK"})
     });
     
     app.post('/addSession', function(req, res){
         if(req.body.state == null || req.body.state == '' ||
            req.body.sessionId == null || req.body.sessionId == '') {
-            res.send('Bad request!')
+            res.json({"result": "Bad request!"});
             return;
         }
-        var sessionId = req.body.sessionId;
+        var sessionId = String(req.body.sessionId);
+        console.log("sessionId: " + sessionId)
+        console.log("state " + req.body.state);
 
         switch (req.body.state) {
             case 'begin':
@@ -224,15 +234,15 @@ var initHttpServer = () => {
                 // check wheather someone tries to add attendance to already existing session
                 if(blockId = rootMap.get(sessionId)) {
                     if(blockId <= getLatestBlock().index) {
-                        res.send("Block for session " + sessionId + " already exists!");
+                        res.json({"result": "Block for session " + sessionId + " already exists!"});
                         return;
                     }
                 }
                 if(attendanceQueue.get(sessionId)) {
-                    res.send('Session already began!');                    
+                    res.json({"result": "Session " + sessionId + " already began!"});                    
                 } else {
                     attendanceQueue.set(sessionId, []);
-                    res.status(200).send("OK");
+                    res.json({"result": "OK"})
                 }
                 break;
             case 'end':
@@ -242,19 +252,19 @@ var initHttpServer = () => {
                     broadcast(addBlockMsg(sessionId));
                     attendanceQueue.delete(sessionId);                    
                 }
-                res.status(200).send("OK");
+                res.json({"result": "OK"})
                 break;
             default:
-                res.send('Bad request');    
+                res.json({"result": "Bad request"});    
         }
     });
 
     app.get('/verifyAttendance', function(req, res){
-        verifyAttendanceMaster(Number(req.query.sessionId), req.query.attendance, res)
+        verifyAttendanceMaster(String(req.query.sessionId), req.query.attendance, res)
     });
 
     app.get('/', function(req, res) {
-        res.send('Notary blockchain')
+        res.json({"result": "Notary blockchain"})
     });
 
     app.listen(http_port, function () {
@@ -274,18 +284,18 @@ class Block {
 
 var verifyAttendanceMaster = (sessionId, attendance, res) => {
     if(!rootMap.get(sessionId)){
-        res.send('No sessionId: ' + sessionId + " found.");
+        res.json({"result": "No sessionId: " + sessionId + " found."});
         return false;
     }
     var blockIndex = rootMap.get(sessionId);
     var block = blockchain[blockIndex];
 
     if(false || findAttendanceInBlock(attendance, block)){
-        res.send(responseVerificationResultMsg(Result.CONFIRMED));
+        res.json({"result": responseVerificationResultMsg(Result.CONFIRMED)});
     } else {
         if(socketPeers.length == 0) {
             console.log("no peers")
-            res.send(responseVerificationResultMsg(Result.DENIED))
+            res.json({"result": responseVerificationResultMsg(Result.DENIED)})
         } else {
             console.log("ASK OTHERS");
             broadcast(verifyAttendanceMsg(sessionId, attendance));

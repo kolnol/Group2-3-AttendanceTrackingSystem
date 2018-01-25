@@ -69,10 +69,9 @@
         You are currently not assigned to a tutorial group.
       </p>
       <p>
-        <button ion-button round outline (click)="startSession()">Start session</button>
-      </p>
-      <p>
-        <button ion-button round outline (click)="endSession()">End session</button>
+        <button ion-button round outline (click)="started ? endSession() : startSession()">
+            {{sessionButtonCaption}}
+        </button>
       </p>
 
 

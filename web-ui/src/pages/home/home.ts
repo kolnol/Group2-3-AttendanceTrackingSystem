@@ -4,6 +4,8 @@ import {DetailsView} from '../detail/detail';
 import Constants from '../../assets/Constants.json';
 import {QRCodeModal} from "../../helpers/qr-code-modal/qr-code";
 import {RestAPI} from "../../providers/rest-api";
+import { NotaryService } from '../../../notary/notary';
+import { NotaryAPI } from '../../providers/notary-api';
 
 @Component({
   selector: 'page-home',
@@ -20,12 +22,15 @@ export class HomePage {
   };
   CONSTANTS: any = Constants;
   registeredGroup: object;
+  started: boolean = false;
+  sessionButtonCaption = "Start session";
 
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
               public menuCtrl: MenuController,
               public navParams: NavParams,
-              private restAPI: RestAPI) {
+              private restAPI: RestAPI,
+              private notaryAPI: NotaryAPI) {
 
     //TODO: get lecture info
     this.user = this.navParams.get('user');
@@ -68,14 +73,26 @@ export class HomePage {
     });
   }
 
-  //TODO
   startSession() {
-
+    let sth =this.notaryAPI.post('addSession', {
+      "sessionId": 1,
+      "state": "begin"
+    }).subscribe(response => {
+      console.log(response)
+    })
+    this.started = !this.started;
+    this.sessionButtonCaption = "Stop session";
   }
 
-  //TODO
   endSession() {
-
+    let sth =this.notaryAPI.post('addSession', {
+      sessionId: 1,
+      state: "end"
+    }).subscribe(response => {
+      console.log(response)
+    })
+    this.started = !this.started;
+    this.sessionButtonCaption = "Start session";
   }
 
   //TODO
