@@ -15,6 +15,7 @@ import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { RestAPI } from "../providers/rest-api";
 import { QRCodeModal } from "../helpers/qr-code-modal/qr-code";
 import { QRCodeModule } from 'angular2-qrcode';
+import { NotaryService } from '../../notary/notary';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { QRCodeModule } from 'angular2-qrcode';
     SplashScreen,
     HttpClient,
     RestAPI,
+    NotaryService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

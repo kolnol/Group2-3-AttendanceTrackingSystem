@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, Events  } from 'ionic-angular';
+import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -7,7 +7,10 @@ import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { DetailsView } from '../pages/detail/detail';
-import { RestAPI } from "../providers/rest-api";
+//import * as Notary from '../../notary/notaryts';
+
+import { UserIdAPI } from "../providers/user-id-api";
+import { NotaryService } from '../../notary/notary';
 
 @Component({
   templateUrl: 'app.html'
@@ -17,33 +20,36 @@ export class MyApp {
 
   rootPage: any = LoginPage;
   pages: Array<{title: string, icon: string, component: any, textColor: string}>;
-  user: {
-    "id": number,
-    "email": string,
-    "name": string,
-    "password": string,
-    "type": string
-  };
+  user: Array<object> = []; //currently implemented as an array
+  registered: boolean = true;
   textColor: string;
-  group: object;
 
   constructor(public platform: Platform,
               public statusBar: StatusBar,
               public splashScreen: SplashScreen,
-              public events: Events, private restAPI: RestAPI) {
+              private userIdAPI: UserIdAPI,
+              private notaryService : NotaryService) {
 
     this.initializeApp();
 
-    events.subscribe('share user data', (response) => {
-      this.user = response;
-      //Currently we only allow a student to be registered in one tutorial group
-      this.restAPI.get('users/' + this.user.id +'/groups').subscribe((response) => {
-        this.group = response;
-        this.setUpPageMenu();
-      });
+    this.userIdAPI.getData().subscribe((userDetails) => {
+      this.user.push(userDetails);
     });
 
-    this.setUpPageMenu();
+
+    this.pages = [
+      {title: 'Home', icon: "home", component: HomePage, textColor: 'primary'},
+      {title: 'List', icon: "list", component: ListPage, textColor: 'dark'}];
+
+    if(this.registered) {
+      this.pages.push(
+        {title: 'Group details', icon: "book", component: DetailsView, textColor: 'dark'}
+      )
+    }
+
+    this.pages.push(
+      {title: 'Logout', icon: "log-out", component: LoginPage, textColor: 'dark'}
+    );
 
   }
 
@@ -53,26 +59,10 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      // blockchain 
+      this.notaryService.connectToPeers(['ws://35.189.84.234:5000/']);
+
     });
-  }
-
-  /**
-   * build the menu items
-   */
-  setUpPageMenu() {
-    this.pages = [
-      {title: 'Home', icon: "home", component: HomePage, textColor: 'primary'},
-      {title: 'List', icon: "list", component: ListPage, textColor: 'dark'}];
-
-    if(this.group) {
-      this.pages.push(
-        {title: 'Group details', icon: "book", component: DetailsView, textColor: 'dark'}
-      )
-    }
-
-    this.pages.push(
-      {title: 'Logout', icon: "log-out", component: LoginPage, textColor: 'dark'}
-    );
   }
 
   /**
@@ -82,10 +72,7 @@ export class MyApp {
   openPage(page) {
     page.textColor = 'primary';
     this.resetOtherTextColors(page);
-    this.nav.setRoot(page.component, {
-      user: this.user,
-      group: this.group
-    });
+    this.nav.setRoot(page.component);
   }
 
   /**
