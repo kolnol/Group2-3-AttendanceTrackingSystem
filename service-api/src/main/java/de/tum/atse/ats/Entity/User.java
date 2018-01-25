@@ -1,35 +1,32 @@
 package de.tum.atse.ats.Entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
-import com.googlecode.objectify.annotation.Load;
+import com.googlecode.objectify.annotation.Index;
 
+@Index
 @Entity
 public class User {
+
     public enum Type {
         INSTRUCTOR,
         STUDENT
     }
+
     @Id Long id;
     private String email;
     private String name;
     private String password; //TODO use only hash
-    private Enum<Type> type;
+    private Type type;
 
-    //Empty constructor is needed to use Objectify
     private User(){}
 
-    public User(String email, String password, Enum<Type> type) {
+    public User(String name,String email, String password, Type type) {
         this.email = email;
         this.password = password;
-    }
-
-    public User(String email, String password, Group group) {
-        this.email = email;
-        this.password = password;
+        this.name = name;
+        this.type = type;
     }
 
     public String getName() {
@@ -60,11 +57,11 @@ public class User {
         this.password = password;
     }
 
-    public Enum<Type> getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(Enum<Type> type) {
+    public void setType(Type type) {
         this.type = type;
     }
 }

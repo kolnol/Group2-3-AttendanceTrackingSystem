@@ -1,35 +1,56 @@
 package de.tum.atse.ats.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Load;
 
 import java.util.Date;
 
 @Entity
 public class Session {
+
+    public enum State {
+        PLANNED,
+        ONGOING,
+        FINISHED
+    }
+
     @Id
     Long id;
-    private Date time;
+    @Load
+    @JsonFormat
+            (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private Date startTime;
+    @Load
+    @JsonFormat
+            (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private Date endTime;
+    @Load
     private String place;
+
+    private State state;
+
 
     public Session() {}
 
-    public Session(Date time, String place) {
-        this.time = time;
+    public Session(Date startTime, String place) {
+        this.startTime = startTime;
         this.place = place;
+        this.state = State.PLANNED;
     }
 
     public Long getId() {
         return id;
     }
 
-    public Date getTime() {
+    public Date getStartTime() {
 
-        return time;
+        return startTime;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
     public String getPlace() {
@@ -38,5 +59,21 @@ public class Session {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 }
