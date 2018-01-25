@@ -78,13 +78,4 @@
 
     </ion-card-content>
   </ion-card>
-
-  <ion-card *ngIf="user.type === 'INSTRUCTOR'">
-    <ion-card-content>
-      <p *ngIf="registeredGroup">
-        <button ion-button block large (click)="getAttendanceLog()">Get attendance log</button>
-      </p>
-    </ion-card-content>
-  </ion-card>
-
 </ion-content>

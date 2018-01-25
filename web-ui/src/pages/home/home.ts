@@ -78,8 +78,4 @@ export class HomePage {
 
   }
 
-  //TODO
-  getAttendanceLog() {
-
-  }
 }

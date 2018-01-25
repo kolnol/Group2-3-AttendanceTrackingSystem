@@ -126,8 +126,9 @@ export class DetailsView {
   /**
    * Tutor view
    */
-  showStudentDetails(){
-   //TODO
+  showAllStudents(session){
+    console.log(session);
+   //TODO: Georgi add list
   }
 
   /*
