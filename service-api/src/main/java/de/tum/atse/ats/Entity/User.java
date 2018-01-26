@@ -15,6 +15,7 @@ public class User {
     }
 
     @Id Long id;
+
     private String email;
     private String name;
     private String password; //TODO use only hash

@@ -14,7 +14,7 @@ public class ObjectifyEnroler implements Enroler {
     public void enrole(ClientInfo clientInfo) {
         Request request = Request.getCurrent();
         User user = (User) request.getAttributes().get("currentUser");
-        if (user!=null) {
+        if (user!=null && user.getType()!=null) {
             Role role = Role.get(RestletApplication.getCurrent(), user.getType().name());
             clientInfo.getRoles().add(role);
         }

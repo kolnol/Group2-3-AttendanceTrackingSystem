@@ -7,12 +7,16 @@ import de.tum.atse.ats.Utils.ObjectifyVerifier;
 import org.restlet.*;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.resource.Directory;
+import org.restlet.resource.ServerResource;
+import org.restlet.routing.Route;
 import org.restlet.routing.Router;
 import org.restlet.security.*;
 import org.restlet.service.CorsService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 public class RestletApplication extends Application {
 
@@ -40,14 +44,19 @@ public class RestletApplication extends Application {
         webdir.setDeeplyAccessible(true);
         webdir.setIndexName("index.html");
 
+       //TODO Activate Authentication = guard.setNext(router); return guard;
+
+       Router first = new Router(getContext());
+
         router.attach("/users", UsersResource.class);
-        router.attach("/users/{userId}", authorizer);
+        router.attach("/users/{userId}", UserResource.class);//TODO Add authorizer instead of class
         router.attach("/users/{userId}/attendances", UserAttendanceResource.class);
         router.attach("/users/{studentId}/groups", UserGroupResource.class);
 
-        router.attach("/main",webdir);
+        first.attach("/main",webdir);
 
-        router.attach("/login", LoginResource.class);
+        first.attach("/login", LoginResource.class);
+
         router.attach("/groups", GroupsResource.class);
         router.attach("/groups/{groupId}", GroupResource.class);
 
@@ -72,10 +81,10 @@ public class RestletApplication extends Application {
 
         //TODO Add Authorization only where is needed
         authorizer.setNext(UserResource.class);
-
-        //TODO Activate Authentication = guard.setNext(router); return guard;
         guard.setNext(router);
-        return router;
+        first.attach("/private", guard);
+
+        return first;
     }
 
     private RoleAuthorizer createRoleAuthorizer() {
