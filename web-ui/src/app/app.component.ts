@@ -9,6 +9,8 @@ import { ListPage } from '../pages/list/list';
 import { DetailsView } from '../pages/detail/detail';
 import { RestAPI } from "../providers/rest-api";
 import { NotaryService } from '../../notary/notary';
+import Constants from '../assets/Constants.json';
+import {StudentStatusPage} from "../pages/studentStatus/studentStatus";
 
 @Component({
   templateUrl: 'app.html'
@@ -27,6 +29,7 @@ export class MyApp {
   };
   textColor: string;
   group: object;
+  CONSTANTS: any = Constants;
 
   constructor(public platform: Platform,
               public statusBar: StatusBar,
@@ -51,8 +54,6 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.notaryService.connectToPeers(['ws://35.189.84.234:5000/'])
@@ -64,21 +65,27 @@ export class MyApp {
    */
   setUpPageMenu() {
     this.pages = [
-      {title: 'Home', icon: "home", component: HomePage, textColor: 'primary'}];
+      {title: this.CONSTANTS.HOME.TITLE, icon: "home", component: HomePage, textColor: 'primary'}];
     if(!this.group) {
       this.pages.push(
-        {title: 'List', icon: "list", component: ListPage, textColor: 'dark'}
+        {title: this.CONSTANTS.LIST.TITLE, icon: "list", component: ListPage, textColor: 'dark'}
         );
     }
 
     if(this.group) {
       this.pages.push(
-        {title: 'Group details', icon: "book", component: DetailsView, textColor: 'dark'}
+        {title: this.CONSTANTS.GROUP_DETAIL.TITLE, icon: "book", component: DetailsView, textColor: 'dark'}
       )
     }
 
+    if(this.user.type === this.CONSTANTS.USER_TYPE.INSTRUCTOR) {
+      this.pages.push({
+        title: this.CONSTANTS.STUDENT_STATUS.TITLE, icon: "people", component: StudentStatusPage, textColor: 'dark'
+      })
+    }
+
     this.pages.push(
-      {title: 'Logout', icon: "log-out", component: LoginPage, textColor: 'dark'}
+      {title: this.CONSTANTS.LOGOUT.TITLE, icon: "log-out", component: LoginPage, textColor: 'dark'}
     );
   }
 

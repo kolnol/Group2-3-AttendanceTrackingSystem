@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {MenuController, ModalController, NavController, NavParams} from 'ionic-angular';
 import {DetailsView} from '../detail/detail';
 import {ListPage} from "../list/list";
+import {StudentStatusPage} from "../studentStatus/studentStatus";
 import Constants from '../../assets/Constants.json';
 import {QRCodeModal} from "../../helpers/qr-code-modal/qr-code";
 import {RestAPI} from "../../providers/rest-api";
@@ -40,7 +41,6 @@ export class HomePage {
               private restAPI: RestAPI,
               private notaryAPI: NotaryAPI) {
 
-    //TODO: get lecture info
     this.user = this.navParams.get('user');
     //Currently we only allow a student to be registered in one tutorial group
     if(this.user && this.user.type === this.CONSTANTS.USER_TYPE.STUDENT) {
@@ -55,12 +55,10 @@ export class HomePage {
       });
     } else if(this.user && this.user.type === this.CONSTANTS.USER_TYPE.INSTRUCTOR) {
       this.restAPI.get('groups').subscribe((response) => {
-        if(Array.isArray(response)) {
-          for(let g = 0; g< response.length; g++) {
-            if(response[g].instructor.id === this.user.id) {
-              this.registeredGroup = response[g];
+        if(Array.isArray(response) && response.length > 0) {
+            if(response[0].instructor.id === this.user.id) {
+              this.registeredGroup = response[0];
             }
-          }
         }
       });
     }
@@ -68,6 +66,9 @@ export class HomePage {
 
   }
 
+  /**
+   * Student and tutr view
+   */
   showGroupDetails() {
     this.navCtrl.setRoot(DetailsView, {
       user: this.user,
@@ -87,24 +88,30 @@ export class HomePage {
     });
   }
 
+  /**
+   * Tutor view
+   */
   startSession() {
     let sth =this.notaryAPI.post('addSession', {
       "sessionId": 1,
       "state": "begin"
     }).subscribe(response => {
       console.log(response)
-    })
+    });
     this.started = !this.started;
     this.sessionButtonCaption = "Stop session";
   }
 
+  /**
+   * Tutor view
+   */
   endSession() {
     let sth =this.notaryAPI.post('addSession', {
       sessionId: 1,
       state: "end"
     }).subscribe(response => {
       console.log(response)
-    })
+    });
     this.started = !this.started;
     this.sessionButtonCaption = "Start session";
   }
@@ -114,6 +121,16 @@ export class HomePage {
    */
   navigateToGroupList(){
     this.navCtrl.setRoot(ListPage, {
+      user: this.user,
+      group: this.registeredGroup
+    })
+  }
+
+  /**
+   * Tutor view
+   */
+  showStudentStatus() {
+    this.navCtrl.setRoot(StudentStatusPage,{
       user: this.user,
       group: this.registeredGroup
     })

@@ -8,6 +8,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { DetailsView } from '../pages/detail/detail';
+import {StudentStatusPage} from "../pages/studentStatus/studentStatus";
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -27,6 +28,7 @@ import { NotaryAPI } from '../providers/notary-api';
     HomePage,
     ListPage,
     DetailsView,
+    StudentStatusPage,
     QRCodeModal
   ],
   imports: [
@@ -43,6 +45,7 @@ import { NotaryAPI } from '../providers/notary-api';
     HomePage,
     ListPage,
     DetailsView,
+    StudentStatusPage,
     QRCodeModal
   ],
   providers: [

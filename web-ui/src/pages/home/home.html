@@ -11,7 +11,7 @@
 
     <ion-card>
       <img src="img/ase_back3.jpg"/>
-      <div class="card-title">Advanced Topics of Software Engineering <br> WS 17/18</div>
+      <div class="card-title">{{CONSTANTS.HOME.LECTURE.NAME}}<br> {{CONSTANTS.HOME.LECTURE.YEAR}}</div>
     </ion-card>
 
   <!-- student view -->
@@ -22,24 +22,24 @@
       <ion-card-content>
         <p>
           <ion-icon name="school"></ion-icon>
-          Pretschner, Alexander, Prof. Dr. <br>
+          {{CONSTANTS.HOME.LECTURE.PROFESSOR}} <br>
         </p>
         <p>
           <ion-icon name="time"></ion-icon>
-          Monday, 12:00 - 14:00
+          {{CONSTANTS.HOME.LECTURE.DATE[0]}}
         </p>
         <p>
-          Friday, 08:00 - 10:00
+          {{CONSTANTS.HOME.LECTURE.DATE[1]}}
         </p>
         <br>
         <p *ngIf="registeredGroup && registeredGroup.number">
           <ion-icon name="people"></ion-icon>
-          You are in the tutorial group {{registeredGroup.number}}. <br>
+          {{CONSTANTS.HOME.STUDENT_REGISTERED}} {{registeredGroup.number}}. <br>
           <button ion-button secondary menuToggle (click)="showGroupDetails()" small>Show group details</button>
         </p>
         <p *ngIf="!registeredGroup">
           <ion-icon name="people"></ion-icon>
-          You are currently not registered for a tutorial group.
+          {{CONSTANTS.HOME.STUDENT_NOT_REGISTERED}}
           <br>
           <button ion-button secondary menuToggle (click)="navigateToGroupList()" small>Join a group</button>
         </p>
@@ -60,20 +60,23 @@
     <ion-card-content>
       <p *ngIf="registeredGroup && registeredGroup.number">
         <ion-icon name="people"></ion-icon>
-        You are assigned to the tutorial group {{registeredGroup.number}}. <br>
+        {{CONSTANTS.HOME.TUTOR_ASSIGNED}} {{registeredGroup.number}}. <br>
         <button ion-button secondary menuToggle (click)="showGroupDetails()" small>Show group details</button>
       </p>
       <p *ngIf="!registeredGroup">
         <ion-icon name="people"></ion-icon>
-        You are currently not assigned to a tutorial group.
+        {{CONSTANTS.HOME.TUTOR_NOT_ASSIGNED}}
       </p>
       <p>
         <button ion-button round outline (click)="started ? endSession() : startSession()">
             {{sessionButtonCaption}}
         </button>
       </p>
-
-
+      <p>
+        <button ion-button secondary (click)="showStudentStatus()">
+          {{CONSTANTS.HOME.STUDENT_STATUS}}
+        </button>
+      </p>
     </ion-card-content>
   </ion-card>
 </ion-content>
