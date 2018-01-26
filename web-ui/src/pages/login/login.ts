@@ -5,6 +5,7 @@ import { HomePage } from "../home/home";
 import { RestAPI } from "../../providers/rest-api";
 
 import Constants from '../../assets/Constants.json';
+import { UserService } from '../../models/user-service';
 
 @Component({
   selector: 'page-login',
@@ -19,7 +20,8 @@ export class LoginPage {
 
   constructor(public navCtrl: NavController,
               public events: Events,
-              private restAPI: RestAPI) {
+              private restAPI: RestAPI,
+              private userService: UserService) {
   }
 
   ionViewDidLoad() {
@@ -32,6 +34,7 @@ export class LoginPage {
       "password": this.password
     }).subscribe((response) => {
       if(response) {
+        this.userService.login(this.username, this.password, response)
         this.wrongDataEntered = false;
         this.events.publish('share user data', response);
         this.navCtrl.setRoot(HomePage, {

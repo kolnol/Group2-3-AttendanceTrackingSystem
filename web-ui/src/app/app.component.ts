@@ -64,8 +64,12 @@ export class MyApp {
    */
   setUpPageMenu() {
     this.pages = [
-      {title: 'Home', icon: "home", component: HomePage, textColor: 'primary'},
-      {title: 'List', icon: "list", component: ListPage, textColor: 'dark'}];
+      {title: 'Home', icon: "home", component: HomePage, textColor: 'primary'}];
+    if(!this.group) {
+      this.pages.push(
+        {title: 'List', icon: "list", component: ListPage, textColor: 'dark'}
+        );
+    }
 
     if(this.group) {
       this.pages.push(

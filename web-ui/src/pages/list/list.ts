@@ -22,7 +22,35 @@ export class ListPage {
     type: string
   };
   selectedItem: any;
-  groups: object;
+  groups: Array<{
+    id: number,
+    number: string,
+    instructor: {
+      id: number,
+      email: string,
+      name: string,
+      password: string,
+      type: string
+    },
+    sessions: Array <{
+      id: number,
+      startTime: string,
+      endTime: string,
+      place: string
+    }>,
+    students: Array<{
+      id: number,
+      email: string,
+      name: string,
+      password: string,
+      type: string
+    }>,
+    attendances: Array<{
+      studentId: number,
+      sessionId: number,
+      timestamp: string
+    }>
+  }>;
   registeredGroupNumber: number;
   CONSTANTS: any = Constants;
 
@@ -33,7 +61,9 @@ export class ListPage {
     this.user = this.navParams.get('user');
 
     this.restAPI.get('groups').subscribe((response) => {
-      this.groups = response;
+      if(Array.isArray(response)) {
+        this.groups = response;
+      }
     });
 
     let group;
@@ -117,8 +147,8 @@ export class ListPage {
     let alert;
     if(this.registeredGroupNumber) {
       alert = this.alertCtrl.create({
-         title: 'Joining not possible.',
-         message: 'You are already registered in a tutorial group.',
+        title: 'Joining not possible.',
+        message: 'You are already registered in a tutorial group.',
         buttons: [
           {
             text: 'Ok',
