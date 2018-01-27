@@ -61,7 +61,7 @@ export class StudentStatusPage {
 
     this.group = this.navParams.get('group');
 
-    this.restAPI.get('groups/'+ this.group.id + '/students', null, this.user).subscribe((response) => {
+    this.restAPI.get('groups/'+ this.group.id + '/students').subscribe((response) => {
       if(Array.isArray(response)) {
         this.students = response;
       }
@@ -74,7 +74,7 @@ export class StudentStatusPage {
    * @return number - of missing attendances
    */
   getMissingAttendances(student){
-    this.restAPI.get('users/'+ student.id + '/attendances', null, this.user).subscribe((response) => {
+    this.restAPI.get('users/'+ student.id + '/attendances').subscribe((response) => {
      /* if(Array.isArray(response)) {
         console.log(response);
         if(this.group.sessions) {

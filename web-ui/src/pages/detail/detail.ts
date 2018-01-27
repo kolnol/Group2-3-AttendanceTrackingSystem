@@ -72,7 +72,7 @@ export class DetailsView {
     }
 
     let attendances;
-    this.restAPI.get('users/'+ this.user.id +'/attendances', null, this.user).subscribe((response) => {
+    this.restAPI.get('users/'+ this.user.id +'/attendances').subscribe((response) => {
       attendances = response;
       if(Array.isArray(attendances)) {
         for(let at in attendances) {

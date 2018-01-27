@@ -43,12 +43,12 @@ export class MyApp {
       this.user = response;
       //Currently we only allow a student to be registered in one tutorial group
       if(this.user.type === this.CONSTANTS.USER_TYPE.STUDENT) {
-        this.restAPI.get('users/' + this.user.id +'/groups',null, this.user).subscribe((response) => {
+        this.restAPI.get('users/' + this.user.id +'/groups').subscribe((response) => {
           this.group = response;
           this.setUpPageMenu();
         });
       } else if(this.user && this.user.type === this.CONSTANTS.USER_TYPE.INSTRUCTOR) {
-        this.restAPI.get('groups', null, this.user).subscribe((response) => {
+        this.restAPI.get('groups').subscribe((response) => {
           if(Array.isArray(response) && response.length > 0) {
             for(let i = 0; i < response.length; i++) {
               if(response[i].instructor.id === this.user.id) {
