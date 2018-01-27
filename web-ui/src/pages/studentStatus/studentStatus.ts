@@ -4,7 +4,7 @@ import {RestAPI} from "../../providers/rest-api";
 import Constants from '../../assets/Constants.json';
 
 @Component({
-  selector: 'page-list',
+  selector: 'page-studentStatus',
   templateUrl: 'studentStatus.html'
 })
 export class StudentStatusPage {
