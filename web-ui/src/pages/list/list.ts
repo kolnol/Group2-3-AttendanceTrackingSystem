@@ -21,7 +21,6 @@ export class ListPage {
     password: string,
     type: string
   };
-  selectedItem: any;
   groups: Array<{
     id: number,
     number: string,
@@ -60,7 +59,7 @@ export class ListPage {
 
     this.user = this.navParams.get('user');
 
-    this.restAPI.get('groups').subscribe((response) => {
+    this.restAPI.get('groups', null, this.user).subscribe((response) => {
       if(Array.isArray(response)) {
         this.groups = response;
       }
@@ -68,7 +67,7 @@ export class ListPage {
 
     let group;
     //Currently we only allow a student to be registered in one tutorial group
-    this.restAPI.get('users/' + this.user.id +'/groups').subscribe((response) => {
+    this.restAPI.get('users/' + this.user.id +'/groups', null, this.user).subscribe((response) => {
       group = response;
       if(group) {
         this.registeredGroupNumber = group.number ? group.number : null;
@@ -83,10 +82,9 @@ export class ListPage {
    */
   getDay(group): string {
     if (group.sessions && group.sessions[0]) {
-      let weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-      return weekdays[new Date(group.sessions[0].startTime).getDay()];
+      return this.CONSTANTS.DATE.WEEKDAYS[new Date(group.sessions[0].startTime).getDay()];
     } else {
-      return 't.b.a.';
+      return this.CONSTANTS.DATE.TBA;
     }
   }
 
@@ -100,7 +98,7 @@ export class ListPage {
 
       return this.getTime(sessionDate);
     } else {
-      return 't.b.a.';
+      return this.CONSTANTS.DATE.TBA;
     }
   }
 
@@ -114,7 +112,7 @@ export class ListPage {
       return this.getTime(sessionDate);
 
     } else {
-      return 't.b.a.';
+      return this.CONSTANTS.DATE.TBA;
     }
   }
 
@@ -122,12 +120,13 @@ export class ListPage {
     if(sessionDate.getHours()>=0 && sessionDate.getMinutes()>=0) {
       return sessionDate.getHours()%12 + ':' + sessionDate.getMinutes();
     } else {
-      return 't.b.a.';
+      return this.CONSTANTS.DATE.TBA;
     }
   }
 
   /**
    * For tutor view
+   * shows details of a group
    * @param group
    */
   showDetails(group) {
@@ -143,15 +142,16 @@ export class ListPage {
    * @param group
    */
   joinGroup(group) {
-    //TODO: pop up and post request, show buttons only if not registered yet as moving group is not possible yet
     let alert;
     if(this.registeredGroupNumber) {
+      //this alert is implemented for the feature: student can move group
+      //this feature may be implemented later in the future
       alert = this.alertCtrl.create({
-        title: 'Joining not possible.',
-        message: 'You are already registered in a tutorial group.',
+        title: this.CONSTANTS.LIST.JOINING_NOT_POSSIBLE,
+        message: this.CONSTANTS.LIST.ALREADY_REGISTERED,
         buttons: [
           {
-            text: 'Ok',
+            text: this.CONSTANTS.LIST.OK,
             role: 'cancel',
             handler: () => {
             }
@@ -160,19 +160,19 @@ export class ListPage {
       });
     } else {
       alert = this.alertCtrl.create({
-        title: 'Confirm join',
-        message: 'Do you want to join this tutorial group?',
+        title: this.CONSTANTS.LIST.CONFIRM,
+        message: this.CONSTANTS.LIST.REGISTER_CONFIRM + '?',
         buttons: [
           {
-            text: 'Cancel',
+            text: this.CONSTANTS.LIST.CANCEL,
             role: 'cancel',
             handler: () => {
             }
           },
           {
-            text: 'Join',
+            text: this.CONSTANTS.LIST.JOIN,
             handler: () => {
-              this.restAPI.put('groups/'+ group.id + '/students/' + this.user.id, null).subscribe((response) => {
+              this.restAPI.put('groups/'+ group.id + '/students/' + this.user.id, null, this.user).subscribe((response) => {
                 console.log(response);
                 }
               );
