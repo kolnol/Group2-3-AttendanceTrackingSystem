@@ -32,8 +32,11 @@ public class Session {
 
     public Session() {}
 
-    public Session(Date startTime, String place) {
+    public Session(Date startTime,
+                   Date endTime,
+                   String place) {
         this.startTime = startTime;
+        this.endTime = endTime;
         this.place = place;
         this.state = State.PLANNED;
     }

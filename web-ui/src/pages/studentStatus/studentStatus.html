@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>{{CONSTANTS.STUDENT_STATUS.TITLE_EXTENDED}} {{group.number}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <div *ngFor="let student of students">
+
+      <ion-item *ngIf="student.missingAttendances <= CONSTANTS.STUDENT_STATUS.NUMBER_OF_MISSING_ATTENDANCES">
+      <span class="leftElement">
+        {{student.name}}
+      </span>
+        <span class="rightElement">
+        {{student.missingAttendances}}/{{CONSTANTS.STUDENT_STATUS.NUMBER_OF_MISSING_ATTENDANCES}}
+      </span>
+      </ion-item>
+
+      <ion-item *ngIf="student.missingAttendances > CONSTANTS.STUDENT_STATUS.NUMBER_OF_MISSING_ATTENDANCES"
+      class="bonusExpired">
+      <span class="leftElement">
+        {{student.name}}
+      </span>
+        <span class="rightElement">
+        {{student.missingAttendances}}/{{CONSTANTS.STUDENT_STATUS.NUMBER_OF_MISSING_ATTENDANCES}}
+      </span>
+      </ion-item>
+
+    </div>
+  </ion-list>
+</ion-content>

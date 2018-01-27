@@ -4,7 +4,11 @@
     "APP_NAME": "Trackie",
     "USERNAME": "User name",
     "PASSWORD": "Password",
-    "REGISTRATION": "Not registered yet?"
+    "REGISTRATION": "Not registered yet?",
+    "LOGIN_INCORRECT": "The entered login name or the password is incorrect."
+  },
+  "LOGOUT": {
+    "TITLE": "Logout"
   },
   "SIGNUP": {
     "TITLE": "Sign up",
@@ -14,7 +18,19 @@
     "PASSWORD": "Password"
   },
   "HOME": {
-    "TITLE": "Home"
+    "TITLE": "Home",
+    "STUDENT_STATUS": "Student status",
+    "LECTURE_NAME": "Advanced Topics of Software Engineering",
+    "LECTURE": {
+      "NAME": "Advanced Topics of Software Engineering",
+      "YEAR": "WS 17/18",
+      "PROFESSOR": "Pretschner, Alexander, Prof. Dr.",
+      "DATE": ["Monday, 12:00 - 14:00", "Friday, 08:00 - 10:00"]
+    },
+    "STUDENT_REGISTERED": "You are in the tutorial group ",
+    "STUDENT_NOT_REGISTERED": "You are currently not registered for a tutorial group.",
+    "TUTOR_ASSIGNED": "You are assigned to the tutorial group ",
+    "TUTOR_NOT_ASSIGNED": "You are currently not assigned to a tutorial group."
   },
   "USER_TYPE": {
     "INSTRUCTOR": "INSTRUCTOR",
@@ -30,7 +46,13 @@
     "ACTION": "Action",
     "JOIN": "Join",
     "GROUP": "Group",
-    "DETAILS": "Details"
+    "DETAILS": "Details",
+    "REGISTER_CONFIRM": "Do you want to join this tutorial group",
+    "CONFIRM": "Confirm join",
+    "CANCEL": "Cancel",
+    "JOINING_NOT_POSSIBLE": "Joining not possible",
+    "ALREADY_REGISTERED": "You are already registered in a tutorial group.",
+    "OK": "Ok"
   },
   "GROUP_DETAIL": {
     "TITLE": "Group details",
@@ -42,11 +64,21 @@
       "LOCATION": "Room",
       "TUTOR": "Tutor"
     },
-    "ATTENDANCES":{
-      "TITLE": "Sessions"
+    "SESSIONS":{
+      "TITLE": "Sessions",
+      "NO_SESSIONS": "Currently no sessions dates are scheduled for this group."
     },
     "STUDENTS": {
       "TITLE": "Participants"
     }
+  },
+  "STUDENT_STATUS": {
+    "TITLE": "Student status",
+    "TITLE_EXTENDED": "Students in Group",
+    "NUMBER_OF_MISSING_ATTENDANCES": 2
+  },
+  "DATE": {
+    "TBA": "t.b.a.",
+    "WEEKDAYS": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
   }
 }

@@ -36,7 +36,7 @@
       <ion-card class="attendance-content">
         <ion-card-header color="primary">
           <span class="leftElement">
-            {{CONSTANTS.GROUP_DETAIL.ATTENDANCES.TITLE}}
+            {{CONSTANTS.GROUP_DETAIL.SESSIONS.TITLE}}
           </span>
           <!-- for calender implementation
           <p class="rightElement">
@@ -75,7 +75,7 @@
             </div>
 
             <div *ngIf="!group.sessions">
-              Currently no sessions dates are scheduled for this group.
+              {{CONSTANTS.GROUP_DETAIL.SESSIONS.NO_SESSIONS}}
             </div>
           </ion-list>
         </ion-card-content>

@@ -20,6 +20,8 @@ import { CryptoService } from '../../notary/crypto-service';
 import { NotaryAPI } from '../providers/notary-api';
 import { UserService } from '../models/user-service';
 import { StudentsPage } from '../pages/students/students';
+import {StudentStatusPage} from "../pages/studentStatus/studentStatus";
+
 
 
 @NgModule({
@@ -31,6 +33,7 @@ import { StudentsPage } from '../pages/students/students';
     ListPage,
     DetailsView,
     StudentsPage,
+    StudentStatusPage,
     QRCodeModal
   ],
   imports: [
@@ -48,6 +51,7 @@ import { StudentsPage } from '../pages/students/students';
     ListPage,
     DetailsView,
     StudentsPage,
+    StudentStatusPage,
     QRCodeModal
   ],
   providers: [
