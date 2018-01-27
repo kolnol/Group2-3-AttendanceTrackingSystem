@@ -133,6 +133,7 @@ var handleVerification = (data) => {
 }
 
 var handleVerificationResponse = (data) => {
+    console.log("handle verification response")
     var parsedData = JSON.parse(JSON.stringify(data));
     var sessionId = parsedData.sessionId;
     var attendance = parsedData.attendance;
@@ -147,6 +148,7 @@ var handleVerificationResponse = (data) => {
     if(attendanceClaimsMap.get(attendance).length == numberOfPeers){
         if(majorityConfirm(attendance)){
             attendanceResponsesMap.get(attendance).send(responseVerificationResultMsg(Result.CONFIRMED));
+            attendanceResponsesMap.delete(attendance);
         } else {
             attendanceResponsesMap.forEach((key, value) => {
                 console.log(key + " = " + value)
@@ -156,6 +158,7 @@ var handleVerificationResponse = (data) => {
             attendanceResponsesMap.delete(attendance);
         }
     }
+    attendanceClaimsMap.delete(attendance);
 
 }
 
@@ -291,15 +294,15 @@ var verifyAttendanceMaster = (sessionId, attendance, res) => {
     var block = blockchain[blockIndex];
 
     if(false || findAttendanceInBlock(attendance, block)){
-        res.json({"result": responseVerificationResultMsg(Result.CONFIRMED)});
+        res.json(responseVerificationResultMsg(Result.CONFIRMED));
     } else {
         if(socketPeers.length == 0) {
             console.log("no peers")
-            res.json({"result": responseVerificationResultMsg(Result.DENIED)})
+            res.json(responseVerificationResultMsg(Result.DENIED))
         } else {
             console.log("ASK OTHERS");
-            broadcast(verifyAttendanceMsg(sessionId, attendance));
             attendanceResponsesMap.set(attendance, res);
+            broadcast(verifyAttendanceMsg(sessionId, attendance));
         }
     }
 

@@ -15,9 +15,13 @@ import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { RestAPI } from "../providers/rest-api";
 import { QRCodeModal } from "../helpers/qr-code-modal/qr-code";
 import { QRCodeModule } from 'angular2-qrcode';
-import { NotaryService } from '../../notary/notary';
+import { NotaryService } from '../../notary/notary-service';
+import { CryptoService } from '../../notary/crypto-service';
 import { NotaryAPI } from '../providers/notary-api';
 import { UserService } from '../models/user-service';
+import { StudentsPage } from '../pages/students/students';
+import {StudentStatusPage} from "../pages/studentStatus/studentStatus";
+
 
 
 @NgModule({
@@ -28,6 +32,8 @@ import { UserService } from '../models/user-service';
     HomePage,
     ListPage,
     DetailsView,
+    StudentsPage,
+    StudentStatusPage,
     QRCodeModal
   ],
   imports: [
@@ -44,6 +50,8 @@ import { UserService } from '../models/user-service';
     HomePage,
     ListPage,
     DetailsView,
+    StudentsPage,
+    StudentStatusPage,
     QRCodeModal
   ],
   providers: [
@@ -54,6 +62,7 @@ import { UserService } from '../models/user-service';
     NotaryService,
     NotaryAPI,
     UserService,
+    CryptoService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

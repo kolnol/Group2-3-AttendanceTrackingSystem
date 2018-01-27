@@ -16,7 +16,7 @@
         <ion-input type="password" placeholder="{{CONSTANTS.LOGIN.PASSWORD}}" name="password" [(ngModel)]="password"></ion-input>
     </ion-item>
     <p *ngIf="wrongDataEntered">
-      <span ion-text color="danger">The entered login name or the password is incorrect.</span>
+      <span ion-text color="danger">{{CONSTANTS.LOGIN.LOGIN_INCORRECT}}</span>
     </p>
     <button ion-button type="submit" block>Login</button>
   </form>

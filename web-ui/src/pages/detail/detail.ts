@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import {RestAPI} from "../../providers/rest-api";
 import Constants from '../../assets/Constants.json';
+import { StudentsPage } from '../students/students';
+
 
 @Component({
   selector: 'page-detail',
@@ -46,9 +48,6 @@ export class DetailsView {
       timestamp: string
     }>
   };
-  weekdays: Array<string> = [
-    "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
-  ];
   groupWeekDay: string;
   //we define a first session which represents the weekly time data for the group in the detail.html
   firstSession: {
@@ -68,8 +67,8 @@ export class DetailsView {
 
     if(this.group.sessions && Array.isArray(this.group.sessions) && this.group.sessions.length > 0) {
       this.firstSession = this.group.sessions[0];
-      this.groupWeekDay = this.firstSession.startTime ? this.weekdays[new Date(this.firstSession.startTime).getDay()]
-        : 't.b.a.';
+      this.groupWeekDay = this.firstSession.startTime ? this.CONSTANTS.DATE.WEEKDAYS[new Date(this.firstSession.startTime).getDay()]
+        : this.CONSTANTS.DATE.TBA;
     }
 
     let attendances;
@@ -87,7 +86,7 @@ export class DetailsView {
 
   getSessionDate(sessionStartTime){
     if(!sessionStartTime) {
-      return 't.b.a.';
+      return this.CONSTANTS.DATE.TBA;
     } else {
       let sessionDate = new Date(sessionStartTime);
       return sessionDate.getDate()+ '/' + sessionDate.getMonth()+1 + '/' + sessionDate.getFullYear();
@@ -101,7 +100,7 @@ export class DetailsView {
    */
   getStartTime(sessionStartTime) {
     if(!sessionStartTime) {
-      return 't.b.a.';
+      return this.CONSTANTS.DATE.TBA;
     } else {
       let sessionDate = new Date(sessionStartTime);
       return sessionDate.getHours()%12 + ':' + sessionDate.getMinutes();
@@ -115,7 +114,7 @@ export class DetailsView {
    */
   getEndTime(sessionEndTime) {
     if(!sessionEndTime) {
-      return 't.b.a.';
+      return this.CONSTANTS.DATE.TBA;
     } else {
       let sessionDate = new Date(sessionEndTime);
       return sessionDate.getHours()%12 + ':' + sessionDate.getMinutes();
@@ -128,6 +127,10 @@ export class DetailsView {
   showAllStudents(session){
     console.log(session);
    //TODO: Georgi add list
+   this.navCtrl.push(StudentsPage, {
+     session: session,
+     group: this.group
+    })
   }
 
   /**

@@ -2,10 +2,11 @@ import {Component} from '@angular/core';
 import {MenuController, ModalController, NavController, NavParams} from 'ionic-angular';
 import {DetailsView} from '../detail/detail';
 import {ListPage} from "../list/list";
+import {StudentStatusPage} from "../studentStatus/studentStatus";
 import Constants from '../../assets/Constants.json';
 import {QRCodeModal} from "../../helpers/qr-code-modal/qr-code";
 import {RestAPI} from "../../providers/rest-api";
-import { NotaryService } from '../../../notary/notary';
+import { NotaryService } from '../../../notary/notary-service';
 import { NotaryAPI } from '../../providers/notary-api';
 
 @Component({
@@ -132,6 +133,16 @@ export class HomePage {
    */
   navigateToGroupList(){
     this.navCtrl.setRoot(ListPage, {
+      user: this.user,
+      group: this.registeredGroup
+    })
+  }
+
+  /**
+   * Tutor view
+   */
+  showStudentStatus() {
+    this.navCtrl.setRoot(StudentStatusPage,{
       user: this.user,
       group: this.registeredGroup
     })
