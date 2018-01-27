@@ -78,7 +78,8 @@ export class ListPage {
 
   /**
    * extracts the day out of a date string
-   * @returns {string} the week day of the weekly sessions
+   * @param group
+   * @returns {{string} the week day of the weekly sessions
    */
   getDay(group): string {
     if (group.sessions && group.sessions[0]) {
@@ -90,12 +91,12 @@ export class ListPage {
 
   /**
    * extracts the start time out of a date string
+   * @param group
    * @returns {string} the start time of the weekly sessions
    */
   getStartTime(group) {
     if (group.sessions && group.sessions[0]) {
       let sessionDate = new Date(group.sessions[0].startTime);
-
       return this.getTime(sessionDate);
     } else {
       return this.CONSTANTS.DATE.TBA;
@@ -104,21 +105,26 @@ export class ListPage {
 
   /**
    * extracts the end time out of a date string
+   * @param group
    * @returns {string} the end time of the weekly sessions
    */
   getEndTime(group) {
     if (group.sessions && group.sessions[0]) {
       let sessionDate = new Date(group.sessions[0].endTime);
       return this.getTime(sessionDate);
-
     } else {
       return this.CONSTANTS.DATE.TBA;
     }
   }
 
+  /**
+   * parses the string for displaying the time
+   * @param {!Date} sessionDate - raw time string from the server
+   * @returns {string}
+   */
   getTime(sessionDate: Date) {
     if(sessionDate.getHours()>=0 && sessionDate.getMinutes()>=0) {
-      return sessionDate.getHours()%12 + ':' + sessionDate.getMinutes();
+      return ('0'+sessionDate.getHours()%12).slice(-2) + ':' + ('0'+sessionDate.getMinutes()).slice(-2);
     } else {
       return this.CONSTANTS.DATE.TBA;
     }
@@ -126,6 +132,7 @@ export class ListPage {
 
   /**
    * For tutor view
+   * navigates to the group detail view of group
    * shows details of a group
    * @param group
    */
@@ -161,7 +168,7 @@ export class ListPage {
     } else {
       alert = this.alertCtrl.create({
         title: this.CONSTANTS.LIST.CONFIRM,
-        message: this.CONSTANTS.LIST.REGISTER_CONFIRM + '?',
+        message: this.CONSTANTS.LIST.REGISTER_CONFIRM + ' '+ (group.number?group.number:'') + '?',
         buttons: [
           {
             text: this.CONSTANTS.LIST.CANCEL,
@@ -173,7 +180,7 @@ export class ListPage {
             text: this.CONSTANTS.LIST.JOIN,
             handler: () => {
               this.restAPI.put('groups/'+ group.id + '/students/' + this.user.id, null).subscribe((response) => {
-                console.log(response);
+
                 }
               );
               this.navCtrl.setRoot(DetailsView, {

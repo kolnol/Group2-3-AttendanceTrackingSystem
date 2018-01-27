@@ -84,6 +84,11 @@ export class DetailsView {
     });
   }
 
+  /**
+   * gets a valid date
+   * @param {!string} sessionStartTime - raw time string from the server
+   * @returns {string}
+   */
   getSessionDate(sessionStartTime){
     if(!sessionStartTime) {
       return this.CONSTANTS.DATE.TBA;
@@ -95,7 +100,7 @@ export class DetailsView {
 
   /**
    * gets a valid start time
-   * @param {?string} sessionStartTime
+   * @param {?string} sessionStartTime - raw time string from the server
    * @returns {string}
    */
   getStartTime(sessionStartTime) {
@@ -103,13 +108,13 @@ export class DetailsView {
       return this.CONSTANTS.DATE.TBA;
     } else {
       let sessionDate = new Date(sessionStartTime);
-      return sessionDate.getHours()%12 + ':' + sessionDate.getMinutes();
+      return this.getTime(sessionDate);
     }
   }
 
   /**
    * gets a valid end time
-   * @param {?string} sessionEndTime
+   * @param {?string} sessionEndTime - raw time string from the server
    * @returns {string}
    */
   getEndTime(sessionEndTime) {
@@ -117,16 +122,28 @@ export class DetailsView {
       return this.CONSTANTS.DATE.TBA;
     } else {
       let sessionDate = new Date(sessionEndTime);
-      return sessionDate.getHours()%12 + ':' + sessionDate.getMinutes();
+      return this.getTime(sessionDate);
+    }
+  }
+
+  /**
+   * parses the string for displaying the time
+   * @param {Date} sessionDate
+   * @returns {string} the parsed time string
+   */
+  getTime(sessionDate: Date) {
+    if(sessionDate.getHours()>=0 && sessionDate.getMinutes()>=0) {
+      return ('0'+sessionDate.getHours()%12).slice(-2) + ':' + ('0'+sessionDate.getMinutes()).slice(-2);
+    } else {
+      return this.CONSTANTS.DATE.TBA;
     }
   }
 
   /**
    * Tutor view
+   * @param session
    */
   showAllStudents(session){
-    console.log(session);
-   //TODO: Georgi add list
    this.navCtrl.push(StudentsPage, {
      session: session,
      group: this.group

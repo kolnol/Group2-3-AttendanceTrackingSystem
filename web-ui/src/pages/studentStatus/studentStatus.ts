@@ -74,11 +74,10 @@ export class StudentStatusPage {
 
   /**
    * gets the attendances of a student and compares them with the held sessions of the current group
-   * @param student
+   * @param student - user object from the server
    * @return number - of missing attendances
    */
   addMissingAttendances(student){
-    console.log(student);
     this.restAPI.get('users/'+ student.id + '/attendances').subscribe((response) => {
       if(Array.isArray(response)) {
         if(this.group.sessions) {

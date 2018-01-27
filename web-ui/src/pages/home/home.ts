@@ -87,6 +87,9 @@ export class HomePage {
     })
   }
 
+  /**
+   * both tutor and student view
+   */
   showGroupDetails() {
     this.navCtrl.push(DetailsView, {
       user: this.user,
@@ -106,24 +109,30 @@ export class HomePage {
     });
   }
 
+  /**
+   * Tutor view
+   */
   startSession() {
     let sth =this.notaryAPI.post('addSession', {
       "sessionId": this.currentSession,
       "state": "begin"
     }).subscribe(response => {
       console.log(response)
-    })
+    });
     this.started = !this.started;
     this.sessionButtonCaption = "Stop session";
   }
 
+  /**
+   * Tutor view
+   */
   endSession() {
     let sth =this.notaryAPI.post('addSession', {
       sessionId: this.currentSession,
       state: "end"
     }).subscribe(response => {
       console.log(response)
-    })
+    });
     this.started = !this.started;
     this.sessionButtonCaption = "Start session";
   }
@@ -140,6 +149,7 @@ export class HomePage {
 
   /**
    * Tutor view
+   * navigates to global student status view
    */
   showStudentStatus() {
     this.navCtrl.setRoot(StudentStatusPage,{
