@@ -1,12 +1,12 @@
-<ion-header>
-  <ion-navbar color="primary">
-    <ion-title>{{CONSTANTS.LOGIN.TITLE}}</ion-title>
-  </ion-navbar>
-</ion-header>
 
-<ion-content padding>
-  <h3 align="center">
+<ion-content padding class="background">
+  <div align = "center" style="display:block; margin:auto;">
+    <img width="200" src="../../assets/imgs/logo.svg"/>
+  </div>
+  <h3 align="center" style="color: white">
     {{CONSTANTS.LOGIN.APP_NAME}}
+    <br/>
+    <br/>
   </h3>
   <form (ngSubmit)="login()">
     <ion-item>

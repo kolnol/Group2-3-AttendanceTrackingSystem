@@ -13,10 +13,14 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
   <ion-list>
-    <button ion-item *ngFor="let student of students" (click)="verifyStudent(student)">
-      {{ student.name }}
-    </button>  
+      <ion-item *ngFor="let student of students">
+          <ion-icon item-start ios="ios-contact" md="md-contact"></ion-icon>  
+        <ion-label>{{student.name}}</ion-label>
+            <button ion-button item-end icon-only (click)="verifyStudent(student)">
+                <ion-icon name="arrow-dropright-circle"></ion-icon>
+            </button>          
+      </ion-item>
   </ion-list>
 </ion-content>

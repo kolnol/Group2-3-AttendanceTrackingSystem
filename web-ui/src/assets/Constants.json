@@ -1,7 +1,7 @@
 {
   "LOGIN": {
     "TITLE": "Login",
-    "APP_NAME": "Attendance Tracking System",
+    "APP_NAME": "Trackie",
     "USERNAME": "User name",
     "PASSWORD": "Password",
     "REGISTRATION": "Not registered yet?"

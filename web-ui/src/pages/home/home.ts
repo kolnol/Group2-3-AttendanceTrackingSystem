@@ -87,7 +87,7 @@ export class HomePage {
   }
 
   showGroupDetails() {
-    this.navCtrl.setRoot(DetailsView, {
+    this.navCtrl.push(DetailsView, {
       user: this.user,
       group: this.registeredGroup
     });
@@ -131,7 +131,7 @@ export class HomePage {
    * Student view
    */
   navigateToGroupList(){
-    this.navCtrl.setRoot(ListPage, {
+    this.navCtrl.push(ListPage, {
       user: this.user,
       group: this.registeredGroup
     })

@@ -37,7 +37,7 @@ import { StudentsPage } from '../pages/students/students';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
-    QRCodeModule,
+    QRCodeModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
