@@ -21,7 +21,7 @@ public class UsersResource extends ServerResource {
     }
 
     @Post("json")
-    public User saveNewUser(User newUser) throws IOException {
+    public User saveNewUser(User newUser) {
         if(isValid(newUser) && !isInDatabase(newUser)) {
             ObjectifyService.ofy().save().entity(newUser).now();
             return newUser;
