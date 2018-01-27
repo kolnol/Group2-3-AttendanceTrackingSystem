@@ -26,9 +26,7 @@ public class Session {
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date endTime;
-    @Load
     private String place;
-
     private State state;
 
 

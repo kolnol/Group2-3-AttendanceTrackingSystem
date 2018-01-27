@@ -2,6 +2,7 @@ package de.tum.atse.ats.Utils.Seed;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.googlecode.objectify.ObjectifyService;
 import de.tum.atse.ats.Entity.User;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
