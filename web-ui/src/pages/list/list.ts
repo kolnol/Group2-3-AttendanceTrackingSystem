@@ -59,7 +59,7 @@ export class ListPage {
 
     this.user = this.navParams.get('user');
 
-    this.restAPI.get('groups').subscribe((response) => {
+    this.restAPI.get('groups', null, this.user).subscribe((response) => {
       if(Array.isArray(response)) {
         this.groups = response;
       }
@@ -67,7 +67,7 @@ export class ListPage {
 
     let group;
     //Currently we only allow a student to be registered in one tutorial group
-    this.restAPI.get('users/' + this.user.id +'/groups').subscribe((response) => {
+    this.restAPI.get('users/' + this.user.id +'/groups', null, this.user).subscribe((response) => {
       group = response;
       if(group) {
         this.registeredGroupNumber = group.number ? group.number : null;
@@ -172,7 +172,7 @@ export class ListPage {
           {
             text: this.CONSTANTS.LIST.JOIN,
             handler: () => {
-              this.restAPI.put('groups/'+ group.id + '/students/' + this.user.id, null).subscribe((response) => {
+              this.restAPI.put('groups/'+ group.id + '/students/' + this.user.id, null, this.user).subscribe((response) => {
                 console.log(response);
                 }
               );
