@@ -32,16 +32,16 @@
           {{CONSTANTS.HOME.LECTURE.DATE[1]}}
         </p>
         <br>
-        <p *ngIf="registeredGroup && registeredGroup.number">
+        <p *ngIf="registeredGroup.id && registeredGroup.number">
           <ion-icon name="people"></ion-icon>
           {{CONSTANTS.HOME.STUDENT_REGISTERED}} {{registeredGroup.number}}. <br>
-          <button ion-button secondary menuToggle (click)="showGroupDetails()" small>Show group details</button>
+          <button ion-button secondary (click)="showGroupDetails()" small>Show group details</button>
         </p>
-        <p *ngIf="!registeredGroup">
+        <p *ngIf="!registeredGroup.id">
           <ion-icon name="people"></ion-icon>
           {{CONSTANTS.HOME.STUDENT_NOT_REGISTERED}}
           <br>
-          <button ion-button secondary menuToggle (click)="navigateToGroupList()" small>Join a group</button>
+          <button ion-button secondary (click)="navigateToGroupList()" small>Join a group</button>
         </p>
       </ion-card-content>
     </ion-card>
