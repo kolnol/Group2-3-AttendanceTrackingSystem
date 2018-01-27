@@ -61,7 +61,7 @@
       <p *ngIf="registeredGroup && registeredGroup.number">
         <ion-icon name="people"></ion-icon>
         You are assigned to the tutorial group {{registeredGroup.number}}. <br>
-        <button ion-button secondary menuToggle (click)="showGroupDetails()" small>Show group details</button>
+        <button ion-button secondary (click)="showGroupDetails()" small>Show group details</button>
       </p>
       <p *ngIf="!registeredGroup">
         <ion-icon name="people"></ion-icon>

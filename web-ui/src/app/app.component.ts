@@ -8,7 +8,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { DetailsView } from '../pages/detail/detail';
 import { RestAPI } from "../providers/rest-api";
-import { NotaryService } from '../../notary/notary';
+import { NotaryService } from '../../notary/notary-service';
 
 @Component({
   templateUrl: 'app.html'

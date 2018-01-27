@@ -1,0 +1,22 @@
+<!--
+  Generated template for the StudentsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Students</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <button ion-item *ngFor="let student of students" (click)="verifyStudent(student)">
+      {{ student.name }}
+    </button>  
+  </ion-list>
+</ion-content>

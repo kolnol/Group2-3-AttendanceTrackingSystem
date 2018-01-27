@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import {RestAPI} from "../../providers/rest-api";
 import Constants from '../../assets/Constants.json';
+import { StudentsPage } from '../students/students';
+
 
 @Component({
   selector: 'page-detail',
@@ -128,6 +130,10 @@ export class DetailsView {
   showAllStudents(session){
     console.log(session);
    //TODO: Georgi add list
+   this.navCtrl.push(StudentsPage, {
+     session: session,
+     group: this.group
+    })
   }
 
   /**

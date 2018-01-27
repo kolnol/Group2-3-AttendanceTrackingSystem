@@ -5,7 +5,7 @@ import {ListPage} from "../list/list";
 import Constants from '../../assets/Constants.json';
 import {QRCodeModal} from "../../helpers/qr-code-modal/qr-code";
 import {RestAPI} from "../../providers/rest-api";
-import { NotaryService } from '../../../notary/notary';
+import { NotaryService } from '../../../notary/notary-service';
 import { NotaryAPI } from '../../providers/notary-api';
 
 @Component({
