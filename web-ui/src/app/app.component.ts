@@ -53,6 +53,7 @@ export class MyApp {
             for(let i = 0; i < response.length; i++) {
               if(response[i].instructor.id === this.user.id) {
                 this.group = response[i];
+                this.setUpPageMenu();
                 break;
               }
             }

@@ -50,7 +50,8 @@ export class StudentStatusPage {
     email: string,
     name: string,
     password: string,
-    type: string
+    type: string,
+    missingAttendances: number
   }>;
   CONSTANTS: any = Constants;
 
@@ -64,6 +65,9 @@ export class StudentStatusPage {
     this.restAPI.get('groups/'+ this.group.id + '/students').subscribe((response) => {
       if(Array.isArray(response)) {
         this.students = response;
+        for(let i = 0; i < this.students.length; i++) {
+          this.addMissingAttendances(this.students[i]);
+        }
       }
     });
   }
@@ -73,15 +77,14 @@ export class StudentStatusPage {
    * @param student
    * @return number - of missing attendances
    */
-  getMissingAttendances(student){
+  addMissingAttendances(student){
+    console.log(student);
     this.restAPI.get('users/'+ student.id + '/attendances').subscribe((response) => {
-     /* if(Array.isArray(response)) {
-        console.log(response);
+      if(Array.isArray(response)) {
         if(this.group.sessions) {
-          return this.group.sessions.length - response.length;
+          student.missingAttendances = this.group.sessions.length - response.length;
         }
-      }*/
-     console.log(response);
+      }
     });
   }
 
