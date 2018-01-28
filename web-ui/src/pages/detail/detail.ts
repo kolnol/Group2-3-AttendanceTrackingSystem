@@ -179,7 +179,7 @@ export class DetailsView {
   verifyAttendance(session){
     let hashedAttendance = this.cryptoService.hash(this.user.id+session.id);
     let result: string;
-    this.notaryAPI.get('verifyAttendance?sessionId='+ "1" + '&attendance=' + "ye").subscribe(response => {
+    this.notaryAPI.get('verifyAttendance?sessionId='+ session.id + '&attendance=' + hashedAttendance).subscribe(response => {
       result = JSON.parse(JSON.stringify(response)).result;
       if(result != "confirmed" && result != "denied") {
         this.toastService.presentToast("Session cannot be found!");
