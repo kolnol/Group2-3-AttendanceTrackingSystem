@@ -9,11 +9,6 @@
 <!-- Content will be replaced by Constants soon -->
 <ion-content class="card-background-page">
 
-    <ion-card>
-      <img src="img/ase_back3.jpg"/>
-      <div class="card-title">{{CONSTANTS.HOME.LECTURE.NAME}}<br> {{CONSTANTS.HOME.LECTURE.YEAR}}</div>
-    </ion-card>
-
   <!-- student view -->
     <ion-card *ngIf="user.type === 'STUDENT'">
       <ion-card-header>
@@ -53,31 +48,49 @@
     </ion-card>
 
   <!-- tutor view -->
-  <ion-card *ngIf="user.type === 'INSTRUCTOR'">
-    <ion-card-header>
-      Information
-    </ion-card-header>
-    <ion-card-content>
-      <p *ngIf="registeredGroup && registeredGroup.number">
-        <ion-icon name="people"></ion-icon>
-        {{CONSTANTS.HOME.TUTOR_ASSIGNED}} {{registeredGroup.number}}. <br>
-        <button ion-button secondary (click)="showGroupDetails()" small>Show group details</button>
-      </p>
-      <p *ngIf="!registeredGroup">
-        <ion-icon name="people"></ion-icon>
-        {{CONSTANTS.HOME.TUTOR_NOT_ASSIGNED}}
-      </p>
-      <p>
-        <button ion-button round outline (click)="started ? endSession() : startSession()">
-            {{sessionButtonCaption}}
-        </button>
-      </p>
-      <p>
-        <button ion-button secondary (click)="showStudentStatus()">
-          {{CONSTANTS.HOME.STUDENT_STATUS}}
-        </button>
-      </p>
-
-    </ion-card-content>
-  </ion-card>
+  
+  <ion-list *ngIf="user.type === 'INSTRUCTOR'">
+        <ion-card *ngFor="let group of groups">
+            <ion-card-content>
+              <div align="left"><strong>Group number:</strong> {{group.number}}</div>
+              <div align="left"><strong>Day:</strong> {{getDay(group.sessions[0])}}</div>
+              <div align="left"><strong>Time slot:</strong> {{getTimeslot(group.sessions[0])}}</div>
+              <div align="left"><strong>Room:</strong> {{group.sessions[0].place}}</div>
+              <button ion-button round outline color="{{group.buttonColor}}"(click)="group.sessionStarted ? endSession(group) : startSession(group)">
+                 {{group.sessionButtonCaption}}
+              </button>
+              <br />
+              <br />   
+                  <ion-buttons>
+                      <button style="width:45%" ion-button  (click)="goToSessions(group)">
+                          Sessions
+                      </button>
+                      <button style="width:45%" ion-button (click)="goToStudentAbsences(group)">
+                          Student status
+                      </button>
+                  </ion-buttons>
+              
+              <!-- <p *ngIf="registeredGroup && registeredGroup.number">
+                <ion-icon name="people"></ion-icon>
+                {{CONSTANTS.HOME.TUTOR_ASSIGNED}} {{registeredGroup.number}}. <br>
+                <button ion-button secondary (click)="showGroupDetails()" small>Show group details</button>
+              </p>
+              <p *ngIf="!registeredGroup">
+                <ion-icon name="people"></ion-icon>
+                {{CONSTANTS.HOME.TUTOR_NOT_ASSIGNED}}
+              </p>
+              <p>
+                <button ion-button round outline (click)="started ? endSession() : startSession()">
+                    {{sessionButtonCaption}}
+                </button>
+              </p>
+              <p>
+                <button ion-button secondary (click)="showStudentStatus()">
+                  {{CONSTANTS.HOME.STUDENT_STATUS}}
+                </button>
+              </p> -->
+        
+            </ion-card-content>
+          </ion-card>
+  </ion-list>
 </ion-content>

@@ -145,6 +145,12 @@ export class DetailsView {
    * @param session
    */
   showAllStudents(session){
+<<<<<<< Updated upstream
+   this.navCtrl.push(StudentsPage, {
+     session: session,
+     group: this.group
+    })
+=======
     console.log(session);
    //TODO: Georgi add list
   //  this.navCtrl.push(StudentsPage, {
@@ -155,6 +161,7 @@ export class DetailsView {
       sessions: this.group.sessions,
       group: this.group
      })
+>>>>>>> Stashed changes
   }
 
   /**

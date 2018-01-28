@@ -21,6 +21,7 @@ import { NotaryAPI } from '../providers/notary-api';
 import { UserService } from '../models/user-service';
 import { StudentsPage } from '../pages/students/students';
 import {StudentStatusPage} from "../pages/studentStatus/studentStatus";
+import { SessionsPage } from '../pages/sessions/sessions';
 
 
 
@@ -34,7 +35,8 @@ import {StudentStatusPage} from "../pages/studentStatus/studentStatus";
     DetailsView,
     StudentsPage,
     StudentStatusPage,
-    QRCodeModal
+    QRCodeModal,
+    SessionsPage
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,8 @@ import {StudentStatusPage} from "../pages/studentStatus/studentStatus";
     DetailsView,
     StudentsPage,
     StudentStatusPage,
-    QRCodeModal
+    QRCodeModal,
+    SessionsPage
   ],
   providers: [
     StatusBar,

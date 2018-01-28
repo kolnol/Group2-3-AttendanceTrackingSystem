@@ -1,0 +1,21 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Sessions</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let session of sessions">
+      <ion-icon item-start name="clock" color="primary"></ion-icon>
+      <ion-label>{{formatSession(session)}}</ion-label>
+      <button ion-button outline item-end (click)="showStudentsFor(session)">Students</button>
+    </ion-item>
+  </ion-list>
+</ion-content>
