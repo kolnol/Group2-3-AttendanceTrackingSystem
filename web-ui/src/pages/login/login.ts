@@ -15,6 +15,10 @@ export class LoginPage {
 
   username: string;
   password: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  step: string;
   CONSTANTS: any = Constants;
   wrongDataEntered: boolean;
 
@@ -22,6 +26,7 @@ export class LoginPage {
               public events: Events,
               private restAPI: RestAPI,
               private userService: UserService) {
+    this.step = "login";
   }
 
   ionViewDidLoad() {
@@ -48,6 +53,15 @@ export class LoginPage {
   }
 
   signup() {
-    this.navCtrl.push(SignupPage);
+    let newUser = {
+      "email": this.email,
+      "password": this.password,
+      "name": this.firstname + " "+ this.lastname,
+      "type": "STUDENT"
+    };
+    this.restAPI.post('users', newUser,{}).subscribe((response)=>{
+      console.log(response);
+    });
+    this.step = "login"
   }
 }
