@@ -97,7 +97,7 @@ export class MyApp {
 
     if(this.user && this.user.type === this.CONSTANTS.USER_TYPE.INSTRUCTOR) {
       this.pages.push({
-        title: this.CONSTANTS.STUDENT_STATUS.TITLE, icon: "people", component: StudentStatusPage, textColor: 'dark'
+        title: "Student absences", icon: "people", component: StudentStatusPage, textColor: 'dark'
       })
     }
 
