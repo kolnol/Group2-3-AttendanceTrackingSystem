@@ -83,9 +83,11 @@ export class StudentsPage {
 
       if(result == "denied" && !student.present)
         this.toastService.presentToast(student.name + " was not present in this session!")
-      })
       */
+      })
       this.toastService.presentToast(student.name + " was present in this session!")
+      
+      
 
   }
 
