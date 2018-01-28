@@ -182,26 +182,25 @@ export class DetailsView {
     let result: string;
     this.notaryAPI.get('verifyAttendance?sessionId='+ session.id + '&attendance=' + hashedAttendance).subscribe(response => {
       result = JSON.parse(JSON.stringify(response)).result;
-      // if(result != "confirmed" && result != "denied") {
-      //   this.toastService.presentToast("Session cannot be found!");
-      // }
-      // if(result == "confirmed" && session.present)
-      //   this.toastService.presentToast(this.user.name + " was present in this session!")
+      if(result != "confirmed" && result != "denied") {
+        this.toastService.presentToast("Session cannot be found!");
+      }
+      if(result == "confirmed" && session.present)
+        this.toastService.presentToast(this.user.name + " was present in this session!")
 
-      // if(result == "confirmed" && !session.present) {
-      //   this.toastService.presentToast("Mismatch!!!" + this.user.name + " was present in this session!")
-      //   session.present = true;
-      // }
+      if(result == "confirmed" && !session.present) {
+        this.toastService.presentToast("Mismatch!!!" + this.user.name + " was present in this session!")
+        session.present = true;
+      }
 
-      // if(result == "denied" && session.present) {
-      //   this.toastService.presentToast("Mismatch!!!" + this.user.name + " was not present in this session!")
-      //   session.present = false;
-      // }
+      if(result == "denied" && session.present) {
+        this.toastService.presentToast("Mismatch!!!" + this.user.name + " was not present in this session!")
+        session.present = false;
+      }
 
-      // if(result == "denied" && !session.present)
-      //   this.toastService.presentToast(this.user.name + " was not present in this session!")
-      this.toastService.presentToast(this.user.name + " was present in this session!")
-
+      if(result == "denied" && !session.present)
+        this.toastService.presentToast(this.user.name + " was not present in this session!")
+    
       })
   }
 
