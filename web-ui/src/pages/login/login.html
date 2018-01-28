@@ -1,10 +1,11 @@
+<ion-header></ion-header>
 <ion-content padding class="background">
-  <ion-grid style="height: 100%">
-    <ion-row justify-content-center align-items-center style="height: 100%">  
     <div align="center" style="display:block; margin:auto;">
-        <img width="200" src="../../assets/imgs/Trackie-logo.png" />
+        <img width="200" src="assets/imgs/Trackie-logo.png" />
       </div>
-      <ion-card no-border no-shadow>
+</ion-content>
+<ion-footer>
+      <ion-card bottom no-border no-shadow>
         <ion-card-header no-shadow>
           <ion-segment [(ngModel)]="step">
             <ion-segment-button value="login">
@@ -59,6 +60,5 @@
           </div>
         </ion-card-content>
       </ion-card>
-    </ion-row>
-  </ion-grid>
-</ion-content>
+      <br /><br /><br /><br />
+</ion-footer>

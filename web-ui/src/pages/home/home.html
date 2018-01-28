@@ -12,7 +12,7 @@
   <!-- student view -->
     <ion-card *ngIf="user.type === 'STUDENT'">
       <ion-card-header>
-        Information
+        Lecture Information
       </ion-card-header>
       <ion-card-content>
         <p>
@@ -36,7 +36,7 @@
           <ion-icon name="people"></ion-icon>
           {{CONSTANTS.HOME.STUDENT_NOT_REGISTERED}}
           <br>
-          <button ion-button secondary (click)="navigateToGroupList()" small>Join a group</button>
+          <button ion-button (click)="navigateToGroupList()" small>Join a group</button>
         </p>
       </ion-card-content>
     </ion-card>
