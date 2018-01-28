@@ -18,7 +18,7 @@
         </ion-card-header>
         <ion-card-content>
           <!-- login -->
-          <div *ngIf="step == 'login'">
+          <form (ngSubmit)="login()" *ngIf="step == 'login'">
             <ion-item no-lines>
               <ion-input type="text" placeholder="{{CONSTANTS.LOGIN.USERNAME}}" name="username" [(ngModel)]="username"></ion-input>
               <ion-icon item-left name="contact"></ion-icon>
@@ -32,10 +32,10 @@
               <span ion-text color="danger">The entered login name or the password is incorrect.</span>
             </p>
             <br/>
-            <button style="height:48px" ion-button type="submit" block (click)="login()">Login</button>
-          </div>
+            <button style="height:48px" ion-button type="submit" block>Login</button>
+          </form>
           <!-- signup -->
-          <div *ngIf="step == 'signup'">
+          <form (ngSubmit)="signup()" *ngIf="step == 'signup'">
             <ion-item>
               <ion-input type="text" placeholder="{{CONSTANTS.SIGNUP.FIRST_NAME}}" name="firstname" [(ngModel)]="firstname"></ion-input>
               <ion-icon item-left name="contact"></ion-icon>
@@ -56,8 +56,8 @@
               <ion-icon item-left ios="ios-lock" md="md-lock"></ion-icon>
             </ion-item>
             <br />
-            <button style="height:48px" ion-button type="submit" (click)="signup()" block>Sign up</button>
-          </div>
+            <button style="height:48px" ion-button type="submit" block>Sign up</button>
+          </form>
         </ion-card-content>
       </ion-card>
       <br /><br /><br /><br />
