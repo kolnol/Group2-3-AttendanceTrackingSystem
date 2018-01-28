@@ -12,22 +12,25 @@
     <div *ngFor="let student of students">
 
       <ion-item *ngIf="student.missingAttendances <= CONSTANTS.STUDENT_STATUS.NUMBER_OF_MISSING_ATTENDANCES">
-      <span class="leftElement">
+        <ion-icon item-start ios="ios-contact" md="md-contact" color="primary"></ion-icon>
+        <span class="leftElement">
         {{student.name}}
       </span>
         <span class="rightElement">
         {{student.missingAttendances}}/{{CONSTANTS.STUDENT_STATUS.NUMBER_OF_MISSING_ATTENDANCES}}
       </span>
+      <ion-icon item-end name="checkmark-circle-outline" color="green"></ion-icon>
       </ion-item>
 
-      <ion-item *ngIf="student.missingAttendances > CONSTANTS.STUDENT_STATUS.NUMBER_OF_MISSING_ATTENDANCES"
-      class="bonusExpired">
-      <span class="leftElement">
+      <ion-item *ngIf="student.missingAttendances > CONSTANTS.STUDENT_STATUS.NUMBER_OF_MISSING_ATTENDANCES">
+          <ion-icon item-start ios="ios-contact" md="md-contact" color="primary"></ion-icon>
+        <span class="leftElement">
         {{student.name}}
       </span>
         <span class="rightElement">
         {{student.missingAttendances}}/{{CONSTANTS.STUDENT_STATUS.NUMBER_OF_MISSING_ATTENDANCES}}
       </span>
+      <ion-icon item-end name="close-circle" color="danger"></ion-icon>
       </ion-item>
 
     </div>

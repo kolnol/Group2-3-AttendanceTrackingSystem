@@ -3,6 +3,8 @@ import { NavController, NavParams } from 'ionic-angular';
 import { RestAPI } from '../../providers/rest-api';
 import { NotaryAPI } from '../../providers/notary-api';
 import { CryptoService } from '../../../notary/crypto-service';
+import { StudentWrapper } from '../../models/student-wrapper';
+import { ToastService } from '../../helpers/toast-service';
 
 /**
  * Generated class for the StudentsPage page.
@@ -18,14 +20,15 @@ import { CryptoService } from '../../../notary/crypto-service';
 export class StudentsPage {
 
   session: any;
-  students: any;
+  students: [StudentWrapper];
   group: any;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               private restAPI: RestAPI,
               private notaryAPI: NotaryAPI,
-              private cryptoService: CryptoService) {
+              private cryptoService: CryptoService,
+              private toastService: ToastService) {
 
     this.session = navParams.get("session");
     this.group = navParams.get("group");
@@ -39,17 +42,42 @@ export class StudentsPage {
 
   getStudents() {
     this.restAPI.get('groups/'+ this.group.id + '/students').subscribe(response => {
-      this.students = response;
+      let _students = JSON.parse(JSON.stringify(response));
+      this.restAPI.get('groups/'+ this.group.id + '/sessions/'+ this.session.id +'/users').subscribe((response) => {
+        let attendees = JSON.parse(JSON.stringify(response));
+        for(let attendee of attendees) {
+          for(let student of _students){
+            if(attendee.id == student.id){
+              student.present = true;
+            }
+          }
+        }
+        this.students = _students;
+      });
     })
   }
 
-  verifyStudent(student) {
-    console.log("clicked " + student)
-    let hashedAttendance = this.cryptoService.hash(student.id+this.session.id);
 
+  verifyStudent(student) {
+    let hashedAttendance = this.cryptoService.hash(student.id+this.session.id);
+    let result: string;
     this.notaryAPI.get('verifyAttendance?sessionId='+ "1" + '&attendance=' + "ye").subscribe(response => {
-      console.log("Verification: " + JSON.stringify(response));
-    })
+      result = JSON.parse(JSON.stringify(response)).result;
+      if(result != "confirmed" && result != "denied") {
+        this.toastService.presentToast("Session cannot be found!");
+      }
+      if(result == "confirmed" && student.present)
+        this.toastService.presentToast(student.name + " was present in this session!")
+      
+      if(result == "confirmed" && !student.present)
+        this.toastService.presentToast("Mismatch!!!" + student.name + " was present in this session!")  
+        
+      if(result == "denied" && student.present)
+        this.toastService.presentToast("Mismatch!!!" + student.name + " was not present in this session!")  
+      
+      if(result == "denied" && !student.present)
+        this.toastService.presentToast(student.name + " was not present in this session!")  
+      })
   }
 
 

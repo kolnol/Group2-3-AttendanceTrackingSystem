@@ -11,6 +11,7 @@ import { RestAPI } from "../providers/rest-api";
 import { NotaryService } from '../../notary/notary-service';
 import { StudentStatusPage } from "../pages/studentStatus/studentStatus";
 import Constants from '../assets/Constants.json';
+import { SessionsPage } from '../pages/sessions/sessions';
 
 @Component({
   templateUrl: 'app.html'
@@ -90,13 +91,13 @@ export class MyApp {
 
     if(this.group) {
       this.pages.push(
-        {title: this.CONSTANTS.GROUP_DETAIL.TITLE, icon: "book", component: DetailsView, textColor: 'dark'}
+        {title: "Sessions", icon: "book", component: SessionsPage, textColor: 'dark'}
       )
     }
 
     if(this.user && this.user.type === this.CONSTANTS.USER_TYPE.INSTRUCTOR) {
       this.pages.push({
-        title: this.CONSTANTS.STUDENT_STATUS.TITLE, icon: "people", component: StudentStatusPage, textColor: 'dark'
+        title: "Student absences", icon: "people", component: StudentStatusPage, textColor: 'dark'
       })
     }
 

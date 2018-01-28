@@ -21,6 +21,8 @@ import { NotaryAPI } from '../providers/notary-api';
 import { UserService } from '../models/user-service';
 import { StudentsPage } from '../pages/students/students';
 import {StudentStatusPage} from "../pages/studentStatus/studentStatus";
+import { SessionsPage } from '../pages/sessions/sessions';
+import { ToastService } from '../helpers/toast-service';
 
 
 
@@ -34,7 +36,8 @@ import {StudentStatusPage} from "../pages/studentStatus/studentStatus";
     DetailsView,
     StudentsPage,
     StudentStatusPage,
-    QRCodeModal
+    QRCodeModal,
+    SessionsPage
   ],
   imports: [
     BrowserModule,
@@ -52,7 +55,8 @@ import {StudentStatusPage} from "../pages/studentStatus/studentStatus";
     DetailsView,
     StudentsPage,
     StudentStatusPage,
-    QRCodeModal
+    QRCodeModal,
+    SessionsPage
   ],
   providers: [
     StatusBar,
@@ -63,6 +67,7 @@ import {StudentStatusPage} from "../pages/studentStatus/studentStatus";
     NotaryAPI,
     UserService,
     CryptoService,
+    ToastService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
