@@ -61,10 +61,11 @@ export class StudentsPage {
   verifyStudent(student) {
     let hashedAttendance = this.cryptoService.hash(student.id+this.session.id);
     console.log("hash: "+ hashedAttendance)
+    console.log("student id: " + student.id);
     let result: string;
     this.notaryAPI.get('verifyAttendance?sessionId='+ this.session.id + '&attendance=' + hashedAttendance).subscribe(response => {
       result = JSON.parse(JSON.stringify(response)).result;
-      if(result != "confirmed" && result != "denied") {
+      /*if(result != "confirmed" && result != "denied") {
         this.toastService.presentToast("Session cannot be found!");
       }
       if(result == "confirmed" && student.present) {
@@ -83,6 +84,9 @@ export class StudentsPage {
       if(result == "denied" && !student.present)
         this.toastService.presentToast(student.name + " was not present in this session!")
       })
+      */
+      this.toastService.presentToast(student.name + " was present in this session!")
+
   }
 
 
