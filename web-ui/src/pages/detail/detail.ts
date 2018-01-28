@@ -177,7 +177,7 @@ export class DetailsView {
    * Student view
    */
   verifyAttendance(session){
-    let hashedAttendance = this.cryptoService.hash(this.user.id+session.id);
+    let hashedAttendance = this.cryptoService.hash(String(this.user.id) + String(session.id));
     console.log("generated hash: "+ hashedAttendance);
     let result: string;
     this.notaryAPI.get('verifyAttendance?sessionId='+ session.id + '&attendance=' + hashedAttendance).subscribe(response => {
