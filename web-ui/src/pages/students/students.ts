@@ -60,6 +60,7 @@ export class StudentsPage {
 
   verifyStudent(student) {
     let hashedAttendance = this.cryptoService.hash(student.id+this.session.id);
+    console.log("hash: "+ hashedAttendance)
     let result: string;
     this.notaryAPI.get('verifyAttendance?sessionId='+ this.session.id + '&attendance=' + hashedAttendance).subscribe(response => {
       result = JSON.parse(JSON.stringify(response)).result;
