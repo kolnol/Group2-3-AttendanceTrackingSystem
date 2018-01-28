@@ -29,7 +29,7 @@ public class RestletApplication extends Application {
 
         RoleAuthorizer authorizer = createInstructorAuthorizer();
 
-        return new RouterConfigurator(getContext(), guard).configure(false);
+        return new RouterConfigurator(getContext(), guard).configure(true);
     }
 
     private RoleAuthorizer createInstructorAuthorizer() {

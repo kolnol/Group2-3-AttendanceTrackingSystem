@@ -97,6 +97,7 @@ public class RouterConfigurator {
         protectedResources.put("/groups/{groupId}/instructor/{userId}", GroupUodateInstructorResource.class);
         protectedResources.put("/groups/{groupId}/sessions", GroupSessionsResource.class);
         protectedResources.put("/groups/{groupId}/sessions/{sessionId}", GroupSessionResource.class);
+        protectedResources.put("/groups/{groupId}/sessions/{sessionId}/users", GroupSessionUsersResource.class);
         protectedResources.put("/groups/{groupId}/attendances", GroupAttendancesResource.class);
     }
 
