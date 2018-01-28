@@ -1,5 +1,6 @@
 package de.tum.atse.ats.Resources;
 
+import com.google.common.hash.Hashing;
 import com.googlecode.objectify.ObjectifyService;
 import de.tum.atse.ats.Entity.*;
 import de.tum.atse.ats.RequestUtills;
@@ -18,6 +19,7 @@ import org.restlet.resource.Post;
 import org.restlet.resource.ServerResource;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -90,7 +92,10 @@ public class AttendanceTokenResource extends ServerResource {
                 && attendance.getStudentId().equals(attendanceToken.getStudentId())) {
 
             String e = attendance.getStudentId() + "" + attendance.getSessionId();
-            e = DigestUtils.sha256Hex(e);
+            e = Hashing.sha256()
+                    .hashString(e, StandardCharsets.UTF_8)
+                    .toString();
+            //e = DigestUtils.sha256Hex(e);
 
             JSONObject json = new JSONObject();
             json.put("attendance", e);

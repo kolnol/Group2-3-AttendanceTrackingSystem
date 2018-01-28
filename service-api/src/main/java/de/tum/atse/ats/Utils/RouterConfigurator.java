@@ -82,7 +82,7 @@ public class RouterConfigurator {
 
     private void configureUsersRouter() {
         protectedResources.put("/users", UsersResource.class);
-        protectedResources.put("/users/{userId}", UserResource.class);//TODO Add authorizer instead of class
+        protectedResources.put("/users/{userId}", UserResource.class);
         protectedResources.put("/users/{userId}/attendances", UserAttendanceResource.class);
         protectedResources.put("/users/{studentId}/groups", UserGroupResource.class);
     }
