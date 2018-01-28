@@ -66,15 +66,19 @@ export class StudentsPage {
       if(result != "confirmed" && result != "denied") {
         this.toastService.presentToast("Session cannot be found!");
       }
-      if(result == "confirmed" && student.present)
+      if(result == "confirmed" && student.present) {
         this.toastService.presentToast(student.name + " was present in this session!")
+      }
       
-      if(result == "confirmed" && !student.present)
+      if(result == "confirmed" && !student.present) {
         this.toastService.presentToast("Mismatch!!!" + student.name + " was present in this session!")  
-        
-      if(result == "denied" && student.present)
+        student.present = true;
+      }
+      if(result == "denied" && student.present) {
         this.toastService.presentToast("Mismatch!!!" + student.name + " was not present in this session!")  
-      
+        student.present = false
+      }
+
       if(result == "denied" && !student.present)
         this.toastService.presentToast(student.name + " was not present in this session!")  
       })

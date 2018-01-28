@@ -28,7 +28,7 @@
               <ion-input type="password" placeholder="{{CONSTANTS.LOGIN.PASSWORD}}" name="password" [(ngModel)]="password"></ion-input>
               <ion-icon item-left ios="ios-lock" md="md-lock"></ion-icon>
             </ion-item>
-            <p *ngIf="wrongDataEntered">
+            <p *ngIf="wrongDataEntered && step == 'login'">
               <span ion-text color="danger">The entered login name or the password is incorrect.</span>
             </p>
             <br/>
@@ -56,6 +56,9 @@
               <ion-icon item-left ios="ios-lock" md="md-lock"></ion-icon>
             </ion-item>
             <br />
+            <p *ngIf="missingData && step == 'signup'">
+                <span ion-text color="danger">{{missingDataText}}</span>
+              </p>
             <button style="height:48px" ion-button type="submit" block>Sign up</button>
           </form>
         </ion-card-content>

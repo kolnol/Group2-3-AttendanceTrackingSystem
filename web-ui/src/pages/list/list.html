@@ -35,9 +35,10 @@
 
       <!-- student view -->
       <ion-item *ngIf="user.type === 'STUDENT'" >
+        <ion-icon item-start name="people"></ion-icon>
         <h2>{{CONSTANTS.LIST.GROUP}} {{group.number}}</h2>
         <p>{{getStartTime(group)}} - {{getEndTime(group)}}</p>
-        <button ion-button clear item-end large *ngIf="user.type === 'STUDENT'" (click)="joinGroup(group)" [disabled]="group.number === registeredGroupNumber">
+        <button ion-button outline item-end *ngIf="user.type === 'STUDENT'" (click)="joinGroup(group)" [disabled]="group.number === registeredGroupNumber">
           {{CONSTANTS.LIST.JOIN}}
         </button>
       </ion-item>

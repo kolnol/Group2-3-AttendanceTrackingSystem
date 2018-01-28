@@ -53,19 +53,15 @@
         </ion-card-header>
         <ion-card-content>
           <ion-list>
-            <div *ngIf="group.sessions && user.type==='STUDENT'">
-              <!--student view-->
-              <div ion-item *ngFor="let session of group.sessions">
-                <span class="leftElement">
-                  <ion-icon name="checkbox" *ngIf="attendanceIds.indexOf(session.id)>0"></ion-icon>
-                  <ion-icon name="square" *ngIf="attendanceIds.indexOf(session.id)<=0"></ion-icon>
-                  {{getSessionDate(session.startTime)}} {{getStartTime(session.startTime)}} - {{getEndTime(session.endTime)}}
-                </span>
-                <span class="rightElement">
-                  <button ion-item (click)="verifyAttendance()">Verify</button>
-                </span>
+              <div *ngIf="group.sessions && user.type==='STUDENT'">
+              <ion-item *ngFor="let session of group.sessions">
+                  <ion-icon item-start name="clock" color="primary"></ion-icon>
+                  <ion-label>{{getSessionDate(session.startTime)}}</ion-label>
+                  <ion-icon item-end name="checkmark-circle" *ngIf="session.present" color="green"></ion-icon>
+                  <ion-icon item-end name="close-circle" *ngIf="!session.present" color="danger"></ion-icon>
+                  <button ion-button outline item-end (click)="verifyAttendance(session)">Verify</button>
+                </ion-item>
               </div>
-            </div>
 
             <!-- tutor view-->
             <div *ngIf="group.sessions && user.type==='INSTRUCTOR'">

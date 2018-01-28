@@ -397,7 +397,13 @@ var isNextBlockValid = (nextBlock, prevBlock) => {
 
 var send = (ws, data) => {
     console.log("send data")
-    ws.send(JSON.stringify(data));
+    try {
+        ws.send(JSON.stringify(data));
+    }
+    catch(error) {
+        console.log("Error: " + error)
+    }
+    
 }
 
 var blocksize_temp = blockchain.length;

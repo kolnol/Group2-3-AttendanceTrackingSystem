@@ -4,6 +4,9 @@ import {RestAPI} from "../../providers/rest-api";
 import Constants from '../../assets/Constants.json';
 import { StudentsPage } from '../students/students';
 import { SessionsPage } from '../sessions/sessions';
+import { CryptoService } from '../../../notary/crypto-service';
+import { NotaryAPI } from '../../providers/notary-api';
+import { ToastService } from '../../helpers/toast-service';
 
 
 @Component({
@@ -34,7 +37,8 @@ export class DetailsView {
       id: number,
       startTime: string,
       endTime: string,
-      place: string
+      place: string,
+      present: boolean
     }>,
     students: Array<{
       id: number,
@@ -61,7 +65,10 @@ export class DetailsView {
 
   constructor(public navCtrl: NavController,
               public navParams : NavParams,
-              private restAPI: RestAPI) {
+              private restAPI: RestAPI,
+              private cryptoService: CryptoService,
+              private notaryAPI: NotaryAPI,
+              private toastService: ToastService) {
 
     this.user = this.navParams.get('user');
     this.group = this.navParams.get('group');
@@ -76,10 +83,17 @@ export class DetailsView {
     this.restAPI.get('users/'+ this.user.id +'/attendances').subscribe((response) => {
       attendances = response;
       if(Array.isArray(attendances)) {
-        for(let at in attendances) {
+        for(let at of attendances) {
           if(Object.keys(at).indexOf('id') > 0) {
             this.attendanceIds.push(at['id']);
           }
+        }
+      }
+      for(let session of this.group.sessions) {
+        if(this.attendanceIds.indexOf(session.id) > 0) {
+          session.present = true;
+        } else {
+          session.present = false;
         }
       }
     });
@@ -146,34 +160,41 @@ export class DetailsView {
    */
   showAllStudents(session){
     console.log(session);
-   //TODO: Georgi add list
-  //  this.navCtrl.push(StudentsPage, {
-  //    session: session,
-  //    group: this.group
-  //   })
     this.navCtrl.push(SessionsPage, {
       sessions: this.group.sessions,
       group: this.group
      })
   }
 
+
+
   /**
    * Student view
    */
-  verifyAttendance(){
-    //TODO
-  }
+  verifyAttendance(session){
+    let hashedAttendance = this.cryptoService.hash(this.user.id+session.id);
+    let result: string;
+    this.notaryAPI.get('verifyAttendance?sessionId='+ "1" + '&attendance=' + "ye").subscribe(response => {
+      result = JSON.parse(JSON.stringify(response)).result;
+      if(result != "confirmed" && result != "denied") {
+        this.toastService.presentToast("Session cannot be found!");
+      }
+      if(result == "confirmed" && session.present)
+        this.toastService.presentToast(this.user.name + " was present in this session!")
+      
+      if(result == "confirmed" && !session.present) {
+        this.toastService.presentToast("Mismatch!!!" + this.user.name + " was present in this session!")  
+        session.present = true;
+      }
 
-  /*
-  * for calendar implementation which will follow in the next submission
-  * currently only list view available
-  switchToCalendarView(){
-    //...
+      if(result == "denied" && session.present) {
+        this.toastService.presentToast("Mismatch!!!" + this.user.name + " was not present in this session!")  
+        session.present = false;
+      }
+      
+      if(result == "denied" && !session.present)
+        this.toastService.presentToast(this.user.name + " was not present in this session!")  
+      })
   }
-
-  switchToListView(){
-    //...
-  }
-   */
 
 }

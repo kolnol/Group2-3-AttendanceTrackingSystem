@@ -20,7 +20,9 @@ export class LoginPage {
   lastname: string;
   step: string;
   CONSTANTS: any = Constants;
-  wrongDataEntered: boolean;
+  wrongDataEntered: boolean = false;
+  missingData: boolean = false;
+  missingDataText: string = "Please fill in all fields!";
 
   constructor(public navCtrl: NavController,
               public events: Events,
@@ -34,6 +36,10 @@ export class LoginPage {
   }
 
   login() {
+    if(!this.username || !this.password) {
+      this.wrongDataEntered = true;
+      return;
+    }
     this.restAPI.post( 'login',{
       "email": this.username.toLowerCase(),
       "password": this.password
@@ -53,6 +59,19 @@ export class LoginPage {
   }
 
   signup() {
+    if(!this.email || !this.password || !this.firstname || !this.lastname){
+      this.missingDataText = "Please fill in all fields!";
+      this.missingData = true;
+      return
+    }
+    let pattern = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    
+    if(!pattern.test(this.email)) {
+      this.missingDataText = "Please enter valid email address!"
+      this.missingData = true;
+      return;
+    }
+    
     let newUser = {
       "email": this.email,
       "password": this.password,

@@ -89,9 +89,15 @@ export class MyApp {
         );
     }
 
-    if(this.group) {
+    if(this.group && this.user && this.user.type === this.CONSTANTS.USER_TYPE.STUDENT) {
       this.pages.push(
-        {title: "Sessions", icon: "book", component: SessionsPage, textColor: 'dark'}
+        {title: this.CONSTANTS.GROUP_DETAIL.TITLE, icon: "book", component: DetailsView, textColor: 'dark'}
+      )
+    }
+
+    if(this.user && this.user.type === this.CONSTANTS.USER_TYPE.INSTRUCTOR) {
+      this.pages.push(
+        {title: "Sessions", icon: "clock", component: SessionsPage, textColor: 'dark'}
       )
     }
 
