@@ -35,7 +35,7 @@ public class GroupAttendancesResource extends ServerResource {
         if(group != null) {
             if(group.getAttendances().contains(attendance)) return Status.SUCCESS_ACCEPTED;
 
-            ObjectifyService.ofy().save().entity(attendance).now();
+            //ObjectifyService.ofy().save().entity(attendance).now();
             group.addAttendance(attendance);
 
             ObjectifyService.ofy().save().entity(group).now();
