@@ -67,25 +67,23 @@ export class HomePage {
             for(let g = 0; g< response.length; g++) {
               if(response[g].instructor.id === this.user.id) {
                 this.registeredGroup = response[g];
-                let newGroup: GroupWrapper = response[g];
-                newGroup.sessionButtonCaption = "Start session";
-                newGroup.buttonColor = 'green';
-                this.restAPI.get('groups/'+ response[g].id + '/sessions').subscribe((response) => {
-                  this.sessions = response;
-                  this.findCurrentSession(newGroup, this.sessions);
-                  if(this.groups)
-                    this.groups.push(newGroup);
-                  else {
-                    this.groups = [newGroup];
-                  }
-                });
+                this.processGroup(response[g]);
               }
             }
           }
         });
     }
+  }
 
-
+  processGroup(group: GroupWrapper) {
+    group.sessionButtonCaption = "Start session";
+    group.buttonColor = 'green';
+    this.findCurrentSession(group, group.sessions);
+    if (this.groups)
+      this.groups.push(group);
+    else {
+      this.groups = [group];
+    }
   }
 
   findCurrentSession(group, sessions) {

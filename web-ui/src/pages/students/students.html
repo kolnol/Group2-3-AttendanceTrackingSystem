@@ -12,9 +12,11 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let student of students" (click)="verifyStudent(student)">
+    <ion-item *ngFor="let student of students">
       <ion-icon item-start ios="ios-contact" md="md-contact" color="primary"></ion-icon>
       <ion-label>{{student.name}}</ion-label>
+      <ion-icon item-end name="checkmark-circle" *ngIf="student.present" color="green"></ion-icon>
+      <ion-icon item-end name="close-circle" *ngIf="!student.present" color="danger"></ion-icon>
       <button ion-button outline item-end (click)="verifyStudent(student)">Verify</button>
     </ion-item>
   </ion-list>
