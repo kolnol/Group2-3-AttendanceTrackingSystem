@@ -23,7 +23,7 @@ export class StudentsPage {
   students: [StudentWrapper];
   group: any;
 
-  constructor(public navCtrl: NavController, 
+  constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private restAPI: RestAPI,
               private notaryAPI: NotaryAPI,
@@ -61,7 +61,7 @@ export class StudentsPage {
   verifyStudent(student) {
     let hashedAttendance = this.cryptoService.hash(student.id+this.session.id);
     let result: string;
-    this.notaryAPI.get('verifyAttendance?sessionId='+ "1" + '&attendance=' + "ye").subscribe(response => {
+    this.notaryAPI.get('verifyAttendance?sessionId='+ this.session.id + '&attendance=' + hashedAttendance).subscribe(response => {
       result = JSON.parse(JSON.stringify(response)).result;
       if(result != "confirmed" && result != "denied") {
         this.toastService.presentToast("Session cannot be found!");
@@ -69,18 +69,18 @@ export class StudentsPage {
       if(result == "confirmed" && student.present) {
         this.toastService.presentToast(student.name + " was present in this session!")
       }
-      
+
       if(result == "confirmed" && !student.present) {
-        this.toastService.presentToast("Mismatch!!!" + student.name + " was present in this session!")  
+        this.toastService.presentToast("Mismatch!!!" + student.name + " was present in this session!")
         student.present = true;
       }
       if(result == "denied" && student.present) {
-        this.toastService.presentToast("Mismatch!!!" + student.name + " was not present in this session!")  
+        this.toastService.presentToast("Mismatch!!!" + student.name + " was not present in this session!")
         student.present = false
       }
 
       if(result == "denied" && !student.present)
-        this.toastService.presentToast(student.name + " was not present in this session!")  
+        this.toastService.presentToast(student.name + " was not present in this session!")
       })
   }
 

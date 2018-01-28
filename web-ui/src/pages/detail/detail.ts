@@ -82,19 +82,24 @@ export class DetailsView {
     let attendances;
     this.restAPI.get('users/'+ this.user.id +'/attendances').subscribe((response) => {
       attendances = response;
-      if(Array.isArray(attendances)) {
-        for(let at of attendances) {
-          if(Object.keys(at).indexOf('id') > 0) {
-            this.attendanceIds.push(at['id']);
+      console.log(JSON.stringify(response))
+
+      for(let attendance of attendances) {
+        this.attendanceIds.push(attendance.sessionId)
+      }
+
+      for(let session of this.group.sessions) {
+        console.log(session.id)
+        for(let attendance of attendances) {
+          if(attendance.sessionId == session.id) {
+            console.log("yes")
+            session.present = true;
+          } else {
+            console.log("no")
+            session.present = false;
           }
         }
-      }
-      for(let session of this.group.sessions) {
-        if(this.attendanceIds.indexOf(session.id) > 0) {
-          session.present = true;
-        } else {
-          session.present = false;
-        }
+
       }
     });
   }
@@ -181,19 +186,19 @@ export class DetailsView {
       }
       if(result == "confirmed" && session.present)
         this.toastService.presentToast(this.user.name + " was present in this session!")
-      
+
       if(result == "confirmed" && !session.present) {
-        this.toastService.presentToast("Mismatch!!!" + this.user.name + " was present in this session!")  
+        this.toastService.presentToast("Mismatch!!!" + this.user.name + " was present in this session!")
         session.present = true;
       }
 
       if(result == "denied" && session.present) {
-        this.toastService.presentToast("Mismatch!!!" + this.user.name + " was not present in this session!")  
+        this.toastService.presentToast("Mismatch!!!" + this.user.name + " was not present in this session!")
         session.present = false;
       }
-      
+
       if(result == "denied" && !session.present)
-        this.toastService.presentToast(this.user.name + " was not present in this session!")  
+        this.toastService.presentToast(this.user.name + " was not present in this session!")
       })
   }
 
