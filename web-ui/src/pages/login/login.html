@@ -1,6 +1,7 @@
 <ion-content padding class="background">
   <ion-grid style="height: 100%">
-      <div align="center" style="display:block; margin:auto;">
+    <ion-row justify-content-center align-items-center style="height: 100%">  
+    <div align="center" style="display:block; margin:auto;">
         <img width="200" src="../../assets/imgs/Trackie-logo.png" />
       </div>
       <ion-card no-border no-shadow>
@@ -16,7 +17,7 @@
         </ion-card-header>
         <ion-card-content>
           <!-- login -->
-          <form (ngSubmit)="login()" *ngIf="step == 'login'">
+          <div *ngIf="step == 'login'">
             <ion-item no-lines>
               <ion-input type="text" placeholder="{{CONSTANTS.LOGIN.USERNAME}}" name="username" [(ngModel)]="username"></ion-input>
               <ion-icon item-left name="contact"></ion-icon>
@@ -30,10 +31,10 @@
               <span ion-text color="danger">The entered login name or the password is incorrect.</span>
             </p>
             <br/>
-            <button style="height:48px" ion-button type="submit" block>Login</button>
-          </form>
+            <button style="height:48px" ion-button type="submit" block (click)="login()">Login</button>
+          </div>
           <!-- signup -->
-          <form (ngSubmit)="signup()" *ngIf="step == 'signup'">
+          <div *ngIf="step == 'signup'">
             <ion-item>
               <ion-input type="text" placeholder="{{CONSTANTS.SIGNUP.FIRST_NAME}}" name="firstname" [(ngModel)]="firstname"></ion-input>
               <ion-icon item-left name="contact"></ion-icon>
@@ -54,10 +55,10 @@
               <ion-icon item-left ios="ios-lock" md="md-lock"></ion-icon>
             </ion-item>
             <br />
-            <button style="height:48px" ion-button type="submit" block>Sign up</button>
-          </form>
+            <button style="height:48px" ion-button type="submit" (click)="signup()" block>Sign up</button>
+          </div>
         </ion-card-content>
       </ion-card>
-      <br /><br /><br /><br />
+    </ion-row>
   </ion-grid>
 </ion-content>
