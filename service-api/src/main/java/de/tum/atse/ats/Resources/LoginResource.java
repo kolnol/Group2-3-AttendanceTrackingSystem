@@ -20,7 +20,7 @@ public class LoginResource extends ServerResource {
     public User loginUser(JsonRepresentation rep) {
 
         JSONObject jsonObject = rep.getJsonObject();
-        String email = jsonObject.get("email").toString();
+        String email = jsonObject.get("email").toString().toLowerCase();
         String password = jsonObject.get("password").toString();
         List<User> userList = ObjectifyService.ofy()
                 .load()
@@ -29,7 +29,7 @@ public class LoginResource extends ServerResource {
         User loggedUser = null;
         for(User user : userList) {
             try{
-                if(user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                if(user.getEmail().toLowerCase().equals(email) && user.getPassword().equals(password)) {
                     loggedUser = user;
                     break;
                 }
