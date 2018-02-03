@@ -2,12 +2,12 @@ import {Component} from '@angular/core';
 import {NavController, NavParams} from 'ionic-angular';
 import {RestAPI} from "../../providers/rest-api";
 import Constants from '../../assets/Constants.json';
-import { StudentsPage } from '../students/students';
 import { SessionsPage } from '../sessions/sessions';
 import { CryptoService } from '../../../notary/crypto-service';
 import { NotaryAPI } from '../../providers/notary-api';
 import { ToastService } from '../../helpers/toast-service';
-
+import { DateInterpretter } from "../../models/date-intepretter";
+import {DateFormatter} from "@angular/common/src/pipes/deprecated/intl";
 
 @Component({
   selector: 'page-detail',
@@ -75,27 +75,28 @@ export class DetailsView {
 
     if(this.group.sessions && Array.isArray(this.group.sessions) && this.group.sessions.length > 0) {
       this.firstSession = this.group.sessions[0];
-      this.groupWeekDay = this.firstSession.startTime ? this.CONSTANTS.DATE.WEEKDAYS[new Date(this.firstSession.startTime).getDay()]
+      let sessionDate = new Date(this.firstSession.startTime);
+      this.groupWeekDay = DateInterpretter.getDay(sessionDate.getDay()) ? DateInterpretter.getDay(sessionDate.getDay())
         : this.CONSTANTS.DATE.TBA;
     }
 
     let attendances;
     this.restAPI.get('users/'+ this.user.id +'/attendances').subscribe((response) => {
       attendances = response;
-      console.log(JSON.stringify(response))
+      console.log(JSON.stringify(response));
 
       for(let attendance of attendances) {
         this.attendanceIds.push(attendance.sessionId)
       }
 
       for(let session of this.group.sessions) {
-        console.log(session.id)
+        console.log(session.id);
         for(let attendance of attendances) {
           if(attendance.sessionId == session.id) {
-            console.log("yes")
+            console.log("yes");
             session.present = true;
           } else {
-            console.log("no")
+            console.log("no");
             session.present = false;
           }
         }
@@ -114,7 +115,7 @@ export class DetailsView {
       return this.CONSTANTS.DATE.TBA;
     } else {
       let sessionDate = new Date(sessionStartTime);
-      return sessionDate.getDate()+ '/' + sessionDate.getMonth()+1 + '/' + sessionDate.getFullYear();
+      return DateInterpretter.formatDate(sessionDate);
     }
   }
 
@@ -152,11 +153,7 @@ export class DetailsView {
    * @returns {string} the parsed time string
    */
   getTime(sessionDate: Date) {
-    if(sessionDate.getHours()>=0 && sessionDate.getMinutes()>=0) {
-      return ('0'+sessionDate.getHours()%12).slice(-2) + ':' + ('0'+sessionDate.getMinutes()).slice(-2);
-    } else {
-      return this.CONSTANTS.DATE.TBA;
-    }
+    return DateInterpretter.formatTime(sessionDate);
   }
 
   /**
@@ -200,7 +197,7 @@ export class DetailsView {
 
       if(result == "denied" && !session.present)
         this.toastService.presentToast(this.user.name + " was not present in this session!")
-    
+
       })
   }
 

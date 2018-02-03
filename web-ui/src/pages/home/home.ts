@@ -38,7 +38,7 @@ export class HomePage {
     attendances: []
   };
   started: boolean = false;
-  sessionButtonCaption = "Start session";
+  sessionButtonCaption = this.CONSTANTS.HOME.TUTOR_VIEW.START_SESSION;
   groups: [GroupWrapper];
 
   constructor(public navCtrl: NavController,
@@ -76,7 +76,7 @@ export class HomePage {
   }
 
   processGroup(group: GroupWrapper) {
-    group.sessionButtonCaption = "Start session";
+    group.sessionButtonCaption = this.CONSTANTS.HOME.TUTOR_VIEW.START_SESSION;
     group.buttonColor = 'green';
     this.findCurrentSession(group, group.sessions);
     if (this.groups)
@@ -108,13 +108,13 @@ export class HomePage {
   }
 
   getDay(session) {
-    if(!session) return "Saturday"
+    if(!session) return this.CONSTANTS.DATE.WEEKDAYS.SATURDAY;
     let sessionDate = new Date(session.startTime);
     return DateInterpretter.getDay(sessionDate.getDay())
   }
 
   getTimeslot(session) {
-    if(!session) return "t.b."
+    if(!session) return this.CONSTANTS.DATE.TBA;
     let sessionStartDate = new Date(session.startTime);
     let sessionEndDate = new Date(session.endTime);
 
@@ -149,7 +149,7 @@ export class HomePage {
       console.log(response)
     });
     group.sessionStarted = !group.sessionStarted;
-    group.sessionButtonCaption = "Stop session";
+    group.sessionButtonCaption = this.CONSTANTS.HOME.TUTOR_VIEW.STOP_SESSION;
     group.buttonColor = "primary";
   }
 
@@ -165,7 +165,7 @@ export class HomePage {
       console.log(response)
     });
     group.sessionStarted = !group.sessionStarted;
-    group.sessionButtonCaption = "Start session";
+    group.sessionButtonCaption = this.CONSTANTS.HOME.TUTOR_VIEW.START_SESSION;
     group.buttonColor = "green";
   }
 

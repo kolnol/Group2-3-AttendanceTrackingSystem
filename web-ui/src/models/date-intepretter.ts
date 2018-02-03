@@ -72,14 +72,14 @@ export class DateInterpretter {
         let hours: string;
         let minutes: string;
         if(Number(date.getHours()) < 10) {
-          hours = "0" + date.getHours()
+          hours = "0" + date.getHours();
         } else {
-          hours = date.getHours()
+          hours = date.getHours();
         }
         if(Number(date.getMinutes()) < 10) {
-          minutes = "0" + date.getMinutes()
+          minutes = "0" + date.getMinutes();
         } else {
-          minutes = date.getMinutes()
+          minutes = date.getMinutes();
         }
         return hours + ":" + minutes;
     }
