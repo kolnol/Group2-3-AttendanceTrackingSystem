@@ -6,6 +6,7 @@ import {DetailsView} from '../detail/detail';
 import {RestAPI} from "../../providers/rest-api";
 
 import Constants from '../../assets/Constants.json';
+import {DateInterpretter} from "../../models/date-intepretter";
 
 @Component({
   selector: 'page-list',
@@ -83,7 +84,8 @@ export class ListPage {
    */
   getDay(group): string {
     if (group.sessions && group.sessions[0]) {
-      return this.CONSTANTS.DATE.WEEKDAYS[new Date(group.sessions[0].startTime).getDay()];
+      let sessionDate = new Date(group.sessions[0].startTime);
+      return DateInterpretter.getDay(sessionDate.getDay());
     } else {
       return this.CONSTANTS.DATE.TBA;
     }
@@ -123,11 +125,7 @@ export class ListPage {
    * @returns {string}
    */
   getTime(sessionDate: Date) {
-    if(sessionDate.getHours()>=0 && sessionDate.getMinutes()>=0) {
-      return ('0'+sessionDate.getHours()%12).slice(-2) + ':' + ('0'+sessionDate.getMinutes()).slice(-2);
-    } else {
-      return this.CONSTANTS.DATE.TBA;
-    }
+    return DateInterpretter.formatTime(sessionDate);
   }
 
   /**
