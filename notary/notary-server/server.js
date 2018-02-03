@@ -1,3 +1,5 @@
+var blockchainManager = require('./database/blockchain.js');
+
 var express = require('express');
 var CryptoJS = require('crypto-js');
 var bodyParser = require('body-parser');
@@ -19,26 +21,52 @@ const Result = {
 var http_port = 3000;
 var ws_port = 5000;
 var socketPeers = [];
+var blockchain;
+var rootDB;
 
 var initP2PServer = () => {
     wss = new WebSocket.Server({port: ws_port});    
     wss.on('connection', ws => initConnection(ws));
     wss.on('error', () => {
-        console.log("ws connection error")
+        log("ws connection error")
         socketPeers.splice(socketPeers.indexOf(ws), 1);
     });
-    console.log('WS Server listening on port: ' + ws_port);
+    log('WS Server listening on port: ' + ws_port);
+}
+
+var retrieveData = () => {
+    blockchainManager.retrieveExistingBlockchain().then(result => {
+        blockchain = JSON.parse(JSON.stringify(result));
+    })
+
+    blockchainManager.retrieveRootDB().then(result => {
+        rootDB = JSON.parse(JSON.stringify(result));
+        rootMap = new Map();
+        initRootMap();
+    })
 }
 
 var initConnection = (ws) => {
-    console.log('New Connection');
+    log('New Connection');
     socketPeers.push(ws);
+    log("Number of peers: "+ socketPeers.length)
     ws.on('message', message => messageHandler(ws, message));
     ws.on('close', () => {
-        console.log('Close connection');
-        console.log('Number of peers: '+ socketPeers.length)
+        log('Close connection');
         socketPeers.splice(socketPeers.indexOf(ws), 1);
+        log('Number of peers: '+ socketPeers.length)
     });
+}
+
+var initRootMap = () => {
+    for(let record of rootDB) {
+        rootMap.set(record.sessionId, record.blockIndex)
+    }
+}
+
+var addToRootMap = (sessionId, blockIndex) => {
+    rootMap.set(sessionId, blockIndex)
+    blockchainManager.pushRootItem({sessionId: sessionId, blockIndex: blockIndex})
 }
 
 var messageHandler = (ws, data) => {
@@ -102,23 +130,23 @@ var responseVerificationResultMsg = (result) => ({
 })
 
 var fetchBlockchain = () => {
-    console.log("fetch blockchain")
+    log("fetch blockchain")
     if(socketPeers.length > 0)
         send(socketPeers[0], fetchBlockchainMsg());
-    else console.log('no peers available')
+    else log('no peers available')
 }
 
 var handleBlockchain = (data) => {
-    console.log("handle new blockchain")
+    log("handle new blockchain")
     blockchain = JSON.parse(JSON.stringify(data)).sort((b1, b2) => (b1.index - b2.index));
 }
 
 var handleBlock = (data) => {
-    console.log("handle block");
+    log("handle block");
     var parsedData = JSON.parse(JSON.stringify(data));
     var sessionId = parsedData.sessionId;
     var nextBlock = parsedData.block;
-    console.log("RECEIVED BLOCK" + JSON.stringify(nextBlock))
+    log("RECEIVED BLOCK" + JSON.stringify(nextBlock))
 
     if(isNextBlockValid(nextBlock, getLatestBlock())) {
         addBlock(sessionId, nextBlock);
@@ -128,14 +156,14 @@ var handleBlock = (data) => {
 }
 
 var handleVerification = (data) => {
-    console.log("handle verification")
+    log("handle verification")
     var parsedData = JSON.parse(JSON.stringify(data));
     var result = verifyAttendance(parsedData.sessionId, parsedData.attendance);
     send(socketPeers[0], responseVerificationMsg(parsedData.sessionId, parsedData.attendance, result));
 }
 
 var handleVerificationResponse = (data) => {
-    console.log("handle verification response")
+    log("handle verification response")
     var parsedData = JSON.parse(JSON.stringify(data));
     var sessionId = parsedData.sessionId;
     var attendance = parsedData.attendance;
@@ -151,21 +179,23 @@ var handleVerificationResponse = (data) => {
         if(majorityConfirm(attendance)){
             attendanceResponsesMap.get(attendance).send(responseVerificationResultMsg(Result.CONFIRMED));
             attendanceResponsesMap.delete(attendance);
+            attendanceClaimsMap.delete(attendance);
         } else {
             attendanceResponsesMap.forEach((key, value) => {
-                console.log(key + " = " + value)
-                console.log(attendance)
+                log(key + " = " + value)
+                log(attendance)
             })
             attendanceResponsesMap.get(attendance).send(responseVerificationResultMsg(Result.DENIED));
             attendanceResponsesMap.delete(attendance);
+            attendanceClaimsMap.delete(attendance);
         }
+    } else {
+        log("waiting for others. Current number of responses: " + attendanceClaimsMap.get(attendance).length);
     }
-    attendanceClaimsMap.delete(attendance);
-
 }
 
 var majorityConfirm = (attendance) => {
-    console.log("Majority confirmation")
+    log("Majority confirmation")
     var numberOfConfirmations = 0;
     var allResults = attendanceClaimsMap.get(attendance);
 
@@ -179,7 +209,7 @@ var majorityConfirm = (attendance) => {
 }
 
 var broadcast = (message) => {
-    console.log("broadcast")
+    log("broadcast")
     socketPeers.forEach(socket => {
         send(socket, message);
     })
@@ -190,7 +220,7 @@ var connectToPeers = (peers) => {
         ws = new WebSocket(peer);
         ws.on('open', () => initConnection(ws));
         ws.on('error', () => {
-            console.log("ws connection error")
+            log("ws connection error")
             socketPeers.splice(socketPeers.indexOf(ws), 1);
         });
     });
@@ -208,9 +238,9 @@ var initHttpServer = () => {
     app.post('/addAttendance', function(req, res) {
         // we get hash = e  = sha256(studentId, sessionId) and sessionId
         var sessionId = req.body.sessionId;
-        console.log("Add attendance session: " + sessionId);
+        log("Add attendance session: " + sessionId);
         var attendance = req.body.attendance;
-        console.log("Add attendance attendance: " + attendance);
+        log("Add attendance attendance: " + attendance);
 
 
         if(!attendanceQueue.get(sessionId)) {
@@ -220,7 +250,7 @@ var initHttpServer = () => {
             attendanceQueue.get(sessionId).push(attendance);
         }
 
-        console.log(attendanceQueue.get(sessionId).length)
+        log(attendanceQueue.get(sessionId).length)
 
         res.json({"result": "OK"})
     });
@@ -232,12 +262,12 @@ var initHttpServer = () => {
             return;
         }
         var sessionId = String(req.body.sessionId);
-        console.log("sessionId: " + sessionId)
-        console.log("state " + req.body.state);
+        log("sessionId: " + sessionId)
+        log("state " + req.body.state);
 
         switch (req.body.state) {
             case 'begin':
-                console.log('begin');
+                log('begin');
                 // check wheather someone tries to add attendance to already existing session
                 if(blockId = rootMap.get(sessionId)) {
                     if(blockId <= getLatestBlock().index) {
@@ -253,7 +283,7 @@ var initHttpServer = () => {
                 }
                 break;
             case 'end':
-                console.log('end');
+                log('end');
                 if(attendances = attendanceQueue.get(sessionId)) {
                     addBlock(sessionId, createNextBlock(attendances));
                     broadcast(addBlockMsg(sessionId));
@@ -274,8 +304,15 @@ var initHttpServer = () => {
         res.json({"result": "Notary blockchain"})
     });
 
+    app.post('/reset', function(req, res) {
+        blockchainManager.reset().then(() => {
+            retrieveData();
+            res.send({"result": "Notary resetted"})
+        })
+    })
+
     app.listen(http_port, function () {
-        console.log('HTTP Server listening on port: ' + http_port);
+        log('HTTP Server listening on port: ' + http_port);
     });
 }
 
@@ -290,7 +327,7 @@ class Block {
 }
 
 var verifyAttendanceMaster = (sessionId, attendance, res) => {
-    console.log("verify attendance master")
+    log("verify attendance master")
     if(!rootMap.get(sessionId)){
         res.json({"result": "No sessionId: " + sessionId + " found."});
         return false;
@@ -298,23 +335,33 @@ var verifyAttendanceMaster = (sessionId, attendance, res) => {
     var blockIndex = rootMap.get(sessionId);
     var block = blockchain[blockIndex];
 
-    if(false || findAttendanceInBlock(attendance, block)){
+    if(findAttendanceInBlock(attendance, block)){
         res.json(responseVerificationResultMsg(Result.CONFIRMED));
     } else {
         if(socketPeers.length == 0) {
-            console.log("no peers")
+            log("no peers")
             res.json(responseVerificationResultMsg(Result.DENIED))
         } else {
-            console.log("ASK OTHERS");
+            log("ASK OTHERS");
             attendanceResponsesMap.set(attendance, res);
             broadcast(verifyAttendanceMsg(sessionId, attendance));
+            // set timeout of 5s in cases when some of 
+            // the connected peers do not respond due to connection problems
+            setTimeout(() => {
+                if(!attendanceClaimsMap.get(attendance)) {
+                    if(attendanceResponsesMap.get(attendance)) {
+                        attendanceResponsesMap.get(attendance).send(responseVerificationResultMsg(Result.DENIED));
+                        attendanceResponsesMap.delete(attendance);
+                    }
+                } 
+            }, 5000)
         }
     }
 
 }
 
 var verifyAttendance = (sessionId, attendance) => {
-    console.log("verify node");
+    log("verify node");
     if(!rootMap.get(sessionId)) return false;
     var blockIndex = rootMap.get(sessionId);
     var block = blockchain[blockIndex];
@@ -327,7 +374,7 @@ var verifyAttendance = (sessionId, attendance) => {
 }
 
 var findAttendanceInBlock = (attendance, block) => {
-    console.log("Verify attendance in block")
+    log("Verify attendance in block")
     var found = block.attendances.find(att => {
         return att == attendance
     });
@@ -337,7 +384,7 @@ var findAttendanceInBlock = (attendance, block) => {
 }
 
 var calculateHash = (index, attendances, prevHash, timestamp) => {
-    console.log("calculate hash")
+    log("calculate hash")
     return CryptoJS.SHA256(index + attendances + prevHash + timestamp).toString();
 };
 
@@ -346,20 +393,18 @@ var getGenesisBlock = () => {
                     calculateHash(0, "genesis", "0", 1516459421))
 }
 
-var blockchain = [getGenesisBlock()];
-
 var calculateHashForBlock = (block) => {
-    console.log("calculate hash for block")
+    log("calculate hash for block")
     return calculateHash(block.index, block.attendances, block.prevHash, block.timestamp);
 }; 
 
 var getLatestBlock = () => {
-    console.log("get latest block")
+    log("get latest block")
     return blockchain[blockchain.length - 1];
 }
 
 var createNextBlock = (attendances) => {
-    console.log("create next block")
+    log("create next block")
     var previousBlock = getLatestBlock();
 
     var nextIndex = previousBlock.index + 1;
@@ -371,42 +416,46 @@ var createNextBlock = (attendances) => {
 }
 
 var addBlock = (sessionId, block) => {
-    console.log("add block")
+    log("add block")
     blockchain.push(block);
-    rootMap.set(sessionId, block.index);
-    console.log("Blockchain size: " + blockchain.length);
+    blockchainManager.pushBlock(block);
+    addToRootMap(sessionId, block.index);
+    log("Blockchain size: " + blockchain.length);
 }
 
 var isNextBlockValid = (nextBlock, prevBlock) => {
     if(prevBlock.index + 1 !== nextBlock.index) {
-        console.log("Wrong index");
+        log("Wrong index");
         return false;
     }
     if(nextBlock.prevHash !== prevBlock.hash) {
-        console.log('Wrong prevHash of nextBlock');
+        log('Wrong prevHash of nextBlock');
         return false;
     }
     if(nextBlock.hash !== calculateHashForBlock(nextBlock)) {
-        console.log("Wrong hash of nextBlock");
-        console.log("Existing hash: " + nextBlock.hash);
-        console.log("calculated hash" + calculateHashForBlock(nextBlock));
+        log("Wrong hash of nextBlock");
+        log("Existing hash: " + nextBlock.hash);
+        log("calculated hash" + calculateHashForBlock(nextBlock));
         return false;
     }
     return true;
 }
 
 var send = (ws, data) => {
-    console.log("send data")
+    log("send data")
     try {
         ws.send(JSON.stringify(data));
     }
     catch(error) {
-        console.log("Error: " + error)
+        log("Error: " + error)
+        socketPeers.splice(socketPeers.indexOf(ws), 1);
     }
     
 }
 
-var blocksize_temp = blockchain.length;
+var log = (data) =>{
+    console.log(Date(Date.now()) +": " + data.charAt(0).toUpperCase() + data.slice(1));
+}
 
 var rootMap = new Map();
 var attendanceQueue = new Map();
@@ -415,5 +464,10 @@ var attendanceResponsesMap = new Map();
 
 initHttpServer();
 initP2PServer();
-//connectToPeers(['ws://ec2-34-240-13-114.eu-west-1.compute.amazonaws.com:5000/']);
-//fetchBlockchain();
+
+retrieveData(); // get an already existing blockchain
+
+process.on('uncaughtException', function (err) {
+    console.error(err.stack);
+    log("Uncaught exception");
+});

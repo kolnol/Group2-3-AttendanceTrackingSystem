@@ -1,0 +1,20 @@
+[
+    {
+        "index": 0,
+        "attendances": "genesis",
+        "prevHash": "0",
+        "timestamp": 1516459421,
+        "hash": "c6d4b154d45ccc5d867fe72f07168efbc99fff3427fc2bb4c42e22e85fe614fa"
+    },
+    {
+        "index": 1,
+        "attendances": [
+            "yes",
+            "no",
+            "maybe"
+        ],
+        "prevHash": "c6d4b154d45ccc5d867fe72f07168efbc99fff3427fc2bb4c42e22e85fe614fa",
+        "timestamp": 1517509514,
+        "hash": "ad4902849472d0306bfe9cc2f1cfe65c93721b508b2b4e84fdd6b723bb864402"
+    }
+]
