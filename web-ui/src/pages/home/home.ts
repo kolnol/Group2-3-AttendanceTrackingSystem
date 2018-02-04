@@ -30,14 +30,7 @@ export class HomePage {
   CONSTANTS: any = Constants;
   sessions: any;
   currentSession: any;
-  registeredGroup = {
-    id: null,
-    number: null,
-    instructor: {},
-    sessions: [],
-    students: [],
-    attendances: []
-  };
+  registeredGroup: any;
   started: boolean = false;
   sessionButtonCaption = this.CONSTANTS.HOME.TUTOR_VIEW.START_SESSION;
   groups: [GroupWrapper];
@@ -56,11 +49,9 @@ export class HomePage {
     if(this.user && this.user.type === this.CONSTANTS.USER_TYPE.STUDENT) {
       this.restAPI.get('users/' + this.user.id +'/groups').subscribe((response) => {
         if(response) {
-          for(let key in response) {
-            if (response.hasOwnProperty(key)) {
-              this.registeredGroup[key] = response[key];
-            }
-          }
+          this.registeredGroup = JSON.parse(JSON.stringify(response));
+          console.log("id : " + this.registeredGroup.id);
+          this.filterSessions(this.registeredGroup);
         }
       });
     } else if(this.user && this.user.type === this.CONSTANTS.USER_TYPE.INSTRUCTOR) {
@@ -68,7 +59,6 @@ export class HomePage {
           if(Array.isArray(response)) {
             for(let g = 0; g< response.length; g++) {
               if(response[g].instructor.id === this.user.id) {
-                this.registeredGroup = response[g];
                 this.processGroup(response[g]);
               }
             }
@@ -80,6 +70,7 @@ export class HomePage {
   processGroup(group: GroupWrapper) {
     group.sessionButtonCaption = this.CONSTANTS.HOME.TUTOR_VIEW.START_SESSION;
     group.buttonColor = 'green';
+    this.filterSessions(group);
     this.findCurrentSession(group, group.sessions);
     if (this.groups)
       this.groups.push(group);
@@ -88,17 +79,35 @@ export class HomePage {
     }
   }
 
+  filterSessions(group) {
+    let sessions : any;
+    for(let session of group.sessions) {
+      if(session) {
+        if(!sessions) sessions = [session]
+        else sessions.push(session);
+      }
+    }
+    group.sessions = sessions;
+  }
+
   findCurrentSession(group, sessions) {
-    group.currentSession = null;
     for(let session of sessions) {
       let startTime = new Date(session.startTime);
       let endTime = new Date(session.endTime);
       if(startTime.getTime() <= Date.now() && endTime.getTime() >= Date.now()){
-        this.currentSession = session;
+        console.log("found")
         group.currentSession = session;
-        break;
       }
     }
+  }
+
+  findCurrentSessionExternal(group) {
+    group.currentSession = null;
+    this.restAPI.get('users/'+ this.user.id +'/currentSession').subscribe((response) => {
+      
+      group.currentSession = response;
+      console.log("Session found on server: " + JSON.stringify(response));
+    })
   }
 
   /**

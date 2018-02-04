@@ -70,6 +70,14 @@ export class ListPage {
     //Currently we only allow a student to be registered in one tutorial group
     this.restAPI.get('users/' + this.user.id +'/groups').subscribe((response) => {
       group = response;
+      let sessions : any;
+      for(let session of group.sessions) {
+        if(session) {
+          if(!sessions) sessions = [session]
+          else sessions.push(session);
+        }
+      }
+      group.sessions = sessions;
       if(group) {
         this.registeredGroupNumber = group.number ? group.number : null;
       }
