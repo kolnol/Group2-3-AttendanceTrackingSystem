@@ -56,7 +56,7 @@
               <div align="left"><strong>Day:</strong> {{getDay(group.sessions[0])}}</div>
               <div align="left"><strong>Time slot:</strong> {{getTimeslot(group.sessions[0])}}</div>
               <div align="left"><strong>Room:</strong> {{group.sessions[0].place}}</div>
-              <button ion-button round outline color="{{group.buttonColor}}"(click)="group.sessionStarted ? endSession(group) : startSession(group)">
+              <button ion-button round outline disabled="{{group.currentSession}}" color="{{group.buttonColor}}" (click)="group.sessionStarted ? endSession(group) : startSession(group)">
                  {{group.sessionButtonCaption}}
               </button>
               <br />

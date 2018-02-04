@@ -11,6 +11,7 @@ import { NotaryAPI } from '../../providers/notary-api';
 import { GroupWrapper } from '../../models/group';
 import { DateInterpretter } from '../../models/date-intepretter';
 import { SessionsPage } from '../sessions/sessions';
+import { ToastService } from '../../helpers/toast-service';
 
 
 @Component({
@@ -46,7 +47,8 @@ export class HomePage {
               public menuCtrl: MenuController,
               public navParams: NavParams,
               private restAPI: RestAPI,
-              private notaryAPI: NotaryAPI) {
+              private notaryAPI: NotaryAPI,
+              private toastService: ToastService) {
 
     //TODO: get lecture info
     this.user = this.navParams.get('user');
@@ -87,14 +89,16 @@ export class HomePage {
   }
 
   findCurrentSession(group, sessions) {
-    sessions.forEach(session => {
+    group.currentSession = null;
+    for(let session of sessions) {
       let startTime = new Date(session.startTime);
       let endTime = new Date(session.endTime);
       if(startTime.getTime() <= Date.now() && endTime.getTime() >= Date.now()){
         this.currentSession = session;
         group.currentSession = session;
+        break;
       }
-    })
+    }
   }
 
   /**
@@ -151,6 +155,7 @@ export class HomePage {
     group.sessionStarted = !group.sessionStarted;
     group.sessionButtonCaption = this.CONSTANTS.HOME.TUTOR_VIEW.STOP_SESSION;
     group.buttonColor = "primary";
+    this.toastService.presentToast("Session started!")
   }
 
   /**
@@ -167,6 +172,7 @@ export class HomePage {
     group.sessionStarted = !group.sessionStarted;
     group.sessionButtonCaption = this.CONSTANTS.HOME.TUTOR_VIEW.START_SESSION;
     group.buttonColor = "green";
+    this.toastService.presentToast("Session stopped!")
   }
 
   /**
